@@ -55,3 +55,60 @@ Feature source: 1284:667, panels 1284:672 / 727 / 778 / 1007 / 1057. Original SV
 | File illustration | 1284:1106; feature-product3.png | Original 128.93% width/107.65% height/-14.47% left crop and 98% opacity |
 
 Only optimized WebP derivatives are emitted for the original large raster files; originals remain under src/assets. FigmaAsset retains SVG root dimensions; wrapper transforms preserve their effective positions/sizes. Art-stage transforms apply only to decorative geometry, not panel text or layout. Browser checks decode every panel image at all representative widths and check no failing requests or aspect-ratio distortion. Original source/export SVGs and geometric masks are retained alongside the manifest; unused mask exports are not used as invented visual elements.
+
+## Milestone 6 assets
+
+Milestone 6 adds seven original pricing SVGs from `1286:1669`: `pricing-stars` (20px token strip), `pricing-chatgpt`/`pricing-claude`/`pricing-claude1` (16.6667px model icons), `pricing-arrowup01` (18px disclosure, flipped closed), `pricing-icon` (9px check inside a 16px circle), and `pricing-container` (16px unavailable indicator). Metadata is in figma-assets.json; Pricing templates preserve SVG root dimensions. Existing original Gemini artwork is reused through a wrapper transform. Model names, providers, prices, allowances and feature flags come from public APIs rather than Figma placeholders. Header/plan controls and responsive adaptations are derived from the existing application behavior.
+
+## Milestone 5 assets
+
+Source sections: latest models `1286:1108`, comparison `1286:1259`. Twenty-six original exports total 37,138 bytes. Temporary Figma download URLs are absent from runtime source. All SVGs retain original root dimensions, with fixed illustration coordinates confined to the responsive comparison stage. Text remains native HTML and typed editorial content.
+
+| Files / slots | Original Figma nodes | Effective geometry and callsite |
+| --- | --- | --- |
+| model-arrow-down-left01.svg | card arrow `1286:1119` and repeated instances | LatestModels, 24×24 with a 180° wrapper rotation |
+| model-thesvg-color-openai-chatgpt.svg, model-devicon-claude.svg, model-logos-grok-icon.svg | `1286:1122`, `1286:1166`, `1286:1179` | LatestModels, original 32×32 / 32×32 / 33.09×33.09 |
+| model-gemini.png | `1286:1135` | Original composited icon export, 32×32; preserves all masked gradient layers |
+| subscription-bg.svg | `1286:1265` | Original 1200×496 background, CSS background on comparison canvas; cover crop on derived mobile layout |
+| subscription-vector{6,7,8,9,10,11,12,13,14}.svg and subscription-line{70,71,74,75}.svg | `1286:1270–1275`, `1286:1305–1311` | Thirteen original connector slots, stroke offsets and flips recorded in subscription-art.ts; responsive desktop stage scales uniformly; connectors hidden in derived stacked layout |
+| subscription-icon{,1,2,3}.svg | `1286:1278`, `1286:1288`, `1286:1297`, `1286:1364` | Grok, DeepSeek, ChatGPT, Claude; original 31.9922px icons inside 32px slots |
+| subscription-kimi.png, subscription-gemini.png | `1286:1314`, `1286:1329` | Original 32×32 composited exports retain internal masks |
+| subscription-alveta.png | `1286:1372` | Original 74×74 composited logo/gradient export; 48px mobile wrapper transform |
+
+Only individual icon composites were exported as PNG, never a section screenshot. The Figma screenshot remains the visual reference, not a shipped asset. Small originals are retained losslessly; no large raster was added. Webfont files and embedding licenses for the Bangla price fonts (Li Mehdi Ekushey Unicode and November Bangla Traditional) and Google Sans Flex were not provided; system Bangla/Inter Display fallbacks are used, with smaller central price typography to prevent overflow. Savings red is darkened from Figma #f04438 to #c02c22 for readable contrast on #feeceb. These are documented fidelity differences.
+
+## Milestone 7 — Testimonials
+
+Source `1286:2123`; all eleven supplied assets are local in `public/images/testimonials`, used by `Testimonials.astro`. Original SVG root dimensions are unchanged. Raster exports use lossless WebP; large portraits are resized to twice their desktop crop dimensions, and the background texture to its 1101px display size. Total assets: 1,624,594 bytes. No section screenshot or temporary asset URL is shipped.
+
+| Files | Source nodes | Rendered slot |
+| --- | --- | --- |
+| dots.webp | 1286:2124 | Decorative background, original 162.45% width / 88.66% height crop and offsets |
+| ellipse-mask.svg, ellipse.svg, texture.webp | 1286:2125–2128 | 1101px circular masked layers at x217/y335 relative to the 1440px section; clipped to section |
+| card-mask.svg | 1286:2139 and repeated cards | 282×400 rounded card mask, responsive proportional scaling |
+| hasin.webp | 1286:2148 | First portrait, original nested 271×381 crop and luminosity blend |
+| sumit.webp | 1286:2166 | Second portrait, original 282×420 placement at y−20 |
+| atiqur.webp | 1286:2184 | Third portrait, 348px square at x−33/y52, under quote blur |
+| avatar.webp, avatar-mask.svg | 1286:2193 | 44px circular quote attribution avatar |
+| sumon.webp | 1286:2210 | Fourth portrait, 453px square at x−86/y52 |
+
+Names, roles and the one supplied quote remain native text in typed editorial content, explicitly marked as unverified design examples. No extra quotes, video actions or unknown View all destination are invented. Mobile uses derived 2/1-column layouts; cards retain desktop proportions and readable type.
+
+## Remaining landing sections — FAQ, articles, closing CTA and footer
+
+Nodes `1286:2216`, `1286:2259`, `1286:2560`, `1298:1230`. Eighteen originals in `public/images/ending` total 496,507 bytes. SVG roots are retained; article PNGs are converted to lossless WebP at 700px width (twice desktop slots). Temporary asset URLs and section screenshots are not shipped.
+
+| Assets | Figma slots | Callsite / geometry |
+| --- | --- | --- |
+| faq-arrowdown01.svg | 1286:2224 and repeated instances | Faq, 24px arrow; flips on native details open |
+| articles-image{1,2,3}.webp, articles-image.svg | 1286:2268–2269, 2280–2281, 2292–2293 | Articles, 350×192 masked luminosity slots; third retains 136.72% image height/top crop |
+| articles-ellipse13.svg, articles-line76.svg | 1286:2273, 2275 and repeats | Articles, original 4px metadata dot and 350×1 separator |
+| cta-artwork.svg | 1286:3035 | Original vector-only illustration group exported through Plugin API as SVG; 477.59×263.70 design bounds at x779/y46 inside CTA. Includes original connectors, provider pills and Alveta diamond; no page screenshot or marketing heading/buttons. Read in bounded chunks due MCP output limit; not a Figma mutation. ClosingCta scales the intact SVG uniformly on smaller screens. |
+| footer-logo6.svg | I1286:3196;60:61 | Footer, original 174×42 logo |
+| footer-icon{,1,2,3,4}.svg | 1286:3200, 3203, 3206, 3209, 3212 | Footer, original 28px social icons; inactive until profile destinations are supplied |
+| footer-mail.svg | 1286:3248 | Footer, original 20px newsletter icon |
+| footer-logo5.svg | 1286:3164 | Footer, original 1204×248 watermark; wrapper uniformly scales on mobile |
+| footer-vector18.svg | 1286:3169 | Footer, original 1752×1760 glow, clipped to footer; original export overflow offset retained |
+| footer-logo11.svg | 1286:3175 | Footer, original 129×24 SubscriptionPro attribution |
+
+FAQ/article/CTA/footer marketing copy remains native HTML in `landing-end.ts`. Provider words within the original decorative CTA illustration are outlined vector artwork. Source typos in CTA button labels are corrected. Unpublished article cards have no guessed destinations; newsletter is disabled with an honest coming-soon notice. FAQ repeats are preserved and explicitly flagged for review. Mobile layouts are derived from desktop; new notices add height relative to the design.

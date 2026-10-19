@@ -1,0 +1,41 @@
+---
+import type { ModelsContent } from '../../types/content';
+import SectionHeading from '../common/SectionHeading.astro';
+import FigmaAsset from '../common/FigmaAsset.astro';
+interface Props { content: ModelsContent; }
+const { content } = Astro.props;
+---
+<section id="models" class="latest-models" aria-labelledby="models-heading" aria-describedby="models-preview" data-latest-models data-content-status={content.status}>
+  <div class="container">
+    <SectionHeading id="models-heading" heading={content.heading} description={content.description} layout="split-wide" />
+    <div class="model-cards">
+      {content.cards.map(card => <article class:list={['model-card', { featured: card.featured }]} data-model-card={card.id}>
+        <a class="model-link" href={card.cta.href} aria-label={card.cta.label} aria-describedby="models-preview">
+          <div class="provider"><span>{card.provider}</span><span class="arrow" aria-hidden="true"><FigmaAsset name="model-arrow-down-left01" /></span></div>
+          <div class="model-name"><span class="model-icon" aria-hidden="true"><FigmaAsset name={card.icon} /></span><h3>{card.name}</h3></div>
+          <div class="benchmark"><p>{card.benchmark}</p><p>{card.tested}</p></div>
+        </a>
+      </article>)}
+    </div>
+    <p id="models-preview" class="preview-notice">{content.previewNotice}</p>
+  </div>
+</section>
+<style>
+  .latest-models { margin-top: 73px; padding-block: 100px 50px; background: var(--color-logo-surface); scroll-margin-top: 24px; }
+  .model-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-6); margin-top: var(--space-11); }
+  .model-card { min-width: 0; background: var(--color-white); border-radius: var(--radius-sm); }
+  .model-card.featured { border-bottom-right-radius: 44px; }
+  .model-link { display: block; padding: var(--space-6); border-radius: inherit; }
+  .provider { display: flex; justify-content: space-between; gap: var(--space-4); align-items: start; text-transform: uppercase; color: var(--color-paragraph); }
+  .arrow { transform: rotate(180deg); }
+  .model-name { display: flex; gap: var(--space-3); align-items: center; margin-top: var(--space-4); min-height: 34px; }
+  .model-icon { flex-shrink: 0; }
+  h3 { margin: 0; color: var(--color-heading); font-size: 28px; line-height: 34px; font-weight: 500; white-space: nowrap; }
+  .benchmark { margin-top: var(--space-6); }
+  .benchmark p:first-child { color: var(--color-primary); font-weight: 500; line-height: 16px; }
+  .benchmark p + p { margin-top: 6px; color: var(--color-paragraph); }
+  .preview-notice { margin-top: var(--space-6); font-size: 12px; line-height: 18px; color: var(--color-paragraph); }
+  @media (max-width: 1279px) { .model-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 767px) { .latest-models { margin-top: 44px; padding-block: 48px; } .model-cards { margin-top: 32px; gap: var(--space-4); } h3 { font-size: 24px; } }
+  @media (max-width: 599px) { .model-cards { grid-template-columns: 1fr; } }
+</style>

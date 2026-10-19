@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures/browser';
 
 test('desktop navigation preserves app routes and accessible dropdowns', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -8,7 +8,7 @@ test('desktop navigation preserves app routes and accessible dropdowns', async (
   await page.evaluate(() => document.fonts.ready);
   await expect(page.getByRole('link', { name: 'Sign In', exact: true })).toHaveAttribute('href', 'https://app.alveta.ai/login');
   await expect(page.getByRole('link', { name: 'Get Started', exact: true })).toHaveAttribute('href', 'https://app.alveta.ai/register');
-  await expect(page.getByRole('link', { name: 'Pricing', exact: true })).toHaveAttribute('href', 'https://app.alveta.ai/#pricing');
+  await expect(page.getByRole('link', { name: 'Pricing', exact: true })).toHaveAttribute('href', '#pricing');
   const products = page.locator('summary').filter({ hasText: 'Products' });
   await products.focus(); await page.keyboard.press('Enter');
   await expect(page.getByRole('link', { name: 'AI Chat', exact: true })).toBeVisible();
@@ -40,4 +40,16 @@ test('announcement dismissal moves focus to the home link', async ({ page }) => 
   await page.getByRole('button', { name: 'Dismiss announcement' }).click();
   await expect(page.getByRole('complementary', { name: 'Alveta announcement' })).not.toBeVisible();
   await expect(page.getByRole('link', { name: 'Alveta home' })).toBeFocused();
+});
+
+test('navigation stays at the top while scrolling on desktop and mobile', async ({ page }) => {
+  for (const { width, stickyTop } of [{ width: 1440, stickyTop: 12 }, { width: 430, stickyTop: 0 }]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    const header = page.locator('[data-header]');
+    await expect(header).toHaveCSS('position', 'sticky');
+    await page.evaluate(() => scrollTo({ top: 1200, behavior: 'instant' }));
+    await expect.poll(() => header.evaluate(el => el.getBoundingClientRect().top)).toBe(stickyTop);
+    await expect(page.getByRole('link', { name: 'Alveta home' })).toBeVisible();
+  }
 });

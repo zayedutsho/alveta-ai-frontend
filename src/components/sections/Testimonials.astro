@@ -1,0 +1,82 @@
+---
+import type { TestimonialsContent } from '../../content/testimonials';
+interface Props { content: TestimonialsContent; }
+const { content } = Astro.props;
+---
+<section class="testimonials" aria-labelledby="testimonials-heading" aria-describedby="testimonials-preview" data-testimonials data-content-status={content.status}>
+  <div class="decoration" aria-hidden="true"><div class="dots"></div><div class="ellipse"><img src="/images/testimonials/ellipse.svg" width="1101" height="1101" alt="" loading="lazy" /><img class="texture" src="/images/testimonials/texture.webp" width="2202" height="2202" alt="" loading="lazy" /></div></div>
+  <div class="container content">
+    <h2 id="testimonials-heading">{content.heading}</h2>
+    <ul class="cards" role="list">
+      {content.cards.map(card => <li class:list={['card', card.id, { quoted: card.quote }]} data-testimonial={card.id}>
+        <div class="art" aria-hidden="true"><div class="arch"></div><div class="portrait"><img {...card.portrait} alt="" loading="lazy" decoding="async" /></div></div>
+        <div class="shade" aria-hidden="true"></div>
+        {card.quote ? <details class="reveal" data-testimonial-reveal>
+          <summary aria-label={`Read testimonial from ${card.name}`}><span class="identity"><span class="name">{card.name}</span><span class="role">{card.role}</span></span></summary>
+          <figure>
+          <div>{card.demo && <p class="demo-label">Demo quote · Not an actual endorsement</p>}<blockquote><p>{card.quote}</p></blockquote></div>
+          <figcaption>{card.avatar && <img {...card.avatar} class="avatar" alt="" loading="lazy" decoding="async" />}<div><h3>{card.name}</h3><p>{card.role}</p></div></figcaption>
+        </figure></details> : <div class="identity"><h3>{card.name}</h3><p>{card.role}</p></div>}
+      </li>)}
+    </ul>
+    <p class="preview-notice" id="testimonials-preview">{content.notice}</p>
+  </div>
+</section>
+<script>
+  document.querySelectorAll<HTMLDetailsElement>('[data-testimonial-reveal]').forEach(details => {
+    const summary = details.querySelector('summary')!;
+    details.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') details.open = true; });
+    details.addEventListener('pointerleave', event => {
+      if (event.pointerType === 'mouse' && !summary.matches(':focus-visible')) details.open = false;
+    });
+    summary.addEventListener('focus', () => { if (summary.matches(':focus-visible')) details.open = true; });
+    details.addEventListener('focusout', event => { if (!details.contains(event.relatedTarget as Node)) details.open = false; });
+    details.addEventListener('keydown', event => { if (event.key === 'Escape') { details.open = false; event.preventDefault(); } });
+  });
+</script>
+<style>
+  .testimonials { position: relative; isolation: isolate; margin-top: 100px; padding-block: 100px 56px; background: var(--color-primary-wash); }
+  .decoration { position: absolute; inset: 0; overflow: hidden; z-index: -1; pointer-events: none; }
+  .dots { position: absolute; inset: 0; opacity: .6; border-radius: var(--radius-lg); overflow: hidden; }
+  .dots::before { content: ''; position: absolute; left: calc(50% - 1276px); top: -18px; width: 2339px; height: 617px; background: url('/images/testimonials/dots.webp') 0 0 / 100% 100% no-repeat; }
+  .ellipse { position: absolute; width: 1101px; height: 1101px; top: 335px; left: calc(50% - 503px); mask: url('/images/testimonials/ellipse-mask.svg') no-repeat; }
+  .ellipse > img { position: absolute; opacity: .16; }
+  .ellipse .texture { width: 1101px; height: 1101px; mix-blend-mode: luminosity; }
+  h2 { font-size: 40px; line-height: 52px; font-weight: 500; color: var(--color-heading); }
+  .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-6); margin: var(--space-11) 0 0; padding: 0; list-style: none; }
+  .card { position: relative; min-width: 0; aspect-ratio: 282 / 400; border-radius: var(--radius-md); overflow: hidden; isolation: isolate; background: linear-gradient(#8351ff, #e8dfff); mask: url('/images/testimonials/card-mask.svg') 0 0 / 100% 100% no-repeat; }
+  .art { position: absolute; inset: 0; z-index: -2; }
+  .arch { position: absolute; left: 8.865%; top: 13%; width: 82.27%; height: 87%; border: 1.5px dashed rgb(255 255 255 / 12%); border-bottom: 0; border-radius: 999px 999px 0 0; background: linear-gradient(#986fff, #e9e1ff); }
+  .portrait { position: absolute; mix-blend-mode: luminosity; }
+  .portrait img { display: block; width: 100%; height: 100%; }
+  .hasin .portrait { left: 0; top: 4.75%; width: 96.1%; height: 95.25%; overflow: hidden; }
+  .hasin .portrait img { position: absolute; left: -24.82%; width: 152.21%; height: 144.36%; }
+  .sumit .portrait { left: 0; top: -5%; width: 100%; height: 105%; }
+  .atiqur .portrait { left: -11.7%; top: 13%; width: 123.4%; aspect-ratio: 1; }
+  .sumon .portrait { left: -30.5%; top: 13%; width: 160.64%; aspect-ratio: 1; }
+  .shade { position: absolute; inset: 0; background: linear-gradient(transparent 35%, rgb(56 14 135 / 50%) 70%, rgb(22 3 63 / 70%)); backdrop-filter: blur(15px); mask-image: linear-gradient(transparent 35%, black 80%); }
+  .identity { position: absolute; z-index: 1; left: 24px; right: 16px; top: 80%; color: var(--color-white); }
+  h3, .name { display: block; margin: 0; font-size: 20px; line-height: 1; font-weight: 500; }
+  .identity p, .role { display: block; margin-top: 8px; font-size: 16px; line-height: 1.5; color: var(--color-primary-wash); }
+  .reveal { position: absolute; inset: 0; }
+  summary { position: absolute; inset: 0; list-style: none; cursor: pointer; z-index: 2; }
+  summary::-webkit-details-marker { display: none; }
+  summary:focus-visible { outline-offset: -4px; border-radius: var(--radius-md); }
+  .reveal[open] summary .identity { visibility: hidden; }
+  .reveal figure { position: absolute; inset: 0; animation: reveal 180ms ease-out; }
+  @keyframes reveal { from { opacity: 0; } to { opacity: 1; } }
+  figure { margin: 0; height: 100%; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; background: rgb(0 3 62 / 60%); backdrop-filter: blur(15px); color: #fdfdfd; }
+  blockquote { margin: 0; font-size: 18px; line-height: 1.35; }
+  .demo-label { margin-bottom: 12px; font-size: 12px; line-height: 1.5; }
+  figcaption { display: flex; align-items: center; gap: 12px; }
+  figcaption > div { min-width: 0; }
+  figcaption h3 { font-size: 18px; line-height: 1.35; }
+  figcaption p { margin-top: 6px; font-size: 14px; line-height: 1.4; }
+  .avatar { width: 44px; height: 44px; object-fit: cover; flex-shrink: 0; mask: url('/images/testimonials/avatar-mask.svg') no-repeat; }
+  .preview-notice { margin-top: 24px; font-size: 12px; line-height: 18px; color: var(--color-paragraph); }
+  @media (max-width: 1279px) { .cards { grid-template-columns: repeat(2, minmax(0, 282px)); justify-content: center; } }
+  @media (max-width: 767px) { .testimonials { margin-top: 48px; padding-block: 48px; } h2 { font-size: 28px; line-height: 1.3; } .cards { margin-top: 32px; gap: 16px; } }
+  @media (max-width: 599px) { .cards { grid-template-columns: minmax(0, 282px); } }
+</style>
+
+

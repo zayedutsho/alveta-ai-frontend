@@ -2,7 +2,7 @@
 import FigmaAsset from '../common/FigmaAsset.astro';
 import Button from '../common/Button.astro';
 import { appLink } from '../../lib/app-links';
-const apiOrigin = import.meta.env.PUBLIC_API_ORIGIN || '';
+import { publicApiOrigin as apiOrigin } from '../../lib/public-catalog';
 const products = [
   { label: 'AI Chat', path: '/chat' },
   { label: 'Image workspace', path: '/images' },
@@ -36,7 +36,7 @@ const products = [
           {products.map(product => <a href={appLink(product.path)}>{product.label}</a>)}
         </div>
       </details>
-      <a href={appLink('/#pricing')}>Pricing</a>
+      <a href="#pricing">Pricing</a>
     </div>
     <div class="account-links">
       <a class="sign-in" href={appLink('/login')}>Sign In<FigmaAsset name="square-unlock02" /></a>
@@ -48,7 +48,7 @@ const products = [
   import '../../scripts/navigation';
 </script>
 <style>
-  .header { position: relative; z-index: 5; margin-top: 22px; min-height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 14px; border-radius: 12px; background: white; box-shadow: var(--shadow-nav); }
+  .header { position: sticky; top: 12px; z-index: 5; margin-top: 22px; min-height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 14px; border-radius: 12px; background: white; box-shadow: var(--shadow-nav); }
   .brand { flex-shrink: 0; }
   .brand-mobile, .menu-toggle { display: none; }
   .navigation { display: flex; align-items: center; flex: 1; justify-content: space-between; margin-left: clamp(36px, 13.5vw, 194px); gap: 20px; }
@@ -74,7 +74,7 @@ const products = [
     .account-links { gap: 16px; }
   }
   @media (max-width: 900px) {
-    .header { width: 100%; margin-top: 0; padding: 16px; border-radius: 0; min-height: 64.345px; box-shadow: none; }
+    .header { top: 0; width: 100%; margin-top: 0; padding: 16px; border-radius: 0; min-height: 64.345px; box-shadow: none; }
     .brand-desktop { display: none; }
     .brand-mobile { display: block; }
     .menu-toggle { display: grid; place-items: center; width: 44px; height: 44px; margin: -6px -10px -6px 0; padding: 0; border: 0; background: transparent; }

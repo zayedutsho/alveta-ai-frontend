@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures/browser';
 
 const titles = ['Multi-Agent AI Platform Workspace', 'Flexible Balance & Top-Ups', 'Side-by-Side Model Comparison', 'Private Chat & Vanish Mode', 'Analyze Files. Uncover Insights.'];
 for (const width of [320, 430, 768, 1024, 1440, 1920]) {
@@ -29,6 +29,7 @@ for (const width of [320, 430, 768, 1024, 1440, 1920]) {
       else expect(layout.imageLeft).toBeGreaterThan(layout.copyRight);
     }
     if (width === 1440) {
+      await expect(panels.first()).not.toHaveAttribute('data-motion-entering');
       const geometry = await section.evaluate(el => ({ top: el.getBoundingClientRect().top + scrollY, firstTop: el.querySelector('article')!.getBoundingClientRect().top + scrollY, width: el.getBoundingClientRect().width }));
       expect(geometry.top).toBe(1225); expect(geometry.firstTop).toBe(1445); expect(geometry.width).toBe(1200);
       await panels.nth(0).screenshot({ path: '.work/validation/m4-first-panel-1440.png', animations: 'disabled' });
@@ -47,7 +48,7 @@ test('feature navigation is local and illustration honors reduced motion', async
   await page.goto('/');
   await page.getByRole('link', { name: 'Features', exact: true }).click();
   await expect(page).toHaveURL(/#features$/);
-  await expect(page.getByRole('heading', { level: 2 })).toBeVisible();
+  await expect(page.locator('[data-features]').getByRole('heading', { level: 2 })).toBeVisible();
   const motions = await page.locator('[data-motion-node]').evaluateAll(nodes => nodes.map(n => getComputedStyle(n).animationName));
   expect(motions.length).toBe(6); expect(motions.every(name => name === 'none')).toBe(true);
 });

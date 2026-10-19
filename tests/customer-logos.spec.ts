@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures/browser';
 
 for (const width of [320, 430, 768, 1024, 1440, 1920]) {
   test(`customer logos preserve geometry and load at ${width}px`, async ({ page }) => {

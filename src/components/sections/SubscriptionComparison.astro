@@ -1,0 +1,78 @@
+---
+import type { SubscriptionComparisonContent } from '../../types/content';
+import { subscriptionConnectors, subscriptionProviderSlots } from '../../content/subscription-art';
+import SectionHeading from '../common/SectionHeading.astro';
+import FigmaAsset from '../common/FigmaAsset.astro';
+interface Props { content: SubscriptionComparisonContent; }
+const { content } = Astro.props;
+---
+<section class="subscription-comparison container" aria-labelledby="subscription-heading" aria-describedby="subscription-preview" data-subscription-comparison data-content-status={content.status}>
+  <SectionHeading id="subscription-heading" heading={content.heading} description={content.description} layout="split" />
+  <div class="comparison-canvas">
+    <div class="comparison-stage">
+      <div class="connectors" aria-hidden="true">
+        {subscriptionConnectors.map(layer => <div class="connector" data-figma-node={layer.node} style={`left:${layer.x}px;top:${layer.y}px;width:${layer.w}px;height:${layer.h}px;transform:${layer.transform}`}>
+          <div class="connector-image" style={`left:${layer.offsetX}px;top:${layer.offsetY}px`}><FigmaAsset name={layer.asset} /></div>
+        </div>)}
+      </div>
+      <div class="alveta-offer" data-comparison-offer data-figma-node="1286:1371">
+        <span class="offer-icon" aria-hidden="true"><FigmaAsset name="subscription-alveta" /></span>
+        <div class="offer-copy">
+          <p class="offer-price" lang="bn"><span>{content.offer.prefix}</span><strong>{content.offer.price}</strong><span>{content.offer.suffix}</span></p>
+          <p class="offer-savings">{content.offer.savings}</p>
+        </div>
+      </div>
+      <ul class="comparison-providers" aria-label="Illustrative individual subscriptions">
+        {content.providers.map(provider => {
+          const slot = subscriptionProviderSlots[provider.id];
+          if (!slot) throw new Error(`Unknown subscription illustration slot: ${provider.id}`);
+          return <li class="comparison-provider" data-provider={provider.id} data-figma-node={slot.node} style={`--slot-x:${slot.x}px;--slot-y:${slot.y}px`}>
+            <span class="provider-icon" aria-hidden="true"><FigmaAsset name={provider.icon} /></span>
+            <div><h3>{provider.name}</h3><p class="provider-price" lang="bn">{provider.price}<span>{provider.period}</span></p></div>
+          </li>;
+        })}
+      </ul>
+    </div>
+  </div>
+  <p id="subscription-preview" class="preview-notice">{content.previewNotice}</p>
+</section>
+<style>
+  .subscription-comparison { margin-top: 100px; margin-bottom: 100px; }
+  .comparison-canvas { position: relative; margin-top: var(--space-11); width: 100%; aspect-ratio: 1200 / 496; container-type: inline-size; overflow: clip; border-radius: var(--radius-lg); background: var(--color-primary-wash) url('/images/figma/subscription-bg.svg') center / cover no-repeat; }
+  .comparison-stage { position: absolute; left: 0; top: 0; width: 1200px; height: 496px; transform: scale(calc(100cqw / 1200px)); transform-origin: top left; }
+  .connector, .connector-image { position: absolute; }
+  .comparison-providers { display: contents; list-style: none; margin: 0; padding: 0; }
+  .comparison-provider { position: absolute; left: var(--slot-x); top: var(--slot-y); display: flex; gap: 8px; align-items: center; width: 149.512px; height: 63.984px; padding: 12px 16px; background: var(--color-white); border-radius: var(--radius-md); }
+  .provider-icon { display: grid; place-items: center; flex: 0 0 32px; }
+  h3 { margin: 0; font-size: 16px; line-height: 24px; font-weight: 500; color: var(--color-heading); }
+  .provider-price { white-space: nowrap; font-size: 16px; line-height: 16px; color: var(--color-paragraph); }
+  .provider-price span { font-size: 12px; }
+  [lang='bn'] { font-family: 'Nirmala UI', 'Bangla MN', sans-serif; }
+  .alveta-offer { position: absolute; left: 479px; top: 193px; display: flex; gap: 12px; align-items: center; width: 291.5px; min-height: 108.5px; padding: 16px 14px; background: rgb(255 255 255 / 90%); border: 1.25px solid white; border-radius: 16px; box-shadow: 0 43px 137px rgb(0 0 0 / 15%); }
+  .offer-icon { width: 74px; height: 74px; flex-shrink: 0; }
+  .offer-copy { flex: 1; min-width: 0; display: flex; align-items: end; flex-direction: column; gap: 8px; }
+  .offer-price { display: flex; gap: 4px; align-items: baseline; white-space: nowrap; color: var(--color-heading); line-height: 1; font-size: 16px; }
+  .offer-price strong { font-size: 34px; font-weight: 700; }
+  .offer-savings { display: flex; align-items: center; min-height: 32px; border-radius: var(--radius-pill); padding: 4px 12px; background: var(--color-savings-wash); color: var(--color-savings-text); font-size: 15.441px; line-height: 1.4; white-space: nowrap; }
+  .preview-notice { margin-top: var(--space-6); color: var(--color-paragraph); font-size: 12px; line-height: 18px; }
+  @media (max-width: 1023px) {
+    .comparison-canvas { aspect-ratio: auto; }
+    .comparison-stage { position: relative; width: 100%; height: auto; padding: 32px; transform: none; display: flex; flex-direction: column; align-items: center; gap: 32px; }
+    .connectors { display: none; }
+    .alveta-offer { position: static; }
+    .comparison-providers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; width: 100%; }
+    .comparison-provider { position: static; width: 100%; height: auto; min-height: 72px; justify-content: center; }
+  }
+  @media (max-width: 767px) { .subscription-comparison { margin-block: 64px; } .comparison-canvas { margin-top: 32px; } }
+  @media (max-width: 599px) {
+    .comparison-stage { padding: 24px 16px; gap: 24px; }
+    .alveta-offer { width: min(100%, 291.5px); min-height: 96px; }
+    .offer-icon { width: 48px; height: 48px; }
+    .offer-icon :global(img) { transform: scale(.64864865); transform-origin: top left; }
+    .offer-price { font-size: 14px; }
+    .offer-price strong { font-size: 32px; }
+    .offer-savings { font-size: 13px; padding-inline: 10px; }
+    .comparison-provider { flex-direction: column; gap: 8px; text-align: center; padding: 12px 8px; }
+    .provider-price { font-size: 14px; line-height: 20px; }
+  }
+</style>

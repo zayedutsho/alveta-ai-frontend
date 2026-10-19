@@ -1,10 +1,16 @@
+import { loadPublicModels } from '../lib/public-catalog';
 const header = document.querySelector<HTMLElement>('[data-header]');
 const toggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
 const nav = header?.querySelector<HTMLElement>('nav');
+const mobileNavigation = matchMedia('(max-width: 900px)');
+function syncNavigationAccess() {
+  if (nav) nav.inert = mobileNavigation.matches && !header?.hasAttribute('data-menu-open');
+}
 function closeNavigation(returnFocus = false) {
   header?.removeAttribute('data-menu-open');
   toggle?.setAttribute('aria-expanded', 'false');
   toggle?.setAttribute('aria-label', 'Open navigation');
+  syncNavigationAccess();
   header?.querySelectorAll<HTMLDetailsElement>('details[open]').forEach(menu => { menu.open = false; });
   if (returnFocus) toggle?.focus();
 }
@@ -14,7 +20,9 @@ toggle?.addEventListener('click', () => {
   header?.setAttribute('data-menu-open', '');
   toggle.setAttribute('aria-expanded', 'true');
   toggle.setAttribute('aria-label', 'Close navigation');
+  syncNavigationAccess();
 });
+syncNavigationAccess();
 document.addEventListener('keydown', event => {
   if (event.key !== 'Escape' || !header?.contains(document.activeElement)) return;
   const details = document.activeElement?.closest<HTMLDetailsElement>('details[open]');
@@ -45,13 +53,7 @@ modelMenu?.addEventListener('toggle', async () => {
   modelsLoaded = true;
   status.textContent = 'Loading available models…';
   try {
-    const origin = new URL(modelMenu.dataset.apiOrigin);
-    if (!['http:', 'https:'].includes(origin.protocol)) throw new Error('Invalid API origin');
-    const response = await fetch(new URL('/api/v1/models/public', origin), { signal: AbortSignal.timeout(10000), credentials: 'omit' });
-    if (!response.ok) throw new Error('Model request failed');
-    const data: unknown = await response.json();
-    if (!data || typeof data !== 'object' || !('models' in data) || !Array.isArray(data.models)) throw new Error('Unexpected model response');
-    const names = data.models.flatMap((model: unknown) => model && typeof model === 'object' && 'name' in model && typeof model.name === 'string' ? [model.name] : []);
+    const names = (await loadPublicModels(modelMenu.dataset.apiOrigin)).map(model => model.name);
     for (const name of names) {
       const li = document.createElement('li');
       const link = document.createElement('a');

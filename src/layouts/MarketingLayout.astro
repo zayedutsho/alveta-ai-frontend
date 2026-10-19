@@ -2,6 +2,7 @@
 import '@fontsource/faculty-glyphic/latin-400.css';
 import heroFont from '@fontsource/faculty-glyphic/files/faculty-glyphic-latin-400-normal.woff2?url';
 import '../styles/global.css';
+import '../styles/motion.css';
 import { appLink } from '../lib/app-links';
 interface Props { title?: string; description?: string; }
 const { title = 'Alveta.ai — All the Best AI Models, One Place', description = 'Bring your AI workflow together in one place. Access multiple models, compare their responses, and choose the perspective that works for you.' } = Astro.props;
@@ -37,5 +38,6 @@ const socialImage = siteOrigin ? new URL('/OpenGraphbanner.png', siteOrigin).hre
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
     <slot />
+    <script>import '../scripts/motion';</script>
   </body>
 </html>

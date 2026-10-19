@@ -7,6 +7,16 @@ import Hero from '../components/sections/Hero.astro';
 import HeroBackground from '../components/sections/HeroBackground.astro';
 import CustomerLogos from '../components/sections/CustomerLogos.astro';
 import Features from '../components/sections/Features.astro';
+import LatestModels from '../components/sections/LatestModels.astro';
+import SubscriptionComparison from '../components/sections/SubscriptionComparison.astro';
+import Pricing from '../components/sections/Pricing.astro';
+import Testimonials from '../components/sections/Testimonials.astro';
+import { testimonialsContent } from '../content/testimonials';
+import Faq from '../components/sections/Faq.astro';
+import Articles from '../components/sections/Articles.astro';
+import ClosingCta from '../components/sections/ClosingCta.astro';
+import Footer from '../components/layout/Footer.astro';
+import { faqContent, articlesContent, closingCtaContent, footerContent } from '../content/landing-end';
 ---
 <MarketingLayout>
   <div class="masthead">
@@ -17,7 +27,15 @@ import Features from '../components/sections/Features.astro';
       <div class="hero-area"><Hero content={landingContent.hero} /></div>
       <CustomerLogos content={landingContent.customerLogos} />
       <Features content={landingContent.features} />
+      <LatestModels content={landingContent.models} />
+      <SubscriptionComparison content={landingContent.subscriptionComparison} />
+      <Pricing />
+      <Testimonials content={testimonialsContent} />
+      <Faq content={faqContent} />
+      <Articles content={articlesContent} />
+      <ClosingCta content={closingCtaContent} />
     </main>
+    <Footer content={footerContent} />
   </div>
 </MarketingLayout>
 <style>

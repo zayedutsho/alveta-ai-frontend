@@ -17,6 +17,8 @@ Analysis only. No Sanity project, schema deployment, dataset or credentials were
 
 Actual model/price examples in Figma are not evidence those offerings exist. Match available API data before rendering model cards. Omit unavailable optional editorial spotlights or show explicit unavailability; never make a stale model purchasable through CMS.
 
+Milestone 5 implements a labelled design preview, not live model or package availability. `ModelsContent` and `SubscriptionComparisonContent` currently require `status: 'design-example'` plus a visible notice. Figma examples remain in dedicated content files; model cards route only to general registration. Publication still requires approved benchmark evidence, available model IDs, comparison methodology and pricing inputs. These examples do not override the runtime API ownership described above. Full Sanity integration remains deferred.
+
 ## Reusable objects
 
 - link: understandable label and explicit destination kind (marketing fragment, approved app route or external URL). Validate protocol/path; reject javascript/data schemes. Keep environment-specific host resolution in code. Preserve package query strings.
