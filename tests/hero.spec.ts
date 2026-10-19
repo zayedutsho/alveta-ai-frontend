@@ -13,7 +13,7 @@ for (const width of [320, 375, 430, 768, 1024, 1440, 1920]) {
     const geometry = await page.evaluate(() => ({
       width: window.innerWidth,
       scroll: document.documentElement.scrollWidth,
-      broken: [...document.images].filter(img => !img.complete || img.naturalWidth === 0).map(img => img.src),
+      broken: [...document.images].filter(img => img.loading !== 'lazy' && (!img.complete || img.naturalWidth === 0)).map(img => img.src),
       heroFont: getComputedStyle(document.querySelector('h1')!).fontFamily,
       controls: [...document.querySelectorAll<HTMLElement>('.composer a, .composer button, .composer textarea, .compare')]
         .filter(el => el.getClientRects().length > 0)

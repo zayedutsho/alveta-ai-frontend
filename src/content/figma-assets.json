@@ -199,6 +199,306 @@
     "width": 120,
     "height": 28
   },
+  "feature-activity-spark": {
+    "src": "/images/figma/feature-activity-spark.svg",
+    "width": 20,
+    "height": 20
+  },
+  "feature-add-money-circle": {
+    "src": "/images/figma/feature-add-money-circle.svg",
+    "width": 20,
+    "height": 20
+  },
+  "feature-ai-content-generator01": {
+    "src": "/images/figma/feature-ai-content-generator01.svg",
+    "width": 20,
+    "height": 20
+  },
+  "feature-ai-swap": {
+    "src": "/images/figma/feature-ai-swap.svg",
+    "width": 20,
+    "height": 20
+  },
+  "feature-ai-user": {
+    "src": "/images/figma/feature-ai-user.svg",
+    "width": 20,
+    "height": 20
+  },
+  "feature-alveta": {
+    "src": "/images/figma/feature-alveta.svg",
+    "width": 79.0301,
+    "height": 21.4457
+  },
+  "feature-arrow-right02": {
+    "src": "/images/figma/feature-arrow-right02.svg",
+    "width": 18,
+    "height": 18
+  },
+  "feature-arrow-right3": {
+    "src": "/images/figma/feature-arrow-right3.svg",
+    "width": 18,
+    "height": 18
+  },
+  "feature-bubble-chat-temporary": {
+    "src": "/images/figma/feature-bubble-chat-temporary.svg",
+    "width": 20,
+    "height": 20
+  },
+  "feature-chat-lock01": {
+    "src": "/images/figma/feature-chat-lock01.svg",
+    "width": 20,
+    "height": 20
+  },
+  "feature-file-add": {
+    "src": "/images/figma/feature-file-add.svg",
+    "width": 20,
+    "height": 20
+  },
+  "feature-frame": {
+    "src": "/images/figma/feature-frame.svg",
+    "width": 472,
+    "height": 424
+  },
+  "feature-frame1": {
+    "src": "/images/figma/feature-frame1.svg",
+    "width": 32,
+    "height": 32
+  },
+  "feature-frame10": {
+    "src": "/images/figma/feature-frame10.svg",
+    "width": 35.3528,
+    "height": 35.3135
+  },
+  "feature-frame11": {
+    "src": "/images/figma/feature-frame11.svg",
+    "width": 50.0991,
+    "height": 78.7221
+  },
+  "feature-frame12": {
+    "src": "/images/figma/feature-frame12.svg",
+    "width": 35.3528,
+    "height": 35.3135
+  },
+  "feature-frame13": {
+    "src": "/images/figma/feature-frame13.svg",
+    "width": 34.8713,
+    "height": 34.8714
+  },
+  "feature-frame14": {
+    "src": "/images/figma/feature-frame14.svg",
+    "width": 34.8713,
+    "height": 34.8714
+  },
+  "feature-frame15": {
+    "src": "/images/figma/feature-frame15.svg",
+    "width": 15.8525,
+    "height": 15.8525
+  },
+  "feature-frame16": {
+    "src": "/images/figma/feature-frame16.svg",
+    "width": 34.8715,
+    "height": 34.8714
+  },
+  "feature-frame17": {
+    "src": "/images/figma/feature-frame17.svg",
+    "width": 34.8715,
+    "height": 34.8714
+  },
+  "feature-frame18": {
+    "src": "/images/figma/feature-frame18.svg",
+    "width": 15.8525,
+    "height": 15.8519
+  },
+  "feature-frame19": {
+    "src": "/images/figma/feature-frame19.svg",
+    "width": 15.8524,
+    "height": 15.8525
+  },
+  "feature-frame2": {
+    "src": "/images/figma/feature-frame2.svg",
+    "width": 345.721,
+    "height": 184.9
+  },
+  "feature-frame3": {
+    "src": "/images/figma/feature-frame3.svg",
+    "width": 169.778,
+    "height": 105.989
+  },
+  "feature-frame4": {
+    "src": "/images/figma/feature-frame4.svg",
+    "width": 34.8713,
+    "height": 34.8714
+  },
+  "feature-frame5": {
+    "src": "/images/figma/feature-frame5.svg",
+    "width": 34.8713,
+    "height": 35.1656
+  },
+  "feature-frame6": {
+    "src": "/images/figma/feature-frame6.svg",
+    "width": 16.6866,
+    "height": 16.6866
+  },
+  "feature-frame7": {
+    "src": "/images/figma/feature-frame7.svg",
+    "width": 15.8524,
+    "height": 15.8524
+  },
+  "feature-frame8": {
+    "src": "/images/figma/feature-frame8.svg",
+    "width": 34.8712,
+    "height": 34.8712
+  },
+  "feature-frame9": {
+    "src": "/images/figma/feature-frame9.svg",
+    "width": 34.8712,
+    "height": 34.8712
+  },
+  "feature-git-compare-arrows": {
+    "src": "/images/figma/feature-git-compare-arrows.svg",
+    "width": 20,
+    "height": 20
+  },
+  "feature-image": {
+    "src": "/images/figma/feature-image.svg",
+    "width": 520,
+    "height": 472
+  },
+  "feature-incognito": {
+    "src": "/images/figma/feature-incognito.svg",
+    "width": 40,
+    "height": 40
+  },
+  "feature-investigation": {
+    "src": "/images/figma/feature-investigation.svg",
+    "width": 40,
+    "height": 40
+  },
+  "feature-invoice02": {
+    "src": "/images/figma/feature-invoice02.svg",
+    "width": 40,
+    "height": 40
+  },
+  "feature-logo": {
+    "src": "/images/figma/feature-logo.svg",
+    "width": 31.8313,
+    "height": 28.1294
+  },
+  "feature-mask-group": {
+    "src": "/images/figma/feature-mask-group.svg",
+    "width": 170.026,
+    "height": 16.7327
+  },
+  "feature-solar-energy": {
+    "src": "/images/figma/feature-solar-energy.svg",
+    "width": 20,
+    "height": 20
+  },
+  "feature-ungroup-layers": {
+    "src": "/images/figma/feature-ungroup-layers.svg",
+    "width": 40,
+    "height": 40
+  },
+  "feature-vector": {
+    "src": "/images/figma/feature-vector.svg",
+    "width": 182.224,
+    "height": 118.496
+  },
+  "feature-vector1": {
+    "src": "/images/figma/feature-vector1.svg",
+    "width": 169.778,
+    "height": 105.988
+  },
+  "feature-vector10": {
+    "src": "/images/figma/feature-vector10.svg",
+    "width": 34.8712,
+    "height": 34.8712
+  },
+  "feature-vector11": {
+    "src": "/images/figma/feature-vector11.svg",
+    "width": 22.8289,
+    "height": 22.8424
+  },
+  "feature-vector12": {
+    "src": "/images/figma/feature-vector12.svg",
+    "width": 8.55188,
+    "height": 6.97699
+  },
+  "feature-vector13": {
+    "src": "/images/figma/feature-vector13.svg",
+    "width": 15.8524,
+    "height": 15.8524
+  },
+  "feature-vector14": {
+    "src": "/images/figma/feature-vector14.svg",
+    "width": 50.0991,
+    "height": 78.7221
+  },
+  "feature-vector15": {
+    "src": "/images/figma/feature-vector15.svg",
+    "width": 35.3528,
+    "height": 35.3135
+  },
+  "feature-vector16": {
+    "src": "/images/figma/feature-vector16.svg",
+    "width": 35.3528,
+    "height": 35.3135
+  },
+  "feature-vector17": {
+    "src": "/images/figma/feature-vector17.svg",
+    "width": 50.0991,
+    "height": 78.9375
+  },
+  "feature-vector18": {
+    "src": "/images/figma/feature-vector18.svg",
+    "width": 22.7668,
+    "height": 23.0726
+  },
+  "feature-vector19": {
+    "src": "/images/figma/feature-vector19.svg",
+    "width": 35.3528,
+    "height": 35.3135
+  },
+  "feature-vector2": {
+    "src": "/images/figma/feature-vector2.svg",
+    "width": 5.67153,
+    "height": 5.67153
+  },
+  "feature-vector3": {
+    "src": "/images/figma/feature-vector3.svg",
+    "width": 5.67153,
+    "height": 5.67153
+  },
+  "feature-vector4": {
+    "src": "/images/figma/feature-vector4.svg",
+    "width": 5.67153,
+    "height": 5.67153
+  },
+  "feature-vector5": {
+    "src": "/images/figma/feature-vector5.svg",
+    "width": 6.69747,
+    "height": 6.69747
+  },
+  "feature-vector6": {
+    "src": "/images/figma/feature-vector6.svg",
+    "width": 50.0991,
+    "height": 78.7221
+  },
+  "feature-vector7": {
+    "src": "/images/figma/feature-vector7.svg",
+    "width": 35.3528,
+    "height": 35.3135
+  },
+  "feature-vector8": {
+    "src": "/images/figma/feature-vector8.svg",
+    "width": 8.55209,
+    "height": 6.97699
+  },
+  "feature-vector9": {
+    "src": "/images/figma/feature-vector9.svg",
+    "width": 15.8518,
+    "height": 15.8524
+  },
   "filter-horizontal": {
     "src": "/images/figma/filter-horizontal.svg",
     "width": 24,

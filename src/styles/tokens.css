@@ -21,6 +21,10 @@
   --radius-pill: 99px;
   --shadow-nav: 0 2px 4px #919eab29;
   --shadow-card: 0 1px 3px rgb(0 0 0 / 8%);
+  --color-feature-start: #f0ecff;
+  --color-feature-end: #f3f7fe;
+  --color-feature-border: rgb(230 223 255 / 80%);
+  --color-benefit-border: #93f4f7;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;

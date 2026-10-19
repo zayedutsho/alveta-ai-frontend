@@ -1,0 +1,34 @@
+---
+import { Image } from 'astro:assets';
+import type { FeaturePanelContent } from '../../types/content';
+import { featureBackdrop as backdrop, featureMedia } from '../../content/feature-media';
+import ComparisonArtwork from './ComparisonArtwork.astro';
+interface Props { image: FeaturePanelContent['image']; }
+const { image } = Astro.props;
+const product = image.kind === 'comparison' ? undefined : featureMedia[image.kind];
+---
+<figure class:list={['feature-illustration', image.kind]} role="img" aria-label={image.alt} data-feature-illustration>
+  <div class="art-stage" aria-hidden="true">
+    <div class="backdrop-mask">
+      <Image src={backdrop} alt="" width={520} height={472} widths={[320, 520, 1040]} sizes="(max-width: 1023px) 90vw, 520px" format="webp" quality={92} loading="lazy" class="backdrop" />
+    </div>
+    {image.kind === 'comparison' ? <ComparisonArtwork /> : product && (
+      <div class="product">
+        <Image src={product} alt="" width={image.kind === 'files' ? 609 : 472} height={image.kind === 'files' ? 457 : 424} widths={[320, 472, 944]} sizes="(max-width: 1023px) 80vw, 472px" fit={image.kind === 'models' ? 'contain' : 'cover'} format="webp" quality={95} loading="lazy" />
+      </div>
+    )}
+  </div>
+</figure>
+<style>
+  .feature-illustration { margin: 0; position: relative; width: 100%; max-width: 520px; aspect-ratio: 520 / 472; container-type: inline-size; overflow: clip; border-radius: 12px; isolation: isolate; }
+  .art-stage { width: 520px; height: 472px; position: absolute; left: 0; top: 0; transform: scale(calc(100cqw / 520px)); transform-origin: top left; }
+  .backdrop-mask { position: absolute; inset: 0; border-radius: 12px; mask-image: url('/images/figma/feature-image.svg'); mask-size: 520px 472px; mask-repeat: no-repeat; }
+  .backdrop { width: 520px; height: 472px; object-fit: cover; }
+  .comparison .backdrop { filter: grayscale(1); }
+  .product { position: absolute; width: 472px; height: 424px; left: 22px; top: 22px; overflow: clip; border-radius: 12px; }
+  .product :global(img) { width: 472px; height: 424px; object-fit: cover; }
+  .models .product :global(img) { object-fit: contain; }
+  .balance .product, .private .product { background: rgb(255 255 255 / 85%); }
+  .files .product { opacity: .98; }
+  .files .product :global(img) { position: absolute; width: 128.93%; height: 107.65%; left: -14.47%; top: 0; }
+</style>

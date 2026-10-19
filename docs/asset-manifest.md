@@ -38,3 +38,20 @@ Fonts: original Inter Display Regular/Medium from the existing application, copi
 Existing application OpenGraphbanner.png and icon.svg were copied read-only as public/OpenGraphbanner.png and public/favicon.svg, preserving brand/share metadata.
 
 Validation: all local images loaded without broken/empty files or failing asset responses across seven Chromium widths. Desktop 1440 and mobile 430 screenshots were inspected against Figma; 320/768/1024 captures support responsive review. CSS mask sources were requested successfully. Original root dimensions are preserved; effective logo/icon scaling and content slots were visually inspected. This is a close implementation, not a pixel-perfect certification: interactive placeholder text replaces the drawn cursor, mobile under 390px is derived, and original desktop wing layers are scaled for mobile. No original asset is replaced with an invented drawing.
+
+## Milestone 4 assets
+
+Customer source: desktop 1276:1266 and mobile 1320:11309. Nine customer-*.svg desktop exports map to FedEx, Nexthink, Xplor Pay, Verifone, Lightspeed, Ericsson, Amazon, Carta (legacy filename customer-cmt) and Cisco. customer-mobile-0 through customer-mobile-16 preserve Figma's distinct mobile exports and row order; their exact dimensions are in figma-assets.json. CustomerLogos uses shared ResponsiveAsset, with decorative repeated rows and a unique accessible name list. No logo artwork was redrawn.
+
+Feature source: 1284:667, panels 1284:672 / 727 / 778 / 1007 / 1057. Original SVG files have a feature- prefix in public/images/figma; dimensions remain in figma-assets.json. FeaturePanel references heading and benefit icons from typed content. The first CTA uses feature-arrow-right02; remaining CTAs use feature-arrow-right3. Original dot pattern is reused as a cropped background on every panel.
+
+| Artwork | Original node/asset | Rendering |
+| --- | --- | --- |
+| Shared flower/photo backdrop | 1284:723 / 774 / 827 / 1053 / 1103; feature-image1.png | src/assets/features; responsive Astro Image at 520×472, original feature-image.svg mask |
+| Multi-model visual | 1284:726; feature-product.png | 472×424 at 22/22 within artwork; contain |
+| Balance illustration | 1284:777; feature-product1.png | 472×424 at 22/22; white 85% backing |
+| Comparison network | 1284:834 subtree | Original exported SVG layers, positioned from Figma absolute bounding/render boxes; local comparison-art.json records each source node, asset and slot. Outer 472×424 clipping preserved. Six scale tracks follow current motion context |
+| Privacy illustration | 1284:1056; feature-product2.png | 472×424 at 22/22; white 85% backing |
+| File illustration | 1284:1106; feature-product3.png | Original 128.93% width/107.65% height/-14.47% left crop and 98% opacity |
+
+Only optimized WebP derivatives are emitted for the original large raster files; originals remain under src/assets. FigmaAsset retains SVG root dimensions; wrapper transforms preserve their effective positions/sizes. Art-stage transforms apply only to decorative geometry, not panel text or layout. Browser checks decode every panel image at all representative widths and check no failing requests or aspect-ratio distortion. Original source/export SVGs and geometric masks are retained alongside the manifest; unused mask exports are not used as invented visual elements.

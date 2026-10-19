@@ -1,5 +1,6 @@
 import type { LandingContent } from '../types/content';
 import { appLink } from '../lib/app-links';
+import { featuresContent } from './features';
 
 /** Figma copy; later replaced by the published Sanity content normalizer. */
 export const landingContent: LandingContent = {
@@ -18,8 +19,9 @@ export const landingContent: LandingContent = {
   customerLogos: {
     label: 'Customer logos',
     rows: [
-      ['FedEx', 'Nexthink', 'Xplor Pay', 'Verifone', 'Lightspeed', 'Ericsson', 'Amazon', 'CMT'].map((name, index) => ({ name, asset: ['fedex', 'nexthink', 'xplor-pay', 'verifone', 'lightspeed', 'ericsson', 'amazon', 'cmt'].map(value => `customer-${value}`)[index]!, mobileAsset: `customer-mobile-${index}` })),
-      ['FedEx', 'Lightspeed', 'Amazon', 'Ericsson', 'Nexthink', 'Verifone', 'Cisco', 'Xplor Pay', 'CMT'].map((name, index) => ({ name, asset: ['fedex', 'lightspeed', 'amazon', 'ericsson', 'nexthink', 'verifone', 'cisco', 'xplor-pay', 'cmt'].map(value => `customer-${value}`)[index]!, mobileAsset: `customer-mobile-${index + 8}` })),
+      ['FedEx', 'Nexthink', 'Xplor Pay', 'Verifone', 'Lightspeed', 'Ericsson', 'Amazon', 'Carta'].map((name, index) => ({ name, asset: ['fedex', 'nexthink', 'xplor-pay', 'verifone', 'lightspeed', 'ericsson', 'amazon', 'cmt'].map(value => `customer-${value}`)[index]!, mobileAsset: `customer-mobile-${index}` })),
+      ['FedEx', 'Lightspeed', 'Amazon', 'Ericsson', 'Nexthink', 'Verifone', 'Cisco', 'Xplor Pay', 'Carta'].map((name, index) => ({ name, asset: ['fedex', 'lightspeed', 'amazon', 'ericsson', 'nexthink', 'verifone', 'cisco', 'xplor-pay', 'cmt'].map(value => `customer-${value}`)[index]!, mobileAsset: `customer-mobile-${index + 8}` })),
     ],
   },
+  features: featuresContent,
 };

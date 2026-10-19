@@ -1,0 +1,35 @@
+---
+import layers from '../../content/comparison-art.json';
+import FigmaAsset from '../common/FigmaAsset.astro';
+import { figmaAsset } from '../../lib/figma-assets';
+import '../../styles/feature-motion.css';
+const motionIds: Record<string, string> = { '1284:903': '1284:914', '1284:921': '1284:932' };
+const animated = new Set(['1284:889', '1284:914', '1284:932', '1284:953', '1284:979', '1284:1000']);
+const positioned = layers.map(layer => {
+  const asset = figmaAsset(layer.asset);
+  const render = layer.render;
+  const useRender = render && Math.abs(render.w - asset.width) < .1 && Math.abs(render.h - asset.height) < .1;
+  const x = useRender ? render.x : layer.x;
+  const y = useRender ? render.y : layer.y;
+  const width = useRender ? asset.width : layer.w;
+  const height = useRender ? asset.height : layer.h;
+  const motionId = motionIds[layer.id] || layer.id;
+  return { ...layer, x, y, width, height, scaleX: width / asset.width, scaleY: height / asset.height, motionId: animated.has(motionId) ? motionId : undefined };
+});
+---
+<!-- Fixed coordinates are restricted to the original decorative illustration. -->
+<div class="comparison-art" aria-hidden="true">
+  {positioned.map(layer => (
+    <div class="art-layer" style={`left:${layer.x}px;top:${layer.y}px;width:${layer.width}px;height:${layer.height}px;`} data-figma-node={layer.id}>
+      <div class="motion-layer" data-motion-node={layer.motionId}>
+        <div class="asset-scale" style={`transform:scale(${layer.scaleX},${layer.scaleY})`}><FigmaAsset name={layer.asset} /></div>
+      </div>
+    </div>
+  ))}
+</div>
+<style>
+  .comparison-art { position: absolute; inset: 0; clip-path: inset(22px 26px 26px 22px round 12px); }
+  .art-layer { position: absolute; }
+  .motion-layer { width: 100%; height: 100%; transform-origin: center; }
+  .asset-scale { transform-origin: top left; }
+</style>
