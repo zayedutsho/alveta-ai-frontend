@@ -10,5 +10,7 @@ dist/
 coverage/
 playwright-report/
 test-results/
+.work/
+public/fonts/*.ttf
 .DS_Store
 Thumbs.db

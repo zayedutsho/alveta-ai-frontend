@@ -1,0 +1,30 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1151.73" height="753.75" viewBox="0 0 1151.73 753.75" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Group">
+<g id="__lottie_element_81">
+<g id="Group_2">
+<g id="Group_3">
+<g id="Vector">
+<use xlink:href="#stroke0_0_218" fill="url(#paint0_linear_0_218)"/>
+<mask id="stroke1_0_218" fill="white">
+<use xlink:href="#stroke0_0_218"/>
+</mask>
+<path d="M291.533 751.025L9.91335 708.049C2.63311 706.938 -1.80897 699.451 0.710519 692.538L196.798 154.59C235.182 49.2891 342.676 -14.2319 453.708 2.72743L950.703 78.5878C1098.3 101.161 1188.38 252.893 1137.35 392.92C1098.74 498.739 990.766 562.664 879.199 545.659L593.804 502.076C588.307 501.237 582.98 504.388 581.077 509.608L548.452 599.074C510.068 704.375 402.566 767.985 291.533 751.025Z" stroke-width="2.01" stroke="url(#paint1_linear_0_218)" mask="url(#stroke1_0_218)"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_218" x1="492.45" y1="791.94" x2="-942.187" y2="-112.56" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E5F0FF"/>
+<stop offset="0.5" stop-color="#E9EBFF"/>
+<stop offset="1" stop-color="#EBE5FF"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_218" x1="-190.649" y1="71.2915" x2="-121.231" y2="813.721" gradientUnits="userSpaceOnUse">
+<stop stop-color="#CEBCFF" stop-opacity="0.5"/>
+<stop offset="0.5" stop-color="#AD91FC" stop-opacity="0.75"/>
+<stop offset="1" stop-color="#8C65FA"/>
+</linearGradient>
+<path id="stroke0_0_218" d="M291.533 751.025L9.91335 708.049C2.63311 706.938 -1.80897 699.451 0.710519 692.538L196.798 154.59C235.182 49.2891 342.676 -14.2319 453.708 2.72743L950.703 78.5878C1098.3 101.161 1188.38 252.893 1137.35 392.92C1098.74 498.739 990.766 562.664 879.199 545.659L593.804 502.076C588.307 501.237 582.98 504.388 581.077 509.608L548.452 599.074C510.068 704.375 402.566 767.985 291.533 751.025Z"/>
+</defs>
+</svg>

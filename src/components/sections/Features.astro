@@ -1,0 +1,16 @@
+---
+import type { FeaturesContent } from '../../types/content';
+import SectionHeading from '../common/SectionHeading.astro';
+import FeaturePanel from './FeaturePanel.astro';
+interface Props { content: FeaturesContent; }
+const { content } = Astro.props;
+---
+<section id="features" class="features container" aria-labelledby="features-heading" data-features>
+  <SectionHeading id="features-heading" heading={content.heading} description={content.description} />
+  <div class="feature-panels">{content.panels.map((panel, index) => <FeaturePanel content={panel} index={index} />)}</div>
+</section>
+<style>
+  .features { margin-top: 100px; margin-bottom: 72px; scroll-margin-top: 24px; }
+  .feature-panels { display: grid; gap: var(--space-8); margin-top: var(--space-11); }
+  @media (max-width: 767px) { .features { margin-top: 64px; margin-bottom: 44px; } .feature-panels { margin-top: 32px; gap: 24px; } }
+</style>

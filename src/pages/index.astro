@@ -1,0 +1,28 @@
+---
+import MarketingLayout from '../layouts/MarketingLayout.astro';
+import Announcement from '../components/layout/Announcement.astro';
+import Header from '../components/layout/Header.astro';
+import { landingContent } from '../content/landing';
+import Hero from '../components/sections/Hero.astro';
+import HeroBackground from '../components/sections/HeroBackground.astro';
+import CustomerLogos from '../components/sections/CustomerLogos.astro';
+import Features from '../components/sections/Features.astro';
+---
+<MarketingLayout>
+  <div class="masthead">
+    <HeroBackground />
+    <Announcement content={landingContent.announcement} />
+    <Header />
+    <main id="main" tabindex="-1">
+      <div class="hero-area"><Hero content={landingContent.hero} /></div>
+      <CustomerLogos content={landingContent.customerLogos} />
+      <Features content={landingContent.features} />
+    </main>
+  </div>
+</MarketingLayout>
+<style>
+  .masthead { position: relative; isolation: isolate; min-height: 855px; }
+  .hero-area { min-height: 721px; }
+  @media (min-width: 768px) and (max-width: 900px) { .hero-area { min-height: 753.8552px; } }
+  @media (max-width: 767px) { .masthead { min-height: 569px; } .hero-area { min-height: 467.8552px; } }
+</style>

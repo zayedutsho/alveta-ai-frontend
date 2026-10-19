@@ -1,0 +1,65 @@
+---
+import type { FeaturePanelContent } from '../../types/content';
+import FigmaAsset from '../common/FigmaAsset.astro';
+import Button from '../common/Button.astro';
+import FeatureIllustration from './FeatureIllustration.astro';
+interface Props { content: FeaturePanelContent; index: number; }
+const { content, index } = Astro.props;
+---
+<article id={content.id} class:list={['feature-panel', { first: index === 0 }]} aria-labelledby={`${content.id}-title`} data-feature-panel>
+  <div class="panel-pattern" aria-hidden="true"></div>
+  <div class="panel-copy">
+    <div>
+      <div class="panel-heading">
+        <span class="feature-icon" aria-hidden="true"><FigmaAsset name={content.icon} /></span>
+        <div><h3 id={`${content.id}-title`}>{content.title}</h3><p class="subtitle">{content.subtitle}</p></div>
+      </div>
+      <p class="description">{content.description}</p>
+      <dl class="benefits">{content.benefits.map(benefit => (
+        <div class="benefit"><dt><span class="benefit-icon" aria-hidden="true"><FigmaAsset name={benefit.icon} /></span><span class="benefit-label">{benefit.label}</span></dt><dd>{benefit.description}</dd></div>
+      ))}</dl>
+    </div>
+    <div class="panel-cta"><Button href={content.cta.href} variant={index === 0 ? 'light' : 'primary'}>{content.cta.label}<FigmaAsset name={index === 0 ? 'feature-arrow-right02' : 'feature-arrow-right3'} /></Button></div>
+  </div>
+  <FeatureIllustration image={content.image} />
+</article>
+<style>
+  .feature-panel { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 520px); align-items: start; gap: 52px; min-height: 537px; padding: 32px; scroll-margin-top: 24px; }
+  .feature-panel.first { gap: 48px; }
+  .feature-panel::before { content: ''; position: absolute; z-index: -2; inset: 1px 0 0; border: 1.5px solid var(--color-feature-border); border-radius: var(--radius-lg); background: linear-gradient(var(--color-feature-start), var(--color-feature-end)); }
+  .panel-pattern { position: absolute; z-index: -1; inset: 1px 0 0; opacity: .6; border-radius: var(--radius-lg); overflow: clip; }
+  .panel-pattern::before { content: ''; position: absolute; width: 168.41%; height: 100.01%; left: -33.39%; top: -3.37%; background: url('/images/figma/feature-dot-pattern.png') center/100% 100% no-repeat; }
+  .panel-copy { min-width: 0; align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; padding: 20px 0 20px 20px; }
+  .panel-heading { display: flex; align-items: center; gap: 16px; }
+  .panel-heading > div { min-width: 0; }
+  .feature-icon { display: grid; place-items: center; width: 72px; height: 72px; flex-shrink: 0; background: white; border-radius: 16px; filter: drop-shadow(0 2px 2px #919eab29); }
+  h3 { margin: 0; color: var(--color-heading); font-size: 24px; font-weight: 500; line-height: normal; letter-spacing: .24px; }
+  .subtitle { margin-top: 10px; color: var(--color-paragraph); font-size: 18px; line-height: 1.35; }
+  .description { margin-top: 24px; color: var(--color-paragraph); line-height: 1.5; }
+  .benefits { display: grid; gap: 16px; padding: 0; margin: 20px 0 0; }
+  .benefit { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: 4px 12px; min-height: 50px; }
+  .benefit-icon { grid-column: 1; grid-row: 1 / span 2; display: grid; place-items: center; width: 48px; height: 48px; border: 1.427px solid var(--color-benefit-border); border-radius: 99px; background: white; filter: drop-shadow(0 2px 2px #919eab29); }
+  dt { display: contents; }
+  .benefit-label { grid-column: 2; grid-row: 1; font-size: 18px; font-weight: 500; line-height: 1.35; color: var(--color-heading); }
+  dd { grid-column: 2; grid-row: 2; margin: 0; color: var(--color-paragraph); line-height: 1.5; }
+  .panel-cta :global(.button) { padding-inline: 24px; box-shadow: 0 8px 8px -3px #07011308, 0 5px 5px -2.5px #07011308, 0 3px 3px -1.5px #07011308, 0 2px 2px -1px #07011308, 0 1px 1px -.5px #07011308, 0 .5px .5px #07011308, inset 0 1px 2px -.5px #ffffff1f, inset 0 .5px .5px #ffffff29, inset 0 8px 24px -4px #ffffff29; }
+  @media (min-width: 1024px) and (max-width: 1279px) { .feature-panel, .feature-panel.first { grid-template-columns: minmax(0, 1fr) minmax(0, 44%); gap: 28px; padding: 24px; } .panel-copy { padding-left: 8px; } h3 { font-size: 22px; } .feature-icon { width: 64px; height: 64px; } }
+  @media (max-width: 1023px) {
+    .feature-panel, .feature-panel.first { grid-template-columns: minmax(0, 1fr); padding: 28px; gap: 28px; }
+    .panel-copy { padding: 0; gap: 24px; }
+    .feature-panel :global(.feature-illustration) { width: min(100%, 520px); justify-self: center; }
+  }
+  @media (max-width: 767px) {
+    .feature-panel, .feature-panel.first { padding: 20px; gap: 24px; }
+    .panel-heading { align-items: flex-start; gap: 12px; }
+    .feature-icon { width: 56px; height: 56px; border-radius: 12px; }
+    .feature-icon :global(img) { transform: scale(.8); }
+    h3 { font-size: 20px; line-height: 1.3; letter-spacing: 0; }
+    .subtitle { margin-top: 8px; font-size: 14px; line-height: 1.4; }
+    .description { font-size: 14px; margin-top: 20px; }
+    .benefit-label { font-size: 16px; } dd { font-size: 14px; }
+    .benefit { grid-template-columns: 44px minmax(0, 1fr); }
+    .benefit-icon { width: 44px; height: 44px; }
+  }
+  @media (max-width: 359px) { .feature-panel, .feature-panel.first { padding: 16px; } .panel-heading { flex-direction: column; } }
+</style>
