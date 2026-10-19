@@ -69,3 +69,12 @@ Recommended next milestone after review: customer-logo strip and five feature pa
 ## Current review boundary
 
 Milestone 4 is complete at customer logos and feature panels. Do not implement additional sections, 02_Pricing, or full Sanity integration, push, merge or deploy before approval. Original application remains unchanged. Recommended next milestone: latest-model cards and subscription-comparison section, preserving backend ownership of model availability and pricing claims.
+
+## Milestone 4 follow-up — Customer logo marquee
+
+- User requested smooth marquee motion after the static section review. This supersedes the earlier static-only logo decision; no additional sections were started.
+- Added CSS transform loops in opposite directions (48s/54s), with four equal copies per row for seamless coverage through 1920px. Hover or keyboard focus pauses both rows; a small keyboard-operable pause/resume button preserves the paused state after focus leaves. Only that control uses client JavaScript; animation needs no library.
+- Reduced-motion preferences disable animation, hide duplicates/control, and restore centered rows. The accessible unique-name list remains unduplicated. Existing section height, following panel positions, content interfaces and assets remain intact.
+- Screenshot review found off-frame clipping baked into some mobile exports. Logo artwork now uses the complete original desktop SVGs at 0.435 scale on mobile, without changing their root dimensions or paths. Added explicit artwork-centering assertions.
+- Validation: Astro Check passes with zero errors/warnings/hints; production build passes. Full Chromium suite passed all 30 tests; after the final mobile centering adjustment, the 11 logo tests were rerun. Coverage includes 320–1920px, tile geometry, asset loading, no overflow, exact half-cycle displacement/directions, adjacent-copy continuity, hover/focus pause, persistent toggle state, and reduced motion. Earlier feature/hero/navigation checks passed in the full run. Chromium only; no Safari/Firefox validation.
+- Updated desktop/mobile captures: `.work/validation/logo-marquee-1440.png` and `.work/validation/logo-marquee-430.png`. Screenshots/build outputs remain ignored. Local commit subject: `feat: add smooth customer logo marquee`. No push, merge or deployment; original application remains read-only.
