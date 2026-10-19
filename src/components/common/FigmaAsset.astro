@@ -1,0 +1,7 @@
+---
+import { figmaAsset } from '../../lib/figma-assets';
+interface Props { name: string; alt?: string; class?: string; }
+const { name, alt = '', class: className } = Astro.props;
+const asset = figmaAsset(name);
+---
+<img {...asset} alt={alt} class={className} draggable="false" />

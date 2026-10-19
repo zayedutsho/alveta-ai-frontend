@@ -1,6 +1,11 @@
 ---
 import MarketingLayout from '../layouts/MarketingLayout.astro';
+import Announcement from '../components/layout/Announcement.astro';
+import Header from '../components/layout/Header.astro';
+import { landingContent } from '../content/landing';
 ---
 <MarketingLayout>
+  <Announcement content={landingContent.announcement} />
+  <Header />
   <main id="main" tabindex="-1"></main>
 </MarketingLayout>

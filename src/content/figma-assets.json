@@ -1,0 +1,207 @@
+{
+  "add-money-circle": {
+    "src": "/images/figma/add-money-circle.svg",
+    "width": 24,
+    "height": 24
+  },
+  "ai-browser": {
+    "src": "/images/figma/ai-browser.svg",
+    "width": 28,
+    "height": 28
+  },
+  "ai-image-edit": {
+    "src": "/images/figma/ai-image-edit.svg",
+    "width": 28,
+    "height": 28
+  },
+  "ai-programming": {
+    "src": "/images/figma/ai-programming.svg",
+    "width": 28,
+    "height": 28
+  },
+  "ai-sparkles": {
+    "src": "/images/figma/ai-sparkles.svg",
+    "width": 20,
+    "height": 20
+  },
+  "ai-video": {
+    "src": "/images/figma/ai-video.svg",
+    "width": 28,
+    "height": 28
+  },
+  "ai-voice": {
+    "src": "/images/figma/ai-voice.svg",
+    "width": 28,
+    "height": 28
+  },
+  "arrow-down01": {
+    "src": "/images/figma/arrow-down01.svg",
+    "width": 20,
+    "height": 20
+  },
+  "arrow-down2": {
+    "src": "/images/figma/arrow-down2.svg",
+    "width": 20,
+    "height": 20
+  },
+  "arrow-right02": {
+    "src": "/images/figma/arrow-right02.svg",
+    "width": 18,
+    "height": 18
+  },
+  "arrow-right3": {
+    "src": "/images/figma/arrow-right3.svg",
+    "width": 18,
+    "height": 18
+  },
+  "bg": {
+    "src": "/images/figma/bg.svg",
+    "width": 2064.34,
+    "height": 1388.34
+  },
+  "chat-gpt": {
+    "src": "/images/figma/chat-gpt.svg",
+    "width": 31.9304,
+    "height": 31.9304
+  },
+  "claude": {
+    "src": "/images/figma/claude.svg",
+    "width": 31.9304,
+    "height": 31.9304
+  },
+  "filter-horizontal": {
+    "src": "/images/figma/filter-horizontal.svg",
+    "width": 24,
+    "height": 24
+  },
+  "group": {
+    "src": "/images/figma/group.svg",
+    "width": 500,
+    "height": 900
+  },
+  "group1": {
+    "src": "/images/figma/group1.svg",
+    "width": 1151.73,
+    "height": 753.75
+  },
+  "group10": {
+    "src": "/images/figma/group10.svg",
+    "width": 1428,
+    "height": 900
+  },
+  "group2": {
+    "src": "/images/figma/group2.svg",
+    "width": 1428,
+    "height": 900
+  },
+  "group3": {
+    "src": "/images/figma/group3.svg",
+    "width": 1146,
+    "height": 750
+  },
+  "group4": {
+    "src": "/images/figma/group4.svg",
+    "width": 87.9264,
+    "height": 238.604
+  },
+  "group5": {
+    "src": "/images/figma/group5.svg",
+    "width": 1428,
+    "height": 900
+  },
+  "group6": {
+    "src": "/images/figma/group6.svg",
+    "width": 1151.73,
+    "height": 753.75
+  },
+  "group7": {
+    "src": "/images/figma/group7.svg",
+    "width": 1428,
+    "height": 900
+  },
+  "group8": {
+    "src": "/images/figma/group8.svg",
+    "width": 1146,
+    "height": 750
+  },
+  "group9": {
+    "src": "/images/figma/group9.svg",
+    "width": 87.9264,
+    "height": 238.604
+  },
+  "huge-icon-arrows-outline-direction-down2": {
+    "src": "/images/figma/huge-icon-arrows-outline-direction-down2.svg",
+    "width": 20,
+    "height": 20
+  },
+  "huge-icon-interface-outline-remove": {
+    "src": "/images/figma/huge-icon-interface-outline-remove.svg",
+    "width": 28,
+    "height": 28
+  },
+  "line10": {
+    "src": "/images/figma/line10.svg",
+    "width": 16,
+    "height": 1.5
+  },
+  "line9": {
+    "src": "/images/figma/line9.svg",
+    "width": 12,
+    "height": 1
+  },
+  "logo-mobile": {
+    "src": "/images/figma/logo-mobile.svg",
+    "width": 133.636,
+    "height": 32.3448
+  },
+  "logo": {
+    "src": "/images/figma/logo.svg",
+    "width": 112,
+    "height": 112
+  },
+  "logo1": {
+    "src": "/images/figma/logo1.svg",
+    "width": 26.3413,
+    "height": 23.9479
+  },
+  "logo5": {
+    "src": "/images/figma/logo5.svg",
+    "width": 165.549,
+    "height": 40.069
+  },
+  "menu11": {
+    "src": "/images/figma/menu11.svg",
+    "width": 24,
+    "height": 24
+  },
+  "mic01": {
+    "src": "/images/figma/mic01.svg",
+    "width": 24,
+    "height": 24
+  },
+  "plus": {
+    "src": "/images/figma/plus.svg",
+    "width": 24,
+    "height": 24
+  },
+  "robotic": {
+    "src": "/images/figma/robotic.svg",
+    "width": 24,
+    "height": 24
+  },
+  "square-unlock02": {
+    "src": "/images/figma/square-unlock02.svg",
+    "width": 20,
+    "height": 20
+  },
+  "vector": {
+    "src": "/images/figma/vector.svg",
+    "width": 32,
+    "height": 18
+  },
+  "wand-sparkles": {
+    "src": "/images/figma/wand-sparkles.svg",
+    "width": 24,
+    "height": 24
+  }
+}

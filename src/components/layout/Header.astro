@@ -1,0 +1,97 @@
+---
+import FigmaAsset from '../common/FigmaAsset.astro';
+import Button from '../common/Button.astro';
+import { appLink } from '../../lib/app-links';
+const apiOrigin = import.meta.env.PUBLIC_API_ORIGIN || '';
+const products = [
+  { label: 'AI Chat', path: '/chat' },
+  { label: 'Image workspace', path: '/images' },
+  { label: 'Design workspace', path: '/designs' },
+  { label: 'Balance & top-ups', path: '/wallet' },
+];
+---
+<header class="header container" data-header>
+  <a class="brand" href="/" aria-label="Alveta home" data-home-link>
+    <span class="brand-desktop"><FigmaAsset name="logo5" /></span>
+    <span class="brand-mobile"><FigmaAsset name="logo-mobile" /></span>
+  </a>
+  <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-navigation" aria-expanded="false" data-menu-toggle>
+    <span class="menu-icon"><FigmaAsset name="menu11" /></span><span class="close-icon" aria-hidden="true">×</span>
+  </button>
+  <nav id="primary-navigation" class="navigation" aria-label="Main navigation">
+    <div class="nav-links">
+      <a href={appLink('/#features')}>Features</a>
+      <details class="nav-dropdown" data-model-menu data-api-origin={apiOrigin}>
+        <summary>Models<FigmaAsset name="huge-icon-arrows-outline-direction-down2" /></summary>
+        <div class="dropdown-panel model-panel">
+          <p class="dropdown-heading">Leading models, one workspace</p>
+          <ul data-model-list></ul>
+          <p class="model-status" data-model-status role="status">Explore available models in Alveta.</p>
+          <a href={appLink('/register')}>Explore models <span aria-hidden="true">→</span></a>
+        </div>
+      </details>
+      <details class="nav-dropdown">
+        <summary>Products<FigmaAsset name="huge-icon-arrows-outline-direction-down2" /></summary>
+        <div class="dropdown-panel">
+          {products.map(product => <a href={appLink(product.path)}>{product.label}</a>)}
+        </div>
+      </details>
+      <a href={appLink('/#pricing')}>Pricing</a>
+    </div>
+    <div class="account-links">
+      <a class="sign-in" href={appLink('/login')}>Sign In<FigmaAsset name="square-unlock02" /></a>
+      <Button href={appLink('/register')}>Get Started<FigmaAsset name="arrow-right02" /></Button>
+    </div>
+  </nav>
+</header>
+<script>
+  import '../../scripts/navigation';
+</script>
+<style>
+  .header { position: relative; z-index: 5; margin-top: 22px; min-height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 14px; border-radius: 12px; background: white; box-shadow: var(--shadow-nav); }
+  .brand { flex-shrink: 0; }
+  .brand-mobile, .menu-toggle { display: none; }
+  .navigation { display: flex; align-items: center; flex: 1; justify-content: space-between; margin-left: clamp(36px, 13.5vw, 194px); gap: 20px; }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .account-links { display: flex; align-items: center; gap: 24px; }
+  .nav-links > a, summary, .sign-in { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .nav-links > a:hover, summary:hover, .sign-in:hover { color: var(--color-primary-deep); }
+  summary { list-style: none; cursor: pointer; min-height: 44px; }
+  summary::-webkit-details-marker { display: none; }
+  summary :global(img) { transition: transform .18s; }
+  details[open] > summary :global(img) { transform: rotate(180deg); }
+  .nav-dropdown { position: relative; }
+  .dropdown-panel { position: absolute; left: -16px; top: calc(100% + 12px); width: 250px; padding: 12px; background: white; border: 1px solid var(--color-border); border-radius: 16px; box-shadow: 0 10px 30px #16033f1a; }
+  .dropdown-panel a { display: block; padding: 10px 12px; border-radius: 8px; }
+  .dropdown-panel a:hover { background: var(--color-primary-wash); }
+  .dropdown-heading { padding: 8px 12px; font-weight: 500; }
+  .model-panel { width: 300px; }
+  .model-panel ul { list-style: none; margin: 0; padding: 0; max-height: 260px; overflow-y: auto; }
+  .model-status { padding: 8px 12px; font-size: 14px; color: var(--color-muted); }
+  @media (min-width: 901px) and (max-width: 1199px) {
+    .navigation { margin-left: 32px; }
+    .nav-links { gap: 16px; }
+    .account-links { gap: 16px; }
+  }
+  @media (max-width: 900px) {
+    .header { width: 100%; margin-top: 0; padding: 16px; border-radius: 0; min-height: 64.345px; box-shadow: none; }
+    .brand-desktop { display: none; }
+    .brand-mobile { display: block; }
+    .menu-toggle { display: grid; place-items: center; width: 44px; height: 44px; margin: -6px -10px -6px 0; padding: 0; border: 0; background: transparent; }
+    .close-icon { display: none; font-size: 32px; line-height: 1; }
+    .menu-toggle[aria-expanded='true'] .menu-icon { display: none; }
+    .menu-toggle[aria-expanded='true'] .close-icon { display: block; }
+    .navigation { display: none; position: absolute; top: 100%; left: 16px; right: 16px; max-height: calc(100dvh - 120px); overflow-y: auto; margin: 0; padding: 16px; border-radius: 16px; border: 1px solid var(--color-border); background: white; box-shadow: 0 12px 32px #16033f1a; }
+    .header[data-menu-open] .navigation { display: flex; flex-direction: column; align-items: stretch; }
+    .nav-links, .account-links { flex-direction: column; align-items: stretch; gap: 4px; }
+    .nav-links > a, summary, .sign-in { padding: 10px 12px; min-height: 44px; }
+    summary { justify-content: space-between; }
+    .account-links { border-top: 1px solid var(--color-border); padding-top: 12px; }
+    .dropdown-panel { position: static; width: 100%; box-shadow: none; padding: 0 0 4px 12px; border: 0; }
+  }
+  @media (scripting: none) and (max-width: 900px) {
+    .menu-toggle { display: none; }
+    .header { flex-wrap: wrap; }
+    .navigation { display: flex; position: static; width: 100%; flex-direction: column; margin-top: 16px; box-shadow: none; max-height: none; }
+  }
+</style>
