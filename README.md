@@ -35,5 +35,8 @@ Feature copy, logo ordering, CTA destinations and image descriptions are central
 - [Architecture and compatibility plan](docs/architecture.md)
 - [Development log and validation](docs/development-log.md)
 - [Original asset mapping](docs/asset-manifest.md)
+- [Legacy API contracts](docs/legacy-api-reference.md)
+- [Integration configuration](docs/integration-config.md)
+- [API security findings and verification limits](docs/api-security-audit.md)
 
 The feature branch was pushed through `e210360` with approval. Subsequent milestones remain local on `feature/astro-sanity-landing`; do not push, merge or deploy without approval.

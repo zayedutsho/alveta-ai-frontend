@@ -71,10 +71,14 @@ test('currency, model disclosure and team signup retain API values', async ({ pa
 
 for (const scenario of ['failure', 'malformed', 'empty', 'modelsFailure', 'noBdt', 'noTeam', 'delay', 'timeout']) {
   test(`pricing handles ${scenario}`, async ({ page, request }) => {
-    await request.post(`${simulationOrigin}/__control`, { data: ['delay', 'timeout'].includes(scenario) ? { delay: scenario === 'timeout' ? 11000 : 1200 } : { [scenario]: true } });
-    await page.goto('/');
+    await request.post(`${simulationOrigin}/__control`, { data: scenario === 'delay' ? { hold: true } : scenario === 'timeout' ? { delay: 11000 } : { [scenario]: true } });
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     const pricing = page.locator('[data-pricing]');
-    if (scenario === 'delay') await expect(pricing.locator('[data-pricing-status]')).toHaveText('Loading current plans…');
+    if (scenario === 'delay') {
+      await expect.poll(async () => (await (await request.get(`${simulationOrigin}/__calls`)).json()).some((call: { url: string }) => call.url === '/api/v1/packages')).toBe(true);
+      await expect(pricing.locator('[data-pricing-status]')).toHaveText('Loading current plans…');
+      await request.post(`${simulationOrigin}/__release`);
+    }
     if (['failure', 'malformed', 'empty', 'timeout'].includes(scenario)) {
       await expect(pricing.locator('[data-pricing-retry]')).toBeVisible({ timeout: 15000 });
       await expect(pricing.locator('article')).toHaveCount(0);
