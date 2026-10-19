@@ -2,7 +2,7 @@
 import FigmaAsset from '../common/FigmaAsset.astro';
 import Button from '../common/Button.astro';
 import { appLink } from '../../lib/app-links';
-const apiOrigin = import.meta.env.PUBLIC_API_ORIGIN || '';
+import { publicApiOrigin as apiOrigin } from '../../lib/public-catalog';
 const products = [
   { label: 'AI Chat', path: '/chat' },
   { label: 'Image workspace', path: '/images' },
@@ -36,7 +36,7 @@ const products = [
           {products.map(product => <a href={appLink(product.path)}>{product.label}</a>)}
         </div>
       </details>
-      <a href={appLink('/#pricing')}>Pricing</a>
+      <a href="#pricing">Pricing</a>
     </div>
     <div class="account-links">
       <a class="sign-in" href={appLink('/login')}>Sign In<FigmaAsset name="square-unlock02" /></a>

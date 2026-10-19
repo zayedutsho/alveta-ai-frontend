@@ -1,0 +1,5 @@
+simulation: alveta-landing
+routing: path
+mocks:
+  - routeKey: alveta
+    path: ../mocks/alveta-public/config.yaml

@@ -56,6 +56,10 @@ Feature source: 1284:667, panels 1284:672 / 727 / 778 / 1007 / 1057. Original SV
 
 Only optimized WebP derivatives are emitted for the original large raster files; originals remain under src/assets. FigmaAsset retains SVG root dimensions; wrapper transforms preserve their effective positions/sizes. Art-stage transforms apply only to decorative geometry, not panel text or layout. Browser checks decode every panel image at all representative widths and check no failing requests or aspect-ratio distortion. Original source/export SVGs and geometric masks are retained alongside the manifest; unused mask exports are not used as invented visual elements.
 
+## Milestone 6 assets
+
+Milestone 6 adds seven original pricing SVGs from `1286:1669`: `pricing-stars` (20px token strip), `pricing-chatgpt`/`pricing-claude`/`pricing-claude1` (16.6667px model icons), `pricing-arrowup01` (18px disclosure, flipped closed), `pricing-icon` (9px check inside a 16px circle), and `pricing-container` (16px unavailable indicator). Metadata is in figma-assets.json; Pricing templates preserve SVG root dimensions. Existing original Gemini artwork is reused through a wrapper transform. Model names, providers, prices, allowances and feature flags come from public APIs rather than Figma placeholders. Header/plan controls and responsive adaptations are derived from the existing application behavior.
+
 ## Milestone 5 assets
 
 Source sections: latest models `1286:1108`, comparison `1286:1259`. Twenty-six original exports total 37,138 bytes. Temporary Figma download URLs are absent from runtime source. All SVGs retain original root dimensions, with fixed illustration coordinates confined to the responsive comparison stage. Text remains native HTML and typed editorial content.

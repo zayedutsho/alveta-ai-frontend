@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures/browser';
 import assets from '../src/content/figma-assets.json' with { type: 'json' };
 
 for (const width of [320, 430, 768, 1024, 1440, 1920]) {

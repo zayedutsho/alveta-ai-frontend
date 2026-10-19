@@ -853,5 +853,40 @@
     "src": "/images/figma/subscription-vector9.svg",
     "width": 115.75,
     "height": 54
+  },
+  "pricing-arrowup01": {
+    "src": "/images/figma/pricing-arrowup01.svg",
+    "width": 18,
+    "height": 18
+  },
+  "pricing-chatgpt": {
+    "src": "/images/figma/pricing-chatgpt.svg",
+    "width": 16.6667,
+    "height": 16.6667
+  },
+  "pricing-claude": {
+    "src": "/images/figma/pricing-claude.svg",
+    "width": 16.6667,
+    "height": 16.6667
+  },
+  "pricing-claude1": {
+    "src": "/images/figma/pricing-claude1.svg",
+    "width": 16.6667,
+    "height": 16.6667
+  },
+  "pricing-container": {
+    "src": "/images/figma/pricing-container.svg",
+    "width": 16,
+    "height": 16
+  },
+  "pricing-icon": {
+    "src": "/images/figma/pricing-icon.svg",
+    "width": 9,
+    "height": 9
+  },
+  "pricing-stars": {
+    "src": "/images/figma/pricing-stars.svg",
+    "width": 20,
+    "height": 20
   }
 }

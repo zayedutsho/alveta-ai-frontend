@@ -1,0 +1,9 @@
+version: 1
+name: alveta-public
+slug: alveta-public
+protocol: http
+interceptRequests: true
+scenarios:
+  - name: default
+    path: ./default.cjs
+    default: true

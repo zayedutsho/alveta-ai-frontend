@@ -1,3 +1,4 @@
+import { loadPublicModels } from '../lib/public-catalog';
 const header = document.querySelector<HTMLElement>('[data-header]');
 const toggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
 const nav = header?.querySelector<HTMLElement>('nav');
@@ -45,13 +46,7 @@ modelMenu?.addEventListener('toggle', async () => {
   modelsLoaded = true;
   status.textContent = 'Loading available models…';
   try {
-    const origin = new URL(modelMenu.dataset.apiOrigin);
-    if (!['http:', 'https:'].includes(origin.protocol)) throw new Error('Invalid API origin');
-    const response = await fetch(new URL('/api/v1/models/public', origin), { signal: AbortSignal.timeout(10000), credentials: 'omit' });
-    if (!response.ok) throw new Error('Model request failed');
-    const data: unknown = await response.json();
-    if (!data || typeof data !== 'object' || !('models' in data) || !Array.isArray(data.models)) throw new Error('Unexpected model response');
-    const names = data.models.flatMap((model: unknown) => model && typeof model === 'object' && 'name' in model && typeof model.name === 'string' ? [model.name] : []);
+    const names = (await loadPublicModels(modelMenu.dataset.apiOrigin)).map(model => model.name);
     for (const name of names) {
       const li = document.createElement('li');
       const link = document.createElement('a');

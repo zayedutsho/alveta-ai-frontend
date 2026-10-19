@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures/browser';
 
 const titles = ['Multi-Agent AI Platform Workspace', 'Flexible Balance & Top-Ups', 'Side-by-Side Model Comparison', 'Private Chat & Vanish Mode', 'Analyze Files. Uncover Insights.'];
 for (const width of [320, 430, 768, 1024, 1440, 1920]) {

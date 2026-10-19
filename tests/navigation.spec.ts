@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures/browser';
 
 test('desktop navigation preserves app routes and accessible dropdowns', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -8,7 +8,7 @@ test('desktop navigation preserves app routes and accessible dropdowns', async (
   await page.evaluate(() => document.fonts.ready);
   await expect(page.getByRole('link', { name: 'Sign In', exact: true })).toHaveAttribute('href', 'https://app.alveta.ai/login');
   await expect(page.getByRole('link', { name: 'Get Started', exact: true })).toHaveAttribute('href', 'https://app.alveta.ai/register');
-  await expect(page.getByRole('link', { name: 'Pricing', exact: true })).toHaveAttribute('href', 'https://app.alveta.ai/#pricing');
+  await expect(page.getByRole('link', { name: 'Pricing', exact: true })).toHaveAttribute('href', '#pricing');
   const products = page.locator('summary').filter({ hasText: 'Products' });
   await products.focus(); await page.keyboard.press('Enter');
   await expect(page.getByRole('link', { name: 'AI Chat', exact: true })).toBeVisible();

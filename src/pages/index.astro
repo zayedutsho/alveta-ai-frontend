@@ -9,6 +9,7 @@ import CustomerLogos from '../components/sections/CustomerLogos.astro';
 import Features from '../components/sections/Features.astro';
 import LatestModels from '../components/sections/LatestModels.astro';
 import SubscriptionComparison from '../components/sections/SubscriptionComparison.astro';
+import Pricing from '../components/sections/Pricing.astro';
 ---
 <MarketingLayout>
   <div class="masthead">
@@ -21,6 +22,7 @@ import SubscriptionComparison from '../components/sections/SubscriptionCompariso
       <Features content={landingContent.features} />
       <LatestModels content={landingContent.models} />
       <SubscriptionComparison content={landingContent.subscriptionComparison} />
+      <Pricing />
     </main>
   </div>
 </MarketingLayout>
