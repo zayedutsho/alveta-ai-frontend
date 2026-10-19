@@ -18,4 +18,3 @@
 @keyframes kf_1284_1000_scale_0 { 0% { scale: 1 1; } 5% { scale: 1.016 1.016; } 10% { scale: 1.064 1.064; } 15% { scale: 1.116 1.116; } 20% { scale: 1.139 1.139; } 21% { scale: 1.14 1.14; } 25% { scale: 1.132 1.132; } 30% { scale: 1.099 1.099; } 35% { scale: 1.05 1.05; } 40% { scale: 1.012 1.012; } 45% { scale: 1 1; } 100% { scale: 1 1; } }
 
 @media (prefers-reduced-motion: reduce) { [data-motion-node] { animation: none !important; } }
-
