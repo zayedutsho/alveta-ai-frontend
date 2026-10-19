@@ -10,16 +10,30 @@ const { content } = Astro.props;
     <ul class="cards" role="list">
       {content.cards.map(card => <li class:list={['card', card.id, { quoted: card.quote }]} data-testimonial={card.id}>
         <div class="art" aria-hidden="true"><div class="arch"></div><div class="portrait"><img {...card.portrait} alt="" loading="lazy" decoding="async" /></div></div>
-        {!card.quote && <div class="shade" aria-hidden="true"></div>}
-        {card.quote ? <figure>
+        <div class="shade" aria-hidden="true"></div>
+        {card.quote ? <details class="reveal" data-testimonial-reveal>
+          <summary aria-label={`Read testimonial from ${card.name}`}><span class="identity"><span class="name">{card.name}</span><span class="role">{card.role}</span></span></summary>
+          <figure>
           <blockquote><p>{card.quote}</p></blockquote>
           <figcaption>{card.avatar && <img {...card.avatar} class="avatar" alt="" loading="lazy" decoding="async" />}<div><h3>{card.name}</h3><p>{card.role}</p></div></figcaption>
-        </figure> : <div class="identity"><h3>{card.name}</h3><p>{card.role}</p></div>}
+        </figure></details> : <div class="identity"><h3>{card.name}</h3><p>{card.role}</p></div>}
       </li>)}
     </ul>
     <p class="preview-notice" id="testimonials-preview">{content.notice}</p>
   </div>
 </section>
+<script>
+  document.querySelectorAll<HTMLDetailsElement>('[data-testimonial-reveal]').forEach(details => {
+    const summary = details.querySelector('summary')!;
+    details.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') details.open = true; });
+    details.addEventListener('pointerleave', event => {
+      if (event.pointerType === 'mouse' && !summary.matches(':focus-visible')) details.open = false;
+    });
+    summary.addEventListener('focus', () => { if (summary.matches(':focus-visible')) details.open = true; });
+    details.addEventListener('focusout', event => { if (!details.contains(event.relatedTarget as Node)) details.open = false; });
+    details.addEventListener('keydown', event => { if (event.key === 'Escape') { details.open = false; event.preventDefault(); } });
+  });
+</script>
 <style>
   .testimonials { position: relative; isolation: isolate; margin-top: 100px; padding-block: 100px 56px; background: var(--color-primary-wash); }
   .decoration { position: absolute; inset: 0; overflow: hidden; z-index: -1; pointer-events: none; }
@@ -42,8 +56,15 @@ const { content } = Astro.props;
   .sumon .portrait { left: -30.5%; top: 13%; width: 160.64%; aspect-ratio: 1; }
   .shade { position: absolute; inset: 0; background: linear-gradient(transparent 35%, rgb(56 14 135 / 50%) 70%, rgb(22 3 63 / 70%)); backdrop-filter: blur(15px); mask-image: linear-gradient(transparent 35%, black 80%); }
   .identity { position: absolute; z-index: 1; left: 24px; right: 16px; top: 80%; color: var(--color-white); }
-  h3 { margin: 0; font-size: 20px; line-height: 1; font-weight: 500; }
-  .identity p { margin-top: 8px; font-size: 16px; line-height: 1.5; color: var(--color-primary-wash); }
+  h3, .name { display: block; margin: 0; font-size: 20px; line-height: 1; font-weight: 500; }
+  .identity p, .role { display: block; margin-top: 8px; font-size: 16px; line-height: 1.5; color: var(--color-primary-wash); }
+  .reveal { position: absolute; inset: 0; }
+  summary { position: absolute; inset: 0; list-style: none; cursor: pointer; z-index: 2; }
+  summary::-webkit-details-marker { display: none; }
+  summary:focus-visible { outline-offset: -4px; border-radius: var(--radius-md); }
+  .reveal[open] summary .identity { visibility: hidden; }
+  .reveal figure { position: absolute; inset: 0; animation: reveal 180ms ease-out; }
+  @keyframes reveal { from { opacity: 0; } to { opacity: 1; } }
   figure { margin: 0; height: 100%; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; background: rgb(0 3 62 / 60%); backdrop-filter: blur(15px); color: #fdfdfd; }
   blockquote { margin: 0; font-size: 18px; line-height: 1.35; }
   figcaption { display: flex; align-items: center; gap: 12px; }
