@@ -69,6 +69,136 @@
     "width": 31.9304,
     "height": 31.9304
   },
+  "customer-amazon": {
+    "src": "/images/figma/customer-amazon.svg",
+    "width": 83.9999,
+    "height": 27.9998
+  },
+  "customer-cisco": {
+    "src": "/images/figma/customer-cisco.svg",
+    "width": 54,
+    "height": 28
+  },
+  "customer-cmt": {
+    "src": "/images/figma/customer-cmt.svg",
+    "width": 64.2158,
+    "height": 28
+  },
+  "customer-ericsson": {
+    "src": "/images/figma/customer-ericsson.svg",
+    "width": 139.341,
+    "height": 28
+  },
+  "customer-fedex": {
+    "src": "/images/figma/customer-fedex.svg",
+    "width": 91,
+    "height": 28
+  },
+  "customer-lightspeed": {
+    "src": "/images/figma/customer-lightspeed.svg",
+    "width": 119,
+    "height": 28
+  },
+  "customer-mobile-0": {
+    "src": "/images/figma/customer-mobile-0.svg",
+    "width": 39.6722,
+    "height": 12.1533
+  },
+  "customer-mobile-1": {
+    "src": "/images/figma/customer-mobile-1.svg",
+    "width": 45.5818,
+    "height": 12.205
+  },
+  "customer-mobile-10": {
+    "src": "/images/figma/customer-mobile-10.svg",
+    "width": 36.5401,
+    "height": 12.18
+  },
+  "customer-mobile-11": {
+    "src": "/images/figma/customer-mobile-11.svg",
+    "width": 60.6134,
+    "height": 12.18
+  },
+  "customer-mobile-12": {
+    "src": "/images/figma/customer-mobile-12.svg",
+    "width": 45.5818,
+    "height": 12.205
+  },
+  "customer-mobile-13": {
+    "src": "/images/figma/customer-mobile-13.svg",
+    "width": 50.4601,
+    "height": 12.18
+  },
+  "customer-mobile-14": {
+    "src": "/images/figma/customer-mobile-14.svg",
+    "width": 23.4913,
+    "height": 12.18
+  },
+  "customer-mobile-15": {
+    "src": "/images/figma/customer-mobile-15.svg",
+    "width": 52.2002,
+    "height": 12.18
+  },
+  "customer-mobile-16": {
+    "src": "/images/figma/customer-mobile-16.svg",
+    "width": 27.9339,
+    "height": 12.18
+  },
+  "customer-mobile-2": {
+    "src": "/images/figma/customer-mobile-2.svg",
+    "width": 52.2002,
+    "height": 12.1801
+  },
+  "customer-mobile-3": {
+    "src": "/images/figma/customer-mobile-3.svg",
+    "width": 50.46,
+    "height": 12.18
+  },
+  "customer-mobile-4": {
+    "src": "/images/figma/customer-mobile-4.svg",
+    "width": 51.765,
+    "height": 12.18
+  },
+  "customer-mobile-5": {
+    "src": "/images/figma/customer-mobile-5.svg",
+    "width": 60.6134,
+    "height": 12.18
+  },
+  "customer-mobile-6": {
+    "src": "/images/figma/customer-mobile-6.svg",
+    "width": 36.5399,
+    "height": 12.1799
+  },
+  "customer-mobile-7": {
+    "src": "/images/figma/customer-mobile-7.svg",
+    "width": 27.9339,
+    "height": 12.18
+  },
+  "customer-mobile-8": {
+    "src": "/images/figma/customer-mobile-8.svg",
+    "width": 39.6722,
+    "height": 12.1533
+  },
+  "customer-mobile-9": {
+    "src": "/images/figma/customer-mobile-9.svg",
+    "width": 51.765,
+    "height": 12.18
+  },
+  "customer-nexthink": {
+    "src": "/images/figma/customer-nexthink.svg",
+    "width": 105,
+    "height": 28
+  },
+  "customer-verifone": {
+    "src": "/images/figma/customer-verifone.svg",
+    "width": 116,
+    "height": 28
+  },
+  "customer-xplor-pay": {
+    "src": "/images/figma/customer-xplor-pay.svg",
+    "width": 120,
+    "height": 28
+  },
   "filter-horizontal": {
     "src": "/images/figma/filter-horizontal.svg",
     "width": 24,

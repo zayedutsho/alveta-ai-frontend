@@ -1,0 +1,26 @@
+---
+import type { CustomerLogosContent } from '../../types/content';
+import ResponsiveAsset from '../common/ResponsiveAsset.astro';
+interface Props { content: CustomerLogosContent; }
+const { content } = Astro.props;
+const names = [...new Set(content.rows.flat().map(logo => logo.name))];
+---
+<section class="customer-logos" aria-label={content.label} data-customer-logos>
+  <ul class="sr-only">{names.map(name => <li>{name}</li>)}</ul>
+  <div class="logo-rows container" aria-hidden="true">
+    {content.rows.map(row => <div class="logo-row">{row.map(logo => (
+      <div class="logo-tile"><ResponsiveAsset name={logo.asset} mobile={logo.mobileAsset} /></div>
+    ))}</div>)}
+  </div>
+</section>
+<style>
+  .customer-logos { margin-top: 70px; overflow: clip; }
+  .logo-rows { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+  .logo-row { display: flex; min-width: 0; width: 100%; justify-content: center; align-items: center; gap: var(--space-6); }
+  .logo-tile { display: grid; place-items: center; flex: 0 0 186px; height: 88px; padding: 20px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: #fafaf9; }
+  @media (max-width: 767px) {
+    .customer-logos { margin-top: 36px; }
+    .logo-rows, .logo-row { gap: 10.44px; }
+    .logo-tile { flex-basis: 80px; height: 36px; padding: 8.7px; border-width: .435px; border-radius: 3.48px; }
+  }
+</style>

@@ -15,4 +15,11 @@ export const landingContent: LandingContent = {
     placeholder: 'Ask me anything',
     ctaLabel: 'Generate',
   },
+  customerLogos: {
+    label: 'Customer logos',
+    rows: [
+      ['FedEx', 'Nexthink', 'Xplor Pay', 'Verifone', 'Lightspeed', 'Ericsson', 'Amazon', 'CMT'].map((name, index) => ({ name, asset: ['fedex', 'nexthink', 'xplor-pay', 'verifone', 'lightspeed', 'ericsson', 'amazon', 'cmt'].map(value => `customer-${value}`)[index]!, mobileAsset: `customer-mobile-${index}` })),
+      ['FedEx', 'Lightspeed', 'Amazon', 'Ericsson', 'Nexthink', 'Verifone', 'Cisco', 'Xplor Pay', 'CMT'].map((name, index) => ({ name, asset: ['fedex', 'lightspeed', 'amazon', 'ericsson', 'nexthink', 'verifone', 'cisco', 'xplor-pay', 'cmt'].map(value => `customer-${value}`)[index]!, mobileAsset: `customer-mobile-${index + 8}` })),
+    ],
+  },
 };
