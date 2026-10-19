@@ -1,11 +1,14 @@
 ---
 import '@fontsource/faculty-glyphic/latin-400.css';
+import heroFont from '@fontsource/faculty-glyphic/files/faculty-glyphic-latin-400-normal.woff2?url';
 import '../styles/global.css';
+import { appLink } from '../lib/app-links';
 interface Props { title?: string; description?: string; }
 const { title = 'Alveta.ai — All the Best AI Models, One Place', description = 'Bring your AI workflow together in one place. Access multiple models, compare their responses, and choose the perspective that works for you.' } = Astro.props;
 const siteOrigin = import.meta.env.PUBLIC_SITE_ORIGIN;
 const canonical = siteOrigin ? new URL(Astro.url.pathname, siteOrigin) : undefined;
 const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true' && Boolean(canonical);
+const socialImage = siteOrigin ? new URL('/OpenGraphbanner.png', siteOrigin).href : appLink('/OpenGraphbanner.png');
 ---
 <!doctype html>
 <html lang="en">
@@ -20,9 +23,16 @@ const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true' && Boolean(canonic
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Alveta.ai" />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Alveta.ai — All Your AI Tools in One Subscription" />
     {canonical && <meta property="og:url" content={canonical} />}
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preload" href="/fonts/inter-display-regular.ttf" as="font" type="font/ttf" crossorigin />
+    <meta name="twitter:image" content={socialImage} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/inter-display-regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={heroFont} as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>

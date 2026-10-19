@@ -179,6 +179,96 @@
     "width": 24,
     "height": 24
   },
+  "mobile-add-money-circle": {
+    "src": "/images/figma/mobile-add-money-circle.svg",
+    "width": 24,
+    "height": 24
+  },
+  "mobile-ai-browser": {
+    "src": "/images/figma/mobile-ai-browser.svg",
+    "width": 24,
+    "height": 24
+  },
+  "mobile-ai-image-edit": {
+    "src": "/images/figma/mobile-ai-image-edit.svg",
+    "width": 24,
+    "height": 24
+  },
+  "mobile-ai-programming": {
+    "src": "/images/figma/mobile-ai-programming.svg",
+    "width": 24,
+    "height": 24
+  },
+  "mobile-ai-sparkles": {
+    "src": "/images/figma/mobile-ai-sparkles.svg",
+    "width": 20,
+    "height": 20
+  },
+  "mobile-ai-video": {
+    "src": "/images/figma/mobile-ai-video.svg",
+    "width": 24,
+    "height": 24
+  },
+  "mobile-ai-voice": {
+    "src": "/images/figma/mobile-ai-voice.svg",
+    "width": 24,
+    "height": 24
+  },
+  "mobile-arrow-down01": {
+    "src": "/images/figma/mobile-arrow-down01.svg",
+    "width": 20,
+    "height": 20
+  },
+  "mobile-arrow-down2": {
+    "src": "/images/figma/mobile-arrow-down2.svg",
+    "width": 20,
+    "height": 20
+  },
+  "mobile-chat-gpt": {
+    "src": "/images/figma/mobile-chat-gpt.svg",
+    "width": 28.3826,
+    "height": 28.3826
+  },
+  "mobile-line10": {
+    "src": "/images/figma/mobile-line10.svg",
+    "width": 16,
+    "height": 1.5
+  },
+  "mobile-line9": {
+    "src": "/images/figma/mobile-line9.svg",
+    "width": 12,
+    "height": 1
+  },
+  "mobile-mic01": {
+    "src": "/images/figma/mobile-mic01.svg",
+    "width": 20,
+    "height": 20
+  },
+  "mobile-plus": {
+    "src": "/images/figma/mobile-plus.svg",
+    "width": 20,
+    "height": 20
+  },
+  "mobile-robotic": {
+    "src": "/images/figma/mobile-robotic.svg",
+    "width": 20,
+    "height": 20
+  },
+  "mobile-telescope01": {
+    "src": "/images/figma/mobile-telescope01.svg",
+    "width": 20,
+    "height": 20
+  },
+  "mobile-vector": {
+    "src": "/images/figma/mobile-vector.svg",
+    "width": 32,
+    "height": 18
+  },
+  "mobile-wand-sparkles": {
+    "src": "/images/figma/mobile-wand-sparkles.svg",
+    "width": 20,
+    "height": 20
+  },
   "plus": {
     "src": "/images/figma/plus.svg",
     "width": 24,

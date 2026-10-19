@@ -1,0 +1,12 @@
+---
+import FigmaAsset from './FigmaAsset.astro';
+interface Props { name: string; mobile?: string; }
+const { name, mobile = `mobile-${name}` } = Astro.props;
+---
+<span class="desktop-asset"><FigmaAsset name={name} /></span>
+<span class="mobile-asset"><FigmaAsset name={mobile} /></span>
+<style>
+  .desktop-asset, .mobile-asset { display: grid; place-items: center; }
+  .mobile-asset { display: none; }
+  @media (max-width: 767px) { .desktop-asset { display: none; } .mobile-asset { display: grid; } }
+</style>

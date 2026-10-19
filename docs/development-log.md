@@ -24,5 +24,23 @@
 - Optional public Models loader uses the audited endpoint/response, no auth tokens, timeout/error/empty states and retry on reopen. With API origin unset, menu offers signup instead of inventing API settings. No live backend was contacted.
 - Local typed editorial data prepares the later Sanity boundary. SVG dimensions are captured in a static manifest, avoiding runtime filesystem dependencies and retaining original exports.
 - Validation: production build and Astro Check pass. Three Chromium tests pass (desktop routes/dropdown keyboard, mobile disclosure/Escape/outside click, announcement dismissal/focus). Desktop/mobile screenshots inspected against Figma header geometry. Test selector was corrected to account for the accessible button label changing when expanded.
-- Commit reference: `feat: implement responsive Figma header and application navigation` (hash recorded after commit).
+- Commit: `5dc43dc` — `feat: implement responsive Figma header and application navigation`.
 - Remaining: endpoint/CORS must be configured and live model flow verified before production; full auth redirect parity, tracking and cross-domain attribution remain later integration work. No new Resources destination was invented for the hidden Figma layer.
+
+## Milestone 3 — Hero
+
+- Implemented Faculty Glyphic headline, responsive copy, five tool entry points, original layered/masked wing/dot/glow artwork, assistant link, model-logo picker, prompt input, comparison checkbox and Generate signup action. Desktop uses the measured 780px workspace and 670px copy width. Updated mobile context supplies distinct 24px icons and compact toolbar. Layout under 390px and tablet behavior are derived and documented.
+- Original desktop and mobile SVGs remain local with original root dimensions; asset-to-node/callsite mapping is in asset-manifest.md. Desktop 1440 and mobile 430 screenshots were visually inspected; no whole-page screenshot or invented replacement artwork is shipped. This is not a claim of pixel-perfect accuracy.
+- Hero/header motion context returned no animated nodes. The previously discovered 4s feature animations remain outside scope. CSS transitions respect reduced motion. Prompt submission preserves signup behavior without transmitting/saving entered text; the design credit balance is explicitly labeled illustrative for assistive technology. No AI generation or billing contract was invented.
+- Converted Inter Display to WOFF2: 813868 bytes total TTF → 272940 bytes total WOFF2 (~66% smaller). Original copied TTFs are ignored outside public; compressed files and both font licenses are tracked. Faculty Glyphic is locally bundled and preloaded. Existing social image/favicon are preserved; noindex remains the default for this partial page.
+- Intentional accessibility deviation: Beta badge uses black text on the original pink gradient. White contrast ranges approximately 1.65–4.36:1; black starts at 4.81:1. Interactive textarea replaces the drawn placeholder/cursor; no typewriter animation is invented.
+- Final validation: Astro Check reports zero errors/warnings/hints, production static build succeeds, and all 12 Chromium tests pass with exit code 0. Viewports: 320/375/430/768/1024/1440/1920. Tests cover no overflow, no broken/failed assets or page errors, application route targets, keyboard dropdown/menu dismissal/focus return, reduced motion, comparison input, and no prompt persistence/transmission. Local screenshots: .work/validation/hero-{320,430,768,1024,1440}.png. Browser tests now start Astro directly to avoid a nested npm preview process lingering on Windows.
+- Commit reference: `feat: implement responsive Figma hero with original assets` (hash recorded after commit).
+
+## Review boundary and outstanding integration
+
+Stop after Milestone 3. No customer-logo strip, feature panels, pricing section, testimonials, FAQ, articles, closing CTA, footer, separate 02_Pricing page or full Sanity integration was implemented. No feature branch push, merge or deployment was performed.
+
+Confirm production/staging origins, API/CORS and authoritative integration destinations before enabling live traffic. The optional Models loader has not been checked against the real backend. Authenticated-home redirect across origins, tracking migration/cross-domain attribution, consent/cookie-preferences behavior and live contact/checkout flows remain unverified; the existing application owns and retains those routes. The new partial marketing page is not ready to replace production by itself. Full Sanity schemas, dataset, published queries, preview and rebuild hook belong to the later CMS milestone.
+
+Recommended next milestone after review: customer-logo strip and five feature panels in desktop 02 order, with the specified feature motion and responsive adaptations. Continue CMS work only when that milestone is approved.

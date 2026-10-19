@@ -6,7 +6,7 @@ export default defineConfig({
   workers: 1,
   use: { baseURL: 'http://127.0.0.1:4321', browserName: 'chromium', headless: true },
   webServer: {
-    command: 'npm run preview -- --port 4321',
+    command: 'node node_modules/astro/bin/astro.mjs preview --host 127.0.0.1 --port 4321',
     url: 'http://127.0.0.1:4321',
     reuseExistingServer: false,
     timeout: 30000,

@@ -1,0 +1,164 @@
+---
+import FigmaAsset from '../common/FigmaAsset.astro';
+import ResponsiveAsset from '../common/ResponsiveAsset.astro';
+import type { HeroContent } from '../../types/content';
+import { appLink } from '../../lib/app-links';
+interface Props { content: HeroContent; }
+const { content } = Astro.props;
+const signup = appLink('/register');
+const modes = [
+  { icon: 'ai-browser', label: 'AI chat' },
+  { icon: 'ai-image-edit', label: 'AI images' },
+  { icon: 'ai-programming', label: 'AI coding' },
+  { icon: 'ai-voice', label: 'AI voice tools' },
+  { icon: 'ai-video', label: 'AI video tools' },
+];
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <h1 id="hero-title"><span>{content.heading[0]}</span><span>{content.heading[1]}</span></h1>
+    <p>{content.description}</p>
+  </div>
+  <div class="hero-workspace">
+    <div class="modes" role="group" aria-label="Explore AI tools">
+      {modes.map((mode, index) => (
+        <div class:list={['mode-slot', { selected: index === 0 }]}>
+          <a class="mode" href={signup} aria-label={`Sign up for ${mode.label}`}><ResponsiveAsset name={mode.icon} /></a>
+          {index === 0 && <span class="mode-pointer"><ResponsiveAsset name="vector" /></span>}
+        </div>
+      ))}
+    </div>
+    <form class="composer" action={signup} method="get" aria-label="Start using Alveta" data-composer>
+      <div class="composer-header">
+        <a class="assistant" href={signup} aria-label="Sign up to choose an AI assistant">
+          <ResponsiveAsset name="robotic" /><span>General Assistance</span>
+          <span class="separator small"><ResponsiveAsset name="line9" /></span>
+          <ResponsiveAsset name="arrow-down01" />
+        </a>
+        <span class="credits" title="Illustrative balance. Your balance is available in your account." aria-label="Example credit balance: 200"><ResponsiveAsset name="add-money-circle" /><span>200</span></span>
+      </div>
+      <div class="prompt-panel">
+        <div class="prompt-row">
+          <label for="hero-prompt" class="sr-only">Your prompt</label>
+          <textarea id="hero-prompt" rows="1" maxlength="4000" placeholder={content.placeholder} aria-describedby="signup-note"></textarea>
+          <a href={signup} aria-label="Sign up to improve your prompt" class="prompt-enhance"><ResponsiveAsset name="wand-sparkles" /></a>
+        </div>
+        <div class="composer-toolbar">
+          <div class="tools-left">
+            <a href={signup} class="round-control" aria-label="Sign up to attach a file"><ResponsiveAsset name="plus" /></a>
+            <span class="separator"><ResponsiveAsset name="line10" /></span>
+            <a href={signup} class="round-control mobile-search" aria-label="Sign up to research with AI"><FigmaAsset name="mobile-telescope01" /></a>
+            <a href={signup} class="model-picker" aria-label="Sign up to select from multiple AI models">
+              <span class="model-logos" aria-hidden="true">
+                <span class="provider openai"><ResponsiveAsset name="chat-gpt" /></span>
+                <span class="provider gemini"><span class="gemini-asset"><FigmaAsset name="logo" /></span></span>
+                <span class="provider claude"><FigmaAsset name="claude" /></span>
+                <span class="provider copilot"><FigmaAsset name="logo1" /></span>
+              </span>
+              <span class="model-count">4+</span><span class="separator"><ResponsiveAsset name="line10" /></span><ResponsiveAsset name="arrow-down2" />
+            </a>
+            <a href={signup} class="round-control desktop-filters" aria-label="Sign up to configure AI settings"><FigmaAsset name="filter-horizontal" /></a>
+          </div>
+          <div class="tools-right">
+            <label class="compare"><span class="compare-label">Compare</span><input type="checkbox" aria-label="Compare AI model responses" /><span class="switch" aria-hidden="true"></span></label>
+            <a href={signup} class="microphone" aria-label="Sign up to use voice input"><ResponsiveAsset name="mic01" /></a>
+            <button type="submit" class="generate" aria-label="Generate — sign up to continue"><span>{content.ctaLabel}</span><ResponsiveAsset name="ai-sparkles" /></button>
+          </div>
+        </div>
+      </div>
+      <p id="signup-note" class="sr-only">Create an account to generate a response. This preview does not send or save your prompt.</p>
+    </form>
+  </div>
+</section>
+<style>
+  .hero { width: min(780px, calc(100% - var(--gutter) * 2)); margin-inline: auto; padding-top: 100px; padding-bottom: 140px; }
+  .hero-copy { width: min(670px, 100%); margin-inline: auto; text-align: center; }
+  h1 { color: var(--color-heading); font-family: var(--font-hero); font-size: 46px; line-height: normal; font-weight: 400; text-box: trim-both cap alphabetic; }
+  h1 span { display: block; }
+  .hero-copy p { margin-top: 24px; font-size: 18px; line-height: 1.35; color: var(--color-paragraph); }
+  .hero-workspace { margin-top: 32px; }
+  .modes { display: flex; align-items: flex-start; justify-content: center; gap: 12px; height: 68px; }
+  .mode-slot { position: relative; width: 52px; flex: 0 0 52px; }
+  .mode-slot.selected { width: 48px; flex-basis: 48px; }
+  .mode { position: relative; display: grid; place-items: center; width: 52px; height: 52px; border: 2px solid white; border-radius: 99px; background: var(--color-primary-wash); box-shadow: var(--shadow-nav); transition: box-shadow .18s; }
+  .mode:hover { box-shadow: 0 2px 12px #7d52f44d; }
+  .selected .mode { background: var(--color-primary); margin-left: -2px; }
+  .mode-pointer { position: absolute; left: 8px; top: 50.25px; }
+  .composer { position: relative; border: 1.5px solid transparent; border-radius: 24px; padding: 10px; background: linear-gradient(#fcfcfc, #fcfcfc) padding-box, linear-gradient(110deg, #f7bf6f, #ffc4e7) border-box; box-shadow: var(--shadow-nav); }
+  .composer-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .assistant { display: flex; align-items: center; justify-content: center; gap: 8px; height: 44px; padding: 10px 16px; border: 1.5px solid var(--color-border); background: var(--color-surface); border-radius: 99px; color: var(--color-muted); box-shadow: var(--shadow-card); white-space: nowrap; }
+  .credits { display: flex; align-items: center; gap: 6px; padding-right: 8px; color: var(--color-paragraph); }
+  .prompt-panel { margin-top: 12px; border: 1.5px solid var(--color-border); border-radius: 20px; padding: 12px; background: white; box-shadow: var(--shadow-card); }
+  .prompt-row { display: flex; align-items: flex-start; gap: 12px; min-height: 24px; }
+  textarea { flex: 1; width: 100%; min-width: 0; height: 24px; min-height: 24px; max-height: 120px; padding: 0; border: 0; resize: none; background: transparent; line-height: 24px; color: var(--color-heading); }
+  textarea::placeholder { color: var(--color-muted); opacity: 1; }
+  .prompt-enhance { display: grid; place-items: center; }
+  .composer-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 36px; }
+  .tools-left, .tools-right { display: flex; align-items: center; }
+  .tools-left { gap: 12px; }
+  .tools-right { gap: 20px; }
+  .round-control { display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid var(--color-border); border-radius: 99px; background: var(--color-surface); }
+  .separator { display: grid; place-items: center; width: 0; height: 16px; }
+  .separator :global(img) { transform: rotate(90deg); }
+  .small { height: 12px; }
+  .model-picker { display: flex; align-items: center; gap: 8px; padding: 4px 12px 4px 4px; border: 1px solid var(--color-border); border-radius: 99px; background: var(--color-surface); }
+  .model-logos { display: flex; align-items: center; }
+  .provider { position: relative; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 99px; overflow: clip; }
+  .provider:not(:last-child) { margin-right: -18px; }
+  .openai { background: #111; }
+  .gemini, .copilot { background: white; }
+  .claude { background: #f0eee5; }
+  .gemini-asset { position: absolute; left: 50%; top: 50%; width: 112px; height: 112px; transform: translate(-50%, -50%) scale(.224); }
+  .compare { position: relative; display: flex; align-items: center; gap: 8px; font-size: 14px; letter-spacing: .42px; color: var(--color-paragraph); cursor: pointer; min-height: 44px; }
+  .compare input { position: absolute; opacity: 0; width: 100%; height: 100%; inset: 0; margin: 0; cursor: pointer; }
+  .switch { display: block; width: 44px; height: 24px; border-radius: 33px; background: #eaeaea; padding: 2px; transition: background .18s; }
+  .switch::after { content: ''; display: block; width: 20px; height: 20px; border-radius: 50%; background: white; transition: transform .18s; }
+  .compare input:checked + .switch { background: var(--color-primary); }
+  .compare input:checked + .switch::after { transform: translateX(20px); }
+  .compare input:focus-visible + .switch { outline: 3px solid var(--color-primary-deep); outline-offset: 3px; }
+  .microphone { display: grid; place-items: center; }
+  .generate { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 8px 20px; border: 0; border-radius: 99px; background: var(--color-primary-deep); color: white; box-shadow: 0 3px 3px -1.5px #07011308, inset 0 1px 2px -.5px #ffffff1f, inset 0 8px 24px -4px #ffffff29; transition: background .18s; }
+  .generate:hover { background: var(--color-primary-darkest); }
+  .round-control:hover, .assistant:hover, .model-picker:hover { background: var(--color-primary-wash); }
+  .mobile-search { display: none; }
+  @media (max-width: 900px) and (min-width: 768px) { .hero { padding-top: 80px; } }
+  @media (max-width: 767px) {
+    .hero { padding-top: 33px; padding-bottom: 24px; }
+    h1 { font-size: 32px; line-height: 38px; text-box: normal; }
+    .hero-copy p { margin-top: 12px; font-size: 14px; line-height: 1.4; }
+    .hero-workspace { margin-top: 24px; }
+    .modes { gap: 8px; }
+    .composer { padding: 8px; border-radius: 16px; }
+    .assistant { height: 40px; font-size: 14px; padding: 10px 12px; gap: 6px; }
+    .credits { font-size: 14px; letter-spacing: .42px; }
+    .prompt-panel { padding: 8px; box-shadow: none; }
+    textarea { font-size: 12px; line-height: 20px; height: 20px; min-height: 20px; }
+    .prompt-row { min-height: 20px; }
+    .composer-toolbar { margin-top: 20px; gap: 8px; }
+    .tools-left { gap: 8px; }
+    .tools-right { gap: 10px; }
+    .round-control { width: 40px; height: 40px; flex-shrink: 0; }
+    .mobile-search { display: grid; }
+    .desktop-filters { display: none; }
+    .model-picker { padding: 4px 12px 4px 4px; gap: 8px; }
+    .provider { width: 32px; height: 32px; }
+    .provider:not(.openai) { display: none; }
+    .provider.openai { margin-right: 0; }
+    .compare-label { display: none; }
+    .compare { min-height: 40px; }
+    .switch { width: 36.667px; height: 20px; padding: 1.667px; }
+    .switch::after { width: 16.667px; height: 16.667px; }
+    .compare input:checked + .switch::after { transform: translateX(16.667px); }
+    .generate { min-height: 40px; width: 40px; padding: 10px; background: var(--color-primary-darkest); }
+    .generate > span { display: none; }
+  }
+  @media (max-width: 390px) {
+    h1 { font-size: clamp(24px, 7.45vw, 29px); line-height: 1.2; }
+    .assistant { gap: 4px; padding-inline: 8px; font-size: 12px; }
+    .composer-toolbar { flex-wrap: wrap; justify-content: space-between; row-gap: 12px; }
+    .mobile-search { display: none; }
+    .model-picker { gap: 5px; padding-right: 8px; }
+    .tools-left { gap: 6px; }
+    .tools-right { gap: 7px; }
+  }
+</style>

@@ -3,9 +3,18 @@ import MarketingLayout from '../layouts/MarketingLayout.astro';
 import Announcement from '../components/layout/Announcement.astro';
 import Header from '../components/layout/Header.astro';
 import { landingContent } from '../content/landing';
+import Hero from '../components/sections/Hero.astro';
+import HeroBackground from '../components/sections/HeroBackground.astro';
 ---
 <MarketingLayout>
-  <Announcement content={landingContent.announcement} />
-  <Header />
-  <main id="main" tabindex="-1"></main>
+  <div class="masthead">
+    <HeroBackground />
+    <Announcement content={landingContent.announcement} />
+    <Header />
+    <main id="main" tabindex="-1"><Hero content={landingContent.hero} /></main>
+  </div>
 </MarketingLayout>
+<style>
+  .masthead { position: relative; isolation: isolate; min-height: 855px; }
+  @media (max-width: 767px) { .masthead { min-height: 569px; } }
+</style>
