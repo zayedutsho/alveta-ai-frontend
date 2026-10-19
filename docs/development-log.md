@@ -35,7 +35,7 @@
 - Converted Inter Display to WOFF2: 813868 bytes total TTF → 272940 bytes total WOFF2 (~66% smaller). Original copied TTFs are ignored outside public; compressed files and both font licenses are tracked. Faculty Glyphic is locally bundled and preloaded. Existing social image/favicon are preserved; noindex remains the default for this partial page.
 - Intentional accessibility deviation: Beta badge uses black text on the original pink gradient. White contrast ranges approximately 1.65–4.36:1; black starts at 4.81:1. Interactive textarea replaces the drawn placeholder/cursor; no typewriter animation is invented.
 - Final validation: Astro Check reports zero errors/warnings/hints, production static build succeeds, and all 12 Chromium tests pass with exit code 0. Viewports: 320/375/430/768/1024/1440/1920. Tests cover no overflow, no broken/failed assets or page errors, application route targets, keyboard dropdown/menu dismissal/focus return, reduced motion, comparison input, and no prompt persistence/transmission. Local screenshots: .work/validation/hero-{320,430,768,1024,1440}.png. Browser tests now start Astro directly to avoid a nested npm preview process lingering on Windows.
-- Commit reference: `feat: implement responsive Figma hero with original assets` (hash recorded after commit).
+- Commit: `33da668` — `feat: implement responsive Figma hero with original assets`.
 
 ## Review boundary and outstanding integration
 
