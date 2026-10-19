@@ -723,5 +723,135 @@
     "src": "/images/figma/wand-sparkles.svg",
     "width": 24,
     "height": 24
+  },
+  "model-arrow-down-left01": {
+    "src": "/images/figma/model-arrow-down-left01.svg",
+    "width": 24,
+    "height": 24
+  },
+  "model-devicon-claude": {
+    "src": "/images/figma/model-devicon-claude.svg",
+    "width": 32,
+    "height": 32
+  },
+  "model-gemini": {
+    "src": "/images/figma/model-gemini.png",
+    "width": 32,
+    "height": 32
+  },
+  "model-logos-grok-icon": {
+    "src": "/images/figma/model-logos-grok-icon.svg",
+    "width": 33.09,
+    "height": 33.09
+  },
+  "model-thesvg-color-openai-chatgpt": {
+    "src": "/images/figma/model-thesvg-color-openai-chatgpt.svg",
+    "width": 32,
+    "height": 32
+  },
+  "subscription-alveta": {
+    "src": "/images/figma/subscription-alveta.png",
+    "width": 74,
+    "height": 74
+  },
+  "subscription-bg": {
+    "src": "/images/figma/subscription-bg.svg",
+    "width": 1200,
+    "height": 496
+  },
+  "subscription-gemini": {
+    "src": "/images/figma/subscription-gemini.png",
+    "width": 32,
+    "height": 32
+  },
+  "subscription-icon": {
+    "src": "/images/figma/subscription-icon.svg",
+    "width": 31.9922,
+    "height": 31.9922
+  },
+  "subscription-icon1": {
+    "src": "/images/figma/subscription-icon1.svg",
+    "width": 31.9922,
+    "height": 31.9922
+  },
+  "subscription-icon2": {
+    "src": "/images/figma/subscription-icon2.svg",
+    "width": 31.9922,
+    "height": 31.9922
+  },
+  "subscription-icon3": {
+    "src": "/images/figma/subscription-icon3.svg",
+    "width": 31.9922,
+    "height": 31.9922
+  },
+  "subscription-kimi": {
+    "src": "/images/figma/subscription-kimi.png",
+    "width": 32,
+    "height": 32
+  },
+  "subscription-line70": {
+    "src": "/images/figma/subscription-line70.svg",
+    "width": 172,
+    "height": 1.5
+  },
+  "subscription-line71": {
+    "src": "/images/figma/subscription-line71.svg",
+    "width": 150,
+    "height": 1.5
+  },
+  "subscription-line74": {
+    "src": "/images/figma/subscription-line74.svg",
+    "width": 171,
+    "height": 1.5
+  },
+  "subscription-line75": {
+    "src": "/images/figma/subscription-line75.svg",
+    "width": 131,
+    "height": 1.5
+  },
+  "subscription-vector10": {
+    "src": "/images/figma/subscription-vector10.svg",
+    "width": 100,
+    "height": 60.0002
+  },
+  "subscription-vector11": {
+    "src": "/images/figma/subscription-vector11.svg",
+    "width": 115.75,
+    "height": 54
+  },
+  "subscription-vector12": {
+    "src": "/images/figma/subscription-vector12.svg",
+    "width": 89.0002,
+    "height": 60.0002
+  },
+  "subscription-vector13": {
+    "src": "/images/figma/subscription-vector13.svg",
+    "width": 63.2502,
+    "height": 45.5002
+  },
+  "subscription-vector14": {
+    "src": "/images/figma/subscription-vector14.svg",
+    "width": 122.5,
+    "height": 62.5001
+  },
+  "subscription-vector6": {
+    "src": "/images/figma/subscription-vector6.svg",
+    "width": 196,
+    "height": 118.5
+  },
+  "subscription-vector7": {
+    "src": "/images/figma/subscription-vector7.svg",
+    "width": 122.5,
+    "height": 60.0001
+  },
+  "subscription-vector8": {
+    "src": "/images/figma/subscription-vector8.svg",
+    "width": 115.75,
+    "height": 54
+  },
+  "subscription-vector9": {
+    "src": "/images/figma/subscription-vector9.svg",
+    "width": 115.75,
+    "height": 54
   }
 }

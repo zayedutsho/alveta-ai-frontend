@@ -1,6 +1,8 @@
 import type { LandingContent } from '../types/content';
 import { appLink } from '../lib/app-links';
 import { featuresContent } from './features';
+import { modelsContent } from './models';
+import { subscriptionComparisonContent } from './subscription-comparison';
 
 /** Figma copy; later replaced by the published Sanity content normalizer. */
 export const landingContent: LandingContent = {
@@ -24,4 +26,6 @@ export const landingContent: LandingContent = {
     ],
   },
   features: featuresContent,
+  models: modelsContent,
+  subscriptionComparison: subscriptionComparisonContent,
 };

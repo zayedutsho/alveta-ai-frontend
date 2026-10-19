@@ -47,7 +47,7 @@ test('feature navigation is local and illustration honors reduced motion', async
   await page.goto('/');
   await page.getByRole('link', { name: 'Features', exact: true }).click();
   await expect(page).toHaveURL(/#features$/);
-  await expect(page.getByRole('heading', { level: 2 })).toBeVisible();
+  await expect(page.locator('[data-features]').getByRole('heading', { level: 2 })).toBeVisible();
   const motions = await page.locator('[data-motion-node]').evaluateAll(nodes => nodes.map(n => getComputedStyle(n).animationName));
   expect(motions.length).toBe(6); expect(motions.every(name => name === 'none')).toBe(true);
 });

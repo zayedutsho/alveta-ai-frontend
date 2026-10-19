@@ -55,3 +55,20 @@ Feature source: 1284:667, panels 1284:672 / 727 / 778 / 1007 / 1057. Original SV
 | File illustration | 1284:1106; feature-product3.png | Original 128.93% width/107.65% height/-14.47% left crop and 98% opacity |
 
 Only optimized WebP derivatives are emitted for the original large raster files; originals remain under src/assets. FigmaAsset retains SVG root dimensions; wrapper transforms preserve their effective positions/sizes. Art-stage transforms apply only to decorative geometry, not panel text or layout. Browser checks decode every panel image at all representative widths and check no failing requests or aspect-ratio distortion. Original source/export SVGs and geometric masks are retained alongside the manifest; unused mask exports are not used as invented visual elements.
+
+## Milestone 5 assets
+
+Source sections: latest models `1286:1108`, comparison `1286:1259`. Twenty-six original exports total 37,138 bytes. Temporary Figma download URLs are absent from runtime source. All SVGs retain original root dimensions, with fixed illustration coordinates confined to the responsive comparison stage. Text remains native HTML and typed editorial content.
+
+| Files / slots | Original Figma nodes | Effective geometry and callsite |
+| --- | --- | --- |
+| model-arrow-down-left01.svg | card arrow `1286:1119` and repeated instances | LatestModels, 24×24 with a 180° wrapper rotation |
+| model-thesvg-color-openai-chatgpt.svg, model-devicon-claude.svg, model-logos-grok-icon.svg | `1286:1122`, `1286:1166`, `1286:1179` | LatestModels, original 32×32 / 32×32 / 33.09×33.09 |
+| model-gemini.png | `1286:1135` | Original composited icon export, 32×32; preserves all masked gradient layers |
+| subscription-bg.svg | `1286:1265` | Original 1200×496 background, CSS background on comparison canvas; cover crop on derived mobile layout |
+| subscription-vector{6,7,8,9,10,11,12,13,14}.svg and subscription-line{70,71,74,75}.svg | `1286:1270–1275`, `1286:1305–1311` | Thirteen original connector slots, stroke offsets and flips recorded in subscription-art.ts; responsive desktop stage scales uniformly; connectors hidden in derived stacked layout |
+| subscription-icon{,1,2,3}.svg | `1286:1278`, `1286:1288`, `1286:1297`, `1286:1364` | Grok, DeepSeek, ChatGPT, Claude; original 31.9922px icons inside 32px slots |
+| subscription-kimi.png, subscription-gemini.png | `1286:1314`, `1286:1329` | Original 32×32 composited exports retain internal masks |
+| subscription-alveta.png | `1286:1372` | Original 74×74 composited logo/gradient export; 48px mobile wrapper transform |
+
+Only individual icon composites were exported as PNG, never a section screenshot. The Figma screenshot remains the visual reference, not a shipped asset. Small originals are retained losslessly; no large raster was added. Webfont files and embedding licenses for the Bangla price fonts (Li Mehdi Ekushey Unicode and November Bangla Traditional) and Google Sans Flex were not provided; system Bangla/Inter Display fallbacks are used, with smaller central price typography to prevent overflow. Savings red is darkened from Figma #f04438 to #c02c22 for readable contrast on #feeceb. These are documented fidelity differences.

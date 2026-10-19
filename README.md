@@ -17,7 +17,9 @@ The development server prints its local URL. `npm run check` runs Astro/TypeScri
 
 ## Current scope
 
-Milestones 1–4 implement the Astro foundation, responsive announcement/navigation, hero, customer logo rows and five feature panels. Remaining landing sections, separate pricing page, full Sanity integration and production deployment are outside this iteration. No React runtime or CSS framework is shipped. Sanity's later content boundary is described in [the CMS plan](docs/cms-content-map.md) and `sanity/README.md`.
+Milestones 1–5 implement the Astro foundation, responsive announcement/navigation, hero, customer logo marquee, five feature panels, latest-model cards and subscription comparison. Remaining landing sections, separate pricing page, full Sanity integration and production deployment are outside this iteration. No React runtime or CSS framework is shipped. Sanity's later content boundary is described in [the CMS plan](docs/cms-content-map.md) and `sanity/README.md`.
+
+The model and subscription sections are explicitly labelled design examples. Their model names, benchmark figures, dates, prices and savings come from Figma and have not been verified against live product data. Model cards link to general registration, without selecting or purchasing a named model. Typed content is separate from presentation; replace these examples with approved model/API and comparison data before production use. The supplied Bangla fonts are unavailable, so the comparison uses system Bangla fonts with adjusted sizing; responsive layouts below 1024px are derived from desktop 02.
 
 Copy `.env.example` to `.env` to configure origins. `PUBLIC_APP_ORIGIN` defaults to the existing app's documented origin; confirm it before deployment. Optional `PUBLIC_API_ORIGIN` enables the public Models request. Unset API configuration leaves a working signup link. `PUBLIC_SITE_ORIGIN` controls canonical/social image URLs. This partial implementation is noindex by default. Never place Sanity tokens in PUBLIC variables.
 

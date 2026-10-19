@@ -12,6 +12,7 @@
   --color-muted: #6f6f6f;
   --color-border: rgb(228 228 228 / 50%);
   --color-surface: #fafafa;
+  --color-logo-surface: #fafaf9;
   --color-white: #fff;
   --container: 1200px;
   --gutter: 24px;
@@ -25,6 +26,8 @@
   --color-feature-end: #f3f7fe;
   --color-feature-border: rgb(230 223 255 / 80%);
   --color-benefit-border: #93f4f7;
+  --color-savings-wash: #feeceb;
+  --color-savings-text: #c02c22;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;

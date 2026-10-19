@@ -11,4 +11,22 @@ export interface FeaturePanelContent {
   image: { kind: 'models' | 'balance' | 'comparison' | 'private' | 'files'; alt: string; };
 }
 export interface FeaturesContent { heading: [string, string]; description: string; panels: FeaturePanelContent[]; }
-export interface LandingContent { announcement: AnnouncementContent; hero: HeroContent; customerLogos: CustomerLogosContent; features: FeaturesContent; }
+export interface ModelSpotlight {
+  id: string; provider: string; name: string; icon: string;
+  benchmark: string; tested: string; cta: CallToAction; featured?: boolean;
+}
+/** Design examples only until model availability and benchmark evidence are supplied. */
+export interface ModelsContent {
+  heading: [string, string]; description: string; previewNotice: string;
+  status: 'design-example'; cards: ModelSpotlight[];
+}
+export interface SubscriptionProvider {
+  id: string; name: string; icon: string; price: string; period: string;
+}
+/** Presentation data, never checkout prices or package entitlements. */
+export interface SubscriptionComparisonContent {
+  heading: [string, string]; description: string; previewNotice: string;
+  status: 'design-example'; providers: SubscriptionProvider[];
+  offer: { prefix: string; price: string; suffix: string; savings: string; };
+}
+export interface LandingContent { announcement: AnnouncementContent; hero: HeroContent; customerLogos: CustomerLogosContent; features: FeaturesContent; models: ModelsContent; subscriptionComparison: SubscriptionComparisonContent; }
