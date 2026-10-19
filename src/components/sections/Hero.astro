@@ -29,6 +29,16 @@ const modes = [
       ))}
     </div>
     <form class="composer" action={signup} method="get" aria-label="Start using Alveta" data-composer>
+      <svg class="composer-beam" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="composer-beam-gradient">
+            <stop offset="0%" stop-color="#7c3aed" />
+            <stop offset="50%" stop-color="#ec4899" />
+            <stop offset="100%" stop-color="#fdba74" />
+          </linearGradient>
+        </defs>
+        <rect x="0.75" y="0.75" width="100%" height="100%" rx="23.25" pathLength="1000" fill="none" stroke="url(#composer-beam-gradient)" stroke-width="1.5" stroke-dasharray="150 850" stroke-linecap="round" />
+      </svg>
       <div class="composer-header">
         <a class="assistant" href={signup} aria-label="Sign up to choose an AI assistant">
           <ResponsiveAsset name="robotic" /><span>General Assistance</span>
@@ -71,6 +81,7 @@ const modes = [
   </div>
 </section>
 <style>
+  @keyframes composer-border-beam { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -1000; } }
   .hero { width: min(780px, calc(100% - var(--gutter) * 2)); margin-inline: auto; padding-top: 100px; padding-bottom: 140px; }
   .hero-copy { width: min(670px, 100%); margin-inline: auto; text-align: center; }
   h1 { color: var(--color-heading); font-family: var(--font-hero); font-size: 46px; line-height: normal; font-weight: 400; text-box: trim-both cap alphabetic; }
@@ -84,7 +95,9 @@ const modes = [
   .mode:hover { box-shadow: 0 2px 12px #7d52f44d; }
   .selected .mode { background: var(--color-primary); margin-left: -2px; }
   .mode-pointer { position: absolute; left: 8px; top: 50.25px; }
-  .composer { position: relative; border: 1.5px solid transparent; border-radius: 24px; padding: 10px; background: linear-gradient(#fcfcfc, #fcfcfc) padding-box, linear-gradient(110deg, #f7bf6f, #ffc4e7) border-box; box-shadow: var(--shadow-nav); }
+  .composer { --composer-radius: 24px; --composer-border-width: 1.5px; position: relative; border: var(--composer-border-width) solid transparent; border-radius: var(--composer-radius); padding: 10px; background: linear-gradient(#fcfcfc, #fcfcfc) padding-box, linear-gradient(110deg, #f7bf6f, #ffc4e7) border-box; box-shadow: var(--shadow-nav); }
+  .composer-beam { position: absolute; z-index: 2; top: calc(0px - var(--composer-border-width)); left: calc(0px - var(--composer-border-width)); right: auto; bottom: auto; width: calc(100% + var(--composer-border-width) + var(--composer-border-width)); height: calc(100% + var(--composer-border-width) + var(--composer-border-width)); overflow: visible; pointer-events: none; filter: drop-shadow(0 0 1.5px rgb(125 82 244 / 30%)); }
+  .composer-beam rect { width: calc(100% - 1.5px); height: calc(100% - 1.5px); rx: calc(var(--composer-radius) - 0.75px); animation: composer-border-beam 6s linear infinite; }
   .composer-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .assistant { display: flex; align-items: center; justify-content: center; gap: 8px; height: 44px; padding: 10px 16px; border: 1.5px solid var(--color-border); background: var(--color-surface); border-radius: 99px; color: var(--color-muted); box-shadow: var(--shadow-card); white-space: nowrap; }
   .credits { display: flex; align-items: center; gap: 6px; padding-right: 8px; color: var(--color-paragraph); }
@@ -128,7 +141,7 @@ const modes = [
     .hero-copy p { margin-top: 12px; font-size: 14px; line-height: 1.4; }
     .hero-workspace { margin-top: 24px; }
     .modes { gap: 8px; }
-    .composer { padding: 8px; border-radius: 16px; }
+    .composer { --composer-radius: 16px; padding: 8px; }
     .assistant { height: 40px; font-size: 14px; padding: 10px 12px; gap: 6px; }
     .credits { font-size: 14px; letter-spacing: .42px; }
     .prompt-panel { padding: 8px; box-shadow: none; }

@@ -60,5 +60,6 @@
 }
 @media (scripting: none) { .header .navigation { opacity: 1; translate: none; transition: none; } }
 @media (prefers-reduced-motion: reduce) {
+  .composer-beam { display: none; }
   [data-motion-entering], .hero-copy h1, .hero-copy > p, .hero-workspace, .customer-logos .logo-rows, .reveal figure { animation: none !important; }
 }
