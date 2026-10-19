@@ -4,6 +4,7 @@ export interface TestimonialCard {
   role: string;
   portrait: { src: string; width: number; height: number };
   quote?: string;
+  demo?: boolean;
   avatar?: { src: string; width: number; height: number };
 }
 /** Figma editorial examples. Verify attribution and consent before publication. */
@@ -16,11 +17,11 @@ export interface TestimonialsContent {
 export const testimonialsContent: TestimonialsContent = {
   heading: 'What People say about Alveta',
   status: 'design-example',
-  notice: 'Design preview: testimonial attribution, roles and publication consent require verification.',
+  notice: 'Design preview: demo quotes are placeholders, not actual endorsements. All attribution, roles and publication consent require verification.',
   cards: [
-    { id: 'hasin', name: 'Hasin Hayder', role: 'Co-Founder & Head of Ideas', portrait: { src: '/images/testimonials/hasin.webp', width: 1200, height: 1600 } },
-    { id: 'sumit', name: 'Sumit Saha', role: 'Co-Founder & Head of Ideas', portrait: { src: '/images/testimonials/sumit.webp', width: 1024, height: 576 } },
+    { id: 'hasin', name: 'Hasin Hayder', role: 'Co-Founder & Head of Ideas', portrait: { src: '/images/testimonials/hasin.webp', width: 1200, height: 1600 }, demo: true, quote: 'One workspace makes it easier to explore ideas across different AI models and keep the creative process moving.' },
+    { id: 'sumit', name: 'Sumit Saha', role: 'Co-Founder & Head of Ideas', portrait: { src: '/images/testimonials/sumit.webp', width: 1024, height: 576 }, demo: true, quote: 'Comparing answers side by side helps turn a rough prompt into a clearer starting point for the next task.' },
     { id: 'atiqur', name: 'Atiqur Rahaman', role: 'CEO & Founder at Monks', portrait: { src: '/images/testimonials/atiqur.webp', width: 2048, height: 2048 }, avatar: { src: '/images/testimonials/avatar.webp', width: 282, height: 400 }, quote: '“Alveta brings multiple AI tools into one place, helping me compare perspectives and spend less time switching between platforms.”' },
-    { id: 'sumon', name: 'Sumon Molla Selim', role: 'Co-Founder Klassroom', portrait: { src: '/images/testimonials/sumon.webp', width: 600, height: 600 } },
+    { id: 'sumon', name: 'Sumon Molla Selim', role: 'Co-Founder Klassroom', portrait: { src: '/images/testimonials/sumon.webp', width: 600, height: 600 }, demo: true, quote: 'Having different AI perspectives in one place can make everyday research and planning feel more organized.' },
   ],
 };

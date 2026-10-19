@@ -13,10 +13,11 @@ for (const width of [320, 430, 768, 1024, 1440, 1920]) {
     await section.scrollIntoViewIfNeeded();
     await expect(section).toHaveAttribute('data-content-status', 'design-example');
     await expect(section.locator('h3')).toHaveText(['Hasin Hayder', 'Sumit Saha', 'Atiqur Rahaman', 'Sumon Molla Selim']);
-    await section.locator('summary').hover();
-    await expect(section.locator('blockquote')).toContainText('Alveta brings multiple AI tools into one place');
+    await section.locator('.atiqur summary').hover();
+    await expect(section.locator('.atiqur blockquote')).toContainText('Alveta brings multiple AI tools into one place');
     await expect(section.locator('#testimonials-preview')).toBeVisible();
     await expect(section.locator('a, button')).toHaveCount(0);
+    await section.locator('details').evaluateAll(items => items.forEach(item => (item as HTMLDetailsElement).open = true));
     await section.locator('img').evaluateAll(images => Promise.all(images.map(image => (image as HTMLImageElement).decode())));
     const geometry = await section.evaluate(el => {
       const cards = [...el.querySelectorAll('[data-testimonial]')];
@@ -43,7 +44,7 @@ for (const width of [320, 430, 768, 1024, 1440, 1920]) {
 
 test('testimonial details reveal on hover, keyboard focus and native toggle', async ({ page }) => {
   await page.goto('/');
-  const details = page.locator('[data-testimonial-reveal]');
+  const details = page.locator('.atiqur [data-testimonial-reveal]');
   const quote = details.locator('blockquote');
   await expect(quote).toBeHidden();
   await details.hover();
@@ -61,14 +62,16 @@ test('testimonial details reveal on hover, keyboard focus and native toggle', as
   await expect(quote).toBeHidden();
 });
 
-test('testimonial opens and closes by touch', async ({ browser }) => {
-  const context = await browser.newContext({ hasTouch: true, isMobile: true, viewport: { width: 430, height: 900 } });
-  const page = await context.newPage();
-  await page.goto('http://127.0.0.1:4371');
-  const summary = page.locator('[data-testimonial-reveal] summary');
-  await summary.tap();
-  await expect(page.locator('[data-testimonial-reveal] blockquote')).toBeVisible();
-  await summary.tap();
-  await expect(page.locator('[data-testimonial-reveal] blockquote')).toBeHidden();
-  await context.close();
+test.describe('touch testimonials', () => {
+  test.use({ hasTouch: true, isMobile: true, viewport: { width: 430, height: 900 } });
+  test('testimonial opens and closes by touch', async ({ page }) => {
+    await page.goto('/');
+    for (const details of await page.locator('[data-testimonial-reveal]').all()) {
+      const summary = details.locator('summary');
+      await summary.tap();
+      await expect(details.locator('blockquote')).toBeVisible();
+      await summary.tap();
+      await expect(details.locator('blockquote')).toBeHidden();
+    }
+  });
 });

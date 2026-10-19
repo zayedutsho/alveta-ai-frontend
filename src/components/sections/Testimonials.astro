@@ -14,7 +14,7 @@ const { content } = Astro.props;
         {card.quote ? <details class="reveal" data-testimonial-reveal>
           <summary aria-label={`Read testimonial from ${card.name}`}><span class="identity"><span class="name">{card.name}</span><span class="role">{card.role}</span></span></summary>
           <figure>
-          <blockquote><p>{card.quote}</p></blockquote>
+          <div>{card.demo && <p class="demo-label">Demo quote · Not an actual endorsement</p>}<blockquote><p>{card.quote}</p></blockquote></div>
           <figcaption>{card.avatar && <img {...card.avatar} class="avatar" alt="" loading="lazy" decoding="async" />}<div><h3>{card.name}</h3><p>{card.role}</p></div></figcaption>
         </figure></details> : <div class="identity"><h3>{card.name}</h3><p>{card.role}</p></div>}
       </li>)}
@@ -67,6 +67,7 @@ const { content } = Astro.props;
   @keyframes reveal { from { opacity: 0; } to { opacity: 1; } }
   figure { margin: 0; height: 100%; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; background: rgb(0 3 62 / 60%); backdrop-filter: blur(15px); color: #fdfdfd; }
   blockquote { margin: 0; font-size: 18px; line-height: 1.35; }
+  .demo-label { margin-bottom: 12px; font-size: 12px; line-height: 1.5; }
   figcaption { display: flex; align-items: center; gap: 12px; }
   figcaption > div { min-width: 0; }
   figcaption h3 { font-size: 18px; line-height: 1.35; }
