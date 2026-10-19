@@ -93,3 +93,22 @@ Source `1286:2123`; all eleven supplied assets are local in `public/images/testi
 | sumon.webp | 1286:2210 | Fourth portrait, 453px square at x−86/y52 |
 
 Names, roles and the one supplied quote remain native text in typed editorial content, explicitly marked as unverified design examples. No extra quotes, video actions or unknown View all destination are invented. Mobile uses derived 2/1-column layouts; cards retain desktop proportions and readable type.
+
+## Remaining landing sections — FAQ, articles, closing CTA and footer
+
+Nodes `1286:2216`, `1286:2259`, `1286:2560`, `1298:1230`. Eighteen originals in `public/images/ending` total 496,507 bytes. SVG roots are retained; article PNGs are converted to lossless WebP at 700px width (twice desktop slots). Temporary asset URLs and section screenshots are not shipped.
+
+| Assets | Figma slots | Callsite / geometry |
+| --- | --- | --- |
+| faq-arrowdown01.svg | 1286:2224 and repeated instances | Faq, 24px arrow; flips on native details open |
+| articles-image{1,2,3}.webp, articles-image.svg | 1286:2268–2269, 2280–2281, 2292–2293 | Articles, 350×192 masked luminosity slots; third retains 136.72% image height/top crop |
+| articles-ellipse13.svg, articles-line76.svg | 1286:2273, 2275 and repeats | Articles, original 4px metadata dot and 350×1 separator |
+| cta-artwork.svg | 1286:3035 | Original vector-only illustration group exported through Plugin API as SVG; 477.59×263.70 design bounds at x779/y46 inside CTA. Includes original connectors, provider pills and Alveta diamond; no page screenshot or marketing heading/buttons. Read in bounded chunks due MCP output limit; not a Figma mutation. ClosingCta scales the intact SVG uniformly on smaller screens. |
+| footer-logo6.svg | I1286:3196;60:61 | Footer, original 174×42 logo |
+| footer-icon{,1,2,3,4}.svg | 1286:3200, 3203, 3206, 3209, 3212 | Footer, original 28px social icons; inactive until profile destinations are supplied |
+| footer-mail.svg | 1286:3248 | Footer, original 20px newsletter icon |
+| footer-logo5.svg | 1286:3164 | Footer, original 1204×248 watermark; wrapper uniformly scales on mobile |
+| footer-vector18.svg | 1286:3169 | Footer, original 1752×1760 glow, clipped to footer; original export overflow offset retained |
+| footer-logo11.svg | 1286:3175 | Footer, original 129×24 SubscriptionPro attribution |
+
+FAQ/article/CTA/footer marketing copy remains native HTML in `landing-end.ts`. Provider words within the original decorative CTA illustration are outlined vector artwork. Source typos in CTA button labels are corrected. Unpublished article cards have no guessed destinations; newsletter is disabled with an honest coming-soon notice. FAQ repeats are preserved and explicitly flagged for review. Mobile layouts are derived from desktop; new notices add height relative to the design.

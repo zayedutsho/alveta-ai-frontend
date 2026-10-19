@@ -1,0 +1,49 @@
+---
+import type { FooterContent } from '../../content/landing-end';
+interface Props { content: FooterContent; }
+const { content } = Astro.props;
+---
+<footer class="footer" data-footer>
+  <div class="container">
+    <div class="top">
+      <div class="brand"><a href="#main" aria-label="Alveta, back to main content"><img src="/images/ending/footer-logo6.svg" width="174" height="42" alt="Alveta" loading="lazy" /></a><p>{content.description}</p>
+        <ul class="socials" aria-label="Social profiles pending publication">{content.socials.map(item => <li><span aria-label={`${item.name} profile coming soon`}><img src={item.image} width="28" height="28" alt={item.name} loading="lazy" /></span></li>)}</ul>
+      </div>
+      <nav aria-label="Legal"><h2>{content.legalHeading}</h2><ul>{content.legal.map(item => <li>{item.href ? <a href={item.href}>{item.label}</a> : <span aria-disabled="true">{item.label}</span>}</li>)}</ul></nav>
+      <nav aria-label="Features"><h2>{content.featuresHeading}</h2><ul>{content.features.map(item => <li>{item.href ? <a href={item.href}>{item.label}</a> : <span aria-disabled="true">{item.label}</span>}{item.badge && <span class="badge">{item.badge}</span>}</li>)}</ul></nav>
+      <div class="newsletter"><h2>{content.newsletter.heading}</h2><p>{content.newsletter.description}</p>
+        <fieldset disabled aria-describedby="newsletter-notice"><legend class="sr-only">{content.newsletter.heading}</legend><label class="sr-only" for="newsletter-email">Email address</label><img src="/images/ending/footer-mail.svg" width="20" height="20" alt="" loading="lazy" /><input id="newsletter-email" type="email" placeholder={content.newsletter.placeholder} autocomplete="email" /><button type="button">{content.newsletter.action}</button></fieldset>
+        <p id="newsletter-notice" class="notice">{content.newsletter.notice}</p>
+      </div>
+    </div>
+    <div class="watermark" aria-hidden="true"><img src="/images/ending/footer-logo5.svg" width="1204" height="248" alt="" loading="lazy" /></div>
+    <div class="attribution"><p>{content.attribution}</p><img src="/images/ending/footer-logo11.svg" width="129" height="24" alt="SubscriptionPro" loading="lazy" /></div>
+  </div>
+  <img class="glow" src="/images/ending/footer-vector18.svg" width="1752" height="1760" alt="" loading="lazy" aria-hidden="true" />
+</footer>
+<style>
+  .footer { position: relative; isolation: isolate; overflow: hidden; background: var(--color-heading); color: var(--color-white); padding-top: 80px; }
+  .top { display: grid; grid-template-columns: 264px minmax(0, 200px) minmax(0, 200px) minmax(0, 332px); justify-content: space-between; gap: 24px; }
+  .brand > p { margin-top: 27px; line-height: 1.5; }
+  ul { padding: 0; margin: 20px 0 0; list-style: none; }
+  li + li { margin-top: 8px; }
+  h2 { font-size: 18px; line-height: 1.35; font-weight: 500; }
+  a:hover { text-decoration: underline; }
+  .socials { display: flex; gap: 16px; margin-top: 27px; }
+  .socials li + li { margin: 0; }
+  nav li { color: var(--color-surface); }
+  .badge { display: inline-block; margin-left: 8px; border-radius: 99px; padding: 1px 10px; font-size: 12px; line-height: 18px; text-transform: uppercase; background: #ede3ff; color: #7839ee; }
+  .newsletter > p { margin-top: 20px; }
+  fieldset { display: flex; align-items: center; gap: 8px; min-width: 0; width: 100%; margin: 28px 0 0; padding: 4px 4px 4px 20px; border: 1px solid rgb(255 255 255 / 20%); border-radius: 999px; background: rgb(255 255 255 / 8%); }
+  input { width: 0; min-width: 0; flex: 1; background: transparent; border: 0; color: white; }
+  input::placeholder { color: #b3b3b3; opacity: 1; }
+  button { flex-shrink: 0; min-height: 44px; border: 0; padding: 8px 18px; background: var(--color-primary); color: white; border-radius: 99px; cursor: default; }
+  .newsletter .notice { font-size: 12px; color: #b3b3b3; margin-top: 12px; }
+  .watermark { position: relative; margin-top: 65px; height: 207px; }
+  .watermark img { position: absolute; left: -2px; }
+  .attribution { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; border-top: 1px solid #282828; padding-block: 20px; }
+  .glow { position: absolute; z-index: -1; left: calc(50% - 817px); top: 474px; pointer-events: none; }
+  @media (max-width: 1279px) { .top { grid-template-columns: 1fr 1fr; gap: 40px; } .newsletter { max-width: 400px; } .watermark { height: 160px; margin-top: 48px; } .watermark img { transform: scale(.7); transform-origin: top left; } }
+  @media (max-width: 767px) { .footer { padding-top: 48px; } .top { grid-template-columns: 1fr 1fr; gap: 32px 16px; } .brand, .newsletter { grid-column: 1 / -1; } .brand { max-width: 332px; } .watermark { height: 78px; margin-top: 40px; } .watermark img { transform: scale(.3); } .attribution { font-size: 14px; } }
+  @media (max-width: 374px) { .top { grid-template-columns: 1fr; } .brand, .newsletter { grid-column: auto; } .watermark img { transform: scale(.24); } }
+</style>

@@ -1,0 +1,30 @@
+---
+import Button from '../common/Button.astro';
+import type { ClosingCtaContent } from '../../content/landing-end';
+interface Props { content: ClosingCtaContent; }
+const { content } = Astro.props;
+---
+<section class="closing-cta" data-closing-cta aria-labelledby="closing-heading">
+  <div class="container inner">
+    <div class="copy"><h2 id="closing-heading">{content.heading.map(line => <span>{line}</span>)}</h2><p>{content.description}</p>
+      <div class="actions"><Button href={content.primary.href}>{content.primary.label}</Button><Button href={content.secondary.href} variant="light">{content.secondary.label}</Button></div>
+    </div>
+    <div class="art" aria-hidden="true"><div class="arch"></div><div class="art-slot"><img src="/images/ending/cta-artwork.svg" width="478" height="264" alt="" loading="lazy" /></div></div>
+  </div>
+</section>
+<style>
+  .closing-cta { background: var(--color-primary-deep); color: var(--color-white); overflow: hidden; }
+  .inner { display: grid; grid-template-columns: minmax(0, 477px) minmax(0, 547px); gap: 143px; min-height: 400px; align-items: center; }
+  h2 { font-size: 40px; line-height: 52px; font-weight: 500; }
+  h2 span { display: block; }
+  .copy p { margin-top: 20px; font-size: 18px; line-height: 1.35; color: var(--color-surface); }
+  .actions { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 40px; }
+  .actions :global(.button:first-child) { min-width: 145px; }
+  .actions :global(.light) { color: var(--color-primary-deep); }
+  .art { height: 400px; position: relative; }
+  .arch { position: absolute; inset: 0 0 8px; border: 1.5px dashed rgb(255 255 255 / 12%); border-top: 0; border-radius: 0 0 999px 999px; background: linear-gradient(rgb(255 255 255 / 20%), rgb(255 255 255 / 2%)); }
+  .art-slot { position: absolute; left: 39px; top: 46px; }
+  @media (max-width: 1279px) { .inner { gap: 40px; grid-template-columns: 1fr 1fr; } .art-slot { left: 50%; transform: translateX(-50%) scale(.85); transform-origin: top center; } }
+  @media (max-width: 767px) { .inner { grid-template-columns: 1fr; gap: 24px; padding-top: 48px; } h2 { font-size: 28px; line-height: 1.3; } .copy p { font-size: 16px; } .actions { margin-top: 28px; gap: 12px; } .art { height: 300px; width: 100%; max-width: 547px; margin-inline: auto; } .art-slot { top: 32px; transform: translateX(-50%) scale(.7); } }
+  @media (max-width: 374px) { .art-slot { transform: translateX(-50%) scale(.58); } }
+</style>
