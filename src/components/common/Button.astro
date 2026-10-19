@@ -4,7 +4,7 @@ const { href, variant = 'primary', class: className } = Astro.props;
 ---
 <a href={href} class:list={['button', variant, className]}><slot /></a>
 <style>
-  .button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 8px 20px; border-radius: var(--radius-pill); color: white; background: var(--color-primary); white-space: nowrap; box-shadow: 0 2px 2px -1px #07011308, inset 0 1px 2px -.5px #ffffff1f, inset 0 8px 24px -4px #ffffff29; transition: background .18s, box-shadow .18s; }
+  .button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 8px 20px; border-radius: var(--radius-pill); color: white; background: var(--color-primary); white-space: nowrap; box-shadow: 0 2px 2px -1px #07011308, inset 0 1px 2px -.5px #ffffff1f, inset 0 8px 24px -4px #ffffff29; transition: translate var(--motion-fast) var(--motion-ease), background var(--motion-fast) ease-out, box-shadow var(--motion-fast) ease-out; }
   .button:hover { background: #6840d9; box-shadow: 0 4px 12px #380e8726; }
   .deep { background: var(--color-primary-deep); }
   .deep:hover { background: var(--color-primary-darkest); }

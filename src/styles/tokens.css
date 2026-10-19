@@ -36,5 +36,9 @@
   --space-6: 24px;
   --space-8: 32px;
   --space-11: 44px;
+  --motion-fast: 180ms;
+  --motion-enter: 480ms;
+  --motion-stagger: 70ms;
+  --motion-ease: cubic-bezier(.22, 1, .36, 1);
 }
 @media (max-width: 767px) { :root { --gutter: 16px; } }

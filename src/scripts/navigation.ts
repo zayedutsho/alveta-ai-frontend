@@ -2,10 +2,15 @@ import { loadPublicModels } from '../lib/public-catalog';
 const header = document.querySelector<HTMLElement>('[data-header]');
 const toggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
 const nav = header?.querySelector<HTMLElement>('nav');
+const mobileNavigation = matchMedia('(max-width: 900px)');
+function syncNavigationAccess() {
+  if (nav) nav.inert = mobileNavigation.matches && !header?.hasAttribute('data-menu-open');
+}
 function closeNavigation(returnFocus = false) {
   header?.removeAttribute('data-menu-open');
   toggle?.setAttribute('aria-expanded', 'false');
   toggle?.setAttribute('aria-label', 'Open navigation');
+  syncNavigationAccess();
   header?.querySelectorAll<HTMLDetailsElement>('details[open]').forEach(menu => { menu.open = false; });
   if (returnFocus) toggle?.focus();
 }
@@ -15,7 +20,9 @@ toggle?.addEventListener('click', () => {
   header?.setAttribute('data-menu-open', '');
   toggle.setAttribute('aria-expanded', 'true');
   toggle.setAttribute('aria-label', 'Close navigation');
+  syncNavigationAccess();
 });
+syncNavigationAccess();
 document.addEventListener('keydown', event => {
   if (event.key !== 'Escape' || !header?.contains(document.activeElement)) return;
   const details = document.activeElement?.closest<HTMLDetailsElement>('details[open]');
