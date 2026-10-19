@@ -10,6 +10,8 @@ import Features from '../components/sections/Features.astro';
 import LatestModels from '../components/sections/LatestModels.astro';
 import SubscriptionComparison from '../components/sections/SubscriptionComparison.astro';
 import Pricing from '../components/sections/Pricing.astro';
+import Testimonials from '../components/sections/Testimonials.astro';
+import { testimonialsContent } from '../content/testimonials';
 ---
 <MarketingLayout>
   <div class="masthead">
@@ -23,6 +25,7 @@ import Pricing from '../components/sections/Pricing.astro';
       <LatestModels content={landingContent.models} />
       <SubscriptionComparison content={landingContent.subscriptionComparison} />
       <Pricing />
+      <Testimonials content={testimonialsContent} />
     </main>
   </div>
 </MarketingLayout>

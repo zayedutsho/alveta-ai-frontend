@@ -76,3 +76,20 @@ Source sections: latest models `1286:1108`, comparison `1286:1259`. Twenty-six o
 | subscription-alveta.png | `1286:1372` | Original 74×74 composited logo/gradient export; 48px mobile wrapper transform |
 
 Only individual icon composites were exported as PNG, never a section screenshot. The Figma screenshot remains the visual reference, not a shipped asset. Small originals are retained losslessly; no large raster was added. Webfont files and embedding licenses for the Bangla price fonts (Li Mehdi Ekushey Unicode and November Bangla Traditional) and Google Sans Flex were not provided; system Bangla/Inter Display fallbacks are used, with smaller central price typography to prevent overflow. Savings red is darkened from Figma #f04438 to #c02c22 for readable contrast on #feeceb. These are documented fidelity differences.
+
+## Milestone 7 — Testimonials
+
+Source `1286:2123`; all eleven supplied assets are local in `public/images/testimonials`, used by `Testimonials.astro`. Original SVG root dimensions are unchanged. Raster exports use lossless WebP; large portraits are resized to twice their desktop crop dimensions, and the background texture to its 1101px display size. Total assets: 1,624,594 bytes. No section screenshot or temporary asset URL is shipped.
+
+| Files | Source nodes | Rendered slot |
+| --- | --- | --- |
+| dots.webp | 1286:2124 | Decorative background, original 162.45% width / 88.66% height crop and offsets |
+| ellipse-mask.svg, ellipse.svg, texture.webp | 1286:2125–2128 | 1101px circular masked layers at x217/y335 relative to the 1440px section; clipped to section |
+| card-mask.svg | 1286:2139 and repeated cards | 282×400 rounded card mask, responsive proportional scaling |
+| hasin.webp | 1286:2148 | First portrait, original nested 271×381 crop and luminosity blend |
+| sumit.webp | 1286:2166 | Second portrait, original 282×420 placement at y−20 |
+| atiqur.webp | 1286:2184 | Third portrait, 348px square at x−33/y52, under quote blur |
+| avatar.webp, avatar-mask.svg | 1286:2193 | 44px circular quote attribution avatar |
+| sumon.webp | 1286:2210 | Fourth portrait, 453px square at x−86/y52 |
+
+Names, roles and the one supplied quote remain native text in typed editorial content, explicitly marked as unverified design examples. No extra quotes, video actions or unknown View all destination are invented. Mobile uses derived 2/1-column layouts; cards retain desktop proportions and readable type.
