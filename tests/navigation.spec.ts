@@ -41,3 +41,15 @@ test('announcement dismissal moves focus to the home link', async ({ page }) => 
   await expect(page.getByRole('complementary', { name: 'Alveta announcement' })).not.toBeVisible();
   await expect(page.getByRole('link', { name: 'Alveta home' })).toBeFocused();
 });
+
+test('navigation stays at the top while scrolling on desktop and mobile', async ({ page }) => {
+  for (const { width, stickyTop } of [{ width: 1440, stickyTop: 12 }, { width: 430, stickyTop: 0 }]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    const header = page.locator('[data-header]');
+    await expect(header).toHaveCSS('position', 'sticky');
+    await page.evaluate(() => scrollTo({ top: 1200, behavior: 'instant' }));
+    await expect.poll(() => header.evaluate(el => el.getBoundingClientRect().top)).toBe(stickyTop);
+    await expect(page.getByRole('link', { name: 'Alveta home' })).toBeVisible();
+  }
+});
