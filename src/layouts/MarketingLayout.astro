@@ -1,0 +1,31 @@
+---
+import '@fontsource/faculty-glyphic/latin-400.css';
+import '../styles/global.css';
+interface Props { title?: string; description?: string; }
+const { title = 'Alveta.ai — All the Best AI Models, One Place', description = 'Bring your AI workflow together in one place. Access multiple models, compare their responses, and choose the perspective that works for you.' } = Astro.props;
+const siteOrigin = import.meta.env.PUBLIC_SITE_ORIGIN;
+const canonical = siteOrigin ? new URL(Astro.url.pathname, siteOrigin) : undefined;
+const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true' && Boolean(canonical);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={indexable ? 'index,follow' : 'noindex,nofollow'} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Alveta.ai" />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preload" href="/fonts/inter-display-regular.ttf" as="font" type="font/ttf" crossorigin />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <slot />
+  </body>
+</html>

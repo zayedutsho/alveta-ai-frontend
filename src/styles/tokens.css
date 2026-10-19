@@ -1,0 +1,33 @@
+:root {
+  --font-body: 'Inter Display', system-ui, sans-serif;
+  --font-hero: 'Faculty Glyphic', var(--font-body);
+  --color-primary: #7d52f4;
+  --color-primary-light: #9e86f8;
+  --color-primary-wash: #f5f3ff;
+  --color-primary-deep: #380e87;
+  --color-primary-darkest: #16033f;
+  --color-heading: #111;
+  --color-text: #262626;
+  --color-paragraph: #464545;
+  --color-muted: #6f6f6f;
+  --color-border: rgb(228 228 228 / 50%);
+  --color-surface: #fafafa;
+  --color-white: #fff;
+  --container: 1200px;
+  --gutter: 24px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --radius-pill: 99px;
+  --shadow-nav: 0 2px 4px #919eab29;
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 8%);
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-11: 44px;
+}
+@media (max-width: 767px) { :root { --gutter: 16px; } }
