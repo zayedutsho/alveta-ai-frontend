@@ -74,12 +74,12 @@ const modes = [
           <div class="tools-right">
             <label class="compare"><span class="compare-label">Compare</span><input type="checkbox" aria-label="Compare AI model responses" /><span class="switch" aria-hidden="true"></span></label>
             <a href={signup} class="microphone" aria-label="Sign up to use voice input"><ResponsiveAsset name="mic01" /></a>
-            <button type="submit" class="generate" aria-label="Generate — sign up to continue"><span>{content.ctaLabel}</span><ResponsiveAsset name="ai-sparkles" /></button>
+            <button type="submit" class="generate" aria-label={`${content.ctaLabel} — sign up to chat`}><span>{content.ctaLabel}</span><ResponsiveAsset name="ai-sparkles" /></button>
           </div>
         </div>
       </div>
-      <p id="signup-note" class="sr-only">Create an account to generate a response. This preview does not send or save your prompt.</p>
     </form>
+    <p id="signup-note" class="composer-note">{content.signupNote}</p>
   </div>
 </section>
 <style>
@@ -100,12 +100,18 @@ const modes = [
   .composer { --composer-radius: 24px; --composer-border-width: 1.5px; position: relative; border: var(--composer-border-width) solid transparent; border-radius: var(--composer-radius); padding: 10px; background: linear-gradient(#fcfcfc, #fcfcfc) padding-box, linear-gradient(110deg, #f7bf6f, #ffc4e7) border-box; box-shadow: var(--shadow-nav); }
   .composer-beam { position: absolute; z-index: 2; top: calc(0px - var(--composer-border-width)); left: calc(0px - var(--composer-border-width)); right: auto; bottom: auto; width: calc(100% + var(--composer-border-width) + var(--composer-border-width)); height: calc(100% + var(--composer-border-width) + var(--composer-border-width)); overflow: visible; pointer-events: none; filter: drop-shadow(0 0 1px rgb(125 82 244 / 18%)); }
   .composer-beam rect { width: calc(100% - 1.5px); height: calc(100% - 1.5px); rx: calc(var(--composer-radius) - 0.75px); animation: composer-border-beam 28s linear infinite; }
+  .composer:has(textarea:not(:placeholder-shown)) { background: #fcfcfc; }
+  .composer:has(textarea:not(:placeholder-shown)) .composer-beam { display: none; }
+  .composer:has(textarea:not(:placeholder-shown)) .composer-beam rect { animation-play-state: paused; }
+  .composer-note { display: none; margin-top: 12px; font-size: 12px; line-height: 1.5; color: var(--color-paragraph); }
+  .hero-workspace:has(textarea:not(:placeholder-shown)) .composer-note { display: block; }
   .composer-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .assistant { display: flex; align-items: center; justify-content: center; gap: 8px; height: 44px; padding: 10px 16px; border: 1.5px solid var(--color-border); background: var(--color-surface); border-radius: 99px; color: var(--color-muted); box-shadow: var(--shadow-card); white-space: nowrap; }
   .credits { display: flex; align-items: center; gap: 6px; padding-right: 8px; color: var(--color-paragraph); }
   .prompt-panel { margin-top: 12px; border: 1.5px solid var(--color-border); border-radius: 20px; padding: 12px; background: white; box-shadow: var(--shadow-card); }
   .prompt-row { display: flex; align-items: flex-start; gap: 12px; min-height: 24px; }
-  textarea { flex: 1; width: 100%; min-width: 0; height: 24px; min-height: 24px; max-height: 120px; padding: 0; border: 0; resize: none; background: transparent; line-height: 24px; color: var(--color-heading); }
+  textarea { flex: 1; width: 100%; min-width: 0; height: 24px; min-height: 24px; max-height: 120px; padding: 0; border: 0; resize: vertical; background: transparent; line-height: 24px; color: var(--color-heading); caret-color: var(--color-primary-deep); }
+  textarea:focus-visible { border-radius: 4px; outline-offset: 3px; }
   textarea::placeholder { color: var(--color-muted); opacity: 1; }
   .prompt-enhance { display: grid; place-items: center; }
   .composer-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 36px; }
@@ -176,4 +182,5 @@ const modes = [
     .tools-left { gap: 6px; }
     .tools-right { gap: 7px; }
   }
+  @supports (field-sizing: content) { textarea { field-sizing: content; height: auto; resize: none; } }
 </style>

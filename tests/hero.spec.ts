@@ -68,6 +68,40 @@ test('composer beam follows the responsive rounded border and animates smoothly'
   expect(offsets[0]).not.toBe(offsets[offsets.length - 1]);
 });
 
+for (const width of [320, 430, 768, 1440]) {
+  test(`typing removes the border and makes multiline prompts readable at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 950 });
+    await page.goto('/');
+    const prompt = page.getByLabel('Your prompt', { exact: true });
+    const beam = page.locator('.composer-beam');
+    const composer = page.locator('.composer');
+    const before = await prompt.evaluate(el => el.getBoundingClientRect().height);
+    await expect(beam).toBeVisible();
+    await prompt.fill('Help me plan a project.\nExplain the steps.\nInclude a timeline.');
+    await expect(beam).toBeHidden();
+    expect(await composer.evaluate(el => getComputedStyle(el).backgroundImage)).toBe('none');
+    await expect(page.locator('#signup-note')).toBeVisible();
+    await expect(page.locator('#signup-note')).toContainText('will not be sent or saved');
+    expect(await prompt.evaluate(el => el.getBoundingClientRect().height)).toBeGreaterThan(before);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
+    await prompt.fill(Array.from({ length: 20 }, () => 'A longer draft line').join('\n'));
+    expect(await prompt.evaluate(el => el.getBoundingClientRect().height)).toBeLessThanOrEqual(120);
+    expect(await prompt.evaluate(el => el.scrollHeight > el.clientHeight)).toBe(true);
+    if ([430, 1440].includes(width)) await composer.screenshot({ path: `.work/validation/hero-typing-${width}.png`, animations: 'disabled' });
+    if (width === 1440) {
+      // Growing the hero must also refresh the feature stack's cached scroll positions.
+      const secondCard = page.locator('[data-feature-panel]').nth(1);
+      const top = await secondCard.evaluate(el => el.getBoundingClientRect().top + scrollY);
+      await page.evaluate(value => scrollTo({ top: value - 36, behavior: 'instant' }), top);
+      await expect.poll(() => secondCard.evaluate(el => Number(getComputedStyle(el).scale))).toBe(1);
+    }
+    await prompt.fill('');
+    await expect(beam).toBeVisible();
+    await expect(page.locator('#signup-note')).toBeHidden();
+    expect(await prompt.evaluate(el => el.getBoundingClientRect().height)).toBe(before);
+  });
+}
+
 test('composer routes signup without transmitting or saving prompt text', async ({ page }) => {
   await page.goto('/');
   await page.getByLabel('Your prompt', { exact: true }).fill('A private example prompt');
@@ -86,4 +120,17 @@ test('reduced motion is respected', async ({ page }) => {
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
   await expect(page.locator('.composer-beam')).toBeHidden();
   expect(await page.locator('.composer').evaluate(el => getComputedStyle(el).borderRadius)).toBe('24px');
+});
+
+test.describe('composer without JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+  test('typing still removes the border and explains signup', async ({ page }) => {
+    await page.goto('/');
+    const prompt = page.getByLabel('Your prompt', { exact: true });
+    await prompt.fill('An example question');
+    await expect(page.locator('.composer-beam')).toBeHidden();
+    await expect(page.locator('#signup-note')).toBeVisible();
+    await prompt.fill('');
+    await expect(page.locator('.composer-beam')).toBeVisible();
+  });
 });

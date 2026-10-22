@@ -58,6 +58,8 @@ if (section && cards.length && 'IntersectionObserver' in window && 'ResizeObserv
   visibility.observe(section);
   const resize = new ResizeObserver(scheduleMeasure);
   resize.observe(section);
+  const hero = document.querySelector('.hero');
+  if (hero) resize.observe(hero);
   window.addEventListener('resize', scheduleMeasure, { passive: true });
   desktop.addEventListener('change', scheduleMeasure);
   reduced.addEventListener('change', measure);

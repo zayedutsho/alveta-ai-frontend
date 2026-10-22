@@ -16,7 +16,8 @@ export const landingContent: LandingContent = {
     heading: ['All the Best AI Models,', 'One Place'],
     description: 'Bring your AI workflow together in one place. Access multiple models, compare their responses, and choose the perspective that works for you.',
     placeholder: 'Ask me anything',
-    ctaLabel: 'Generate',
+    ctaLabel: 'Get started',
+    signupNote: 'Create an account to start chatting. Text entered here will not be sent or saved.',
   },
   customerLogos: {
     label: 'Customer logos',

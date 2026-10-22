@@ -7,7 +7,7 @@ export interface PricingContent {
   labels: { loading: string; error: string; empty: string; retry: string; modelsError: string; partialModels: string; noModels: string; usageUnknown: string };
 }
 export interface AnnouncementContent { badge: string; message: string; shortMessage: string; cta: CallToAction; }
-export interface HeroContent { heading: [string, string]; description: string; placeholder: string; ctaLabel: string; }
+export interface HeroContent { heading: [string, string]; description: string; placeholder: string; ctaLabel: string; signupNote: string; }
 export interface CustomerLogo { name: string; asset: string; mobileAsset: string; }
 export interface CustomerLogosContent { label: string; rows: CustomerLogo[][]; }
 export interface FeatureBenefit { label: string; description: string; icon: string; }
