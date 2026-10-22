@@ -53,11 +53,12 @@ test('composer beam follows the responsive rounded border and animates smoothly'
     expect(geometry.beam.height).toBeCloseTo(geometry.composer.height + 1, 1);
     expect(geometry.radius).toBe(width < 768 ? '15.25px' : '23.25px');
   }
-  const beam = composer.locator('rect');
+  await expect(composer.locator('.composer-beam rect')).toHaveCount(4);
+  const beam = composer.locator('.composer-beam rect').last();
   await expect.poll(() => beam.evaluate(el => getComputedStyle(el).animationName)).toBe('composer-border-beam');
-  await expect.poll(() => beam.evaluate(el => getComputedStyle(el).animationDuration)).toBe('12s');
+  await expect.poll(() => beam.evaluate(el => getComputedStyle(el).animationDuration)).toBe('28s');
   await expect.poll(() => beam.evaluate(el => getComputedStyle(el).animationTimingFunction)).toBe('linear');
-  await expect.poll(() => beam.getAttribute('stroke-dasharray')).toBe('80 920');
+  await expect.poll(() => beam.getAttribute('stroke-dasharray')).toBe('20 980');
   const offsets: string[] = [];
   for (let sample = 0; sample < 4; sample += 1) {
     offsets.push(await beam.evaluate(el => getComputedStyle(el).strokeDashoffset));
