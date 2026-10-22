@@ -29,6 +29,7 @@ for (const width of [320, 430, 768, 1024, 1440, 1920]) {
       else expect(layout.imageLeft).toBeGreaterThan(layout.copyRight);
     }
     if (width === 1440) {
+      await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
       await expect(panels.first()).not.toHaveAttribute('data-motion-entering');
       const geometry = await section.evaluate(el => ({ top: el.getBoundingClientRect().top + scrollY, firstTop: el.querySelector('article')!.getBoundingClientRect().top + scrollY, width: el.getBoundingClientRect().width }));
       expect(geometry.top).toBe(1225); expect(geometry.firstTop).toBe(1445); expect(geometry.width).toBe(1200);

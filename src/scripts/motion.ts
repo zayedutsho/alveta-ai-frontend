@@ -19,7 +19,8 @@ if ('IntersectionObserver' in window) {
       const target = entry.target as HTMLElement;
       reveals.unobserve(target);
       target.dataset.motionEntered = '';
-      if (!reduced.matches && !document.hidden && !target.contains(document.activeElement)) target.dataset.motionEntering = '';
+      const stacking = target.matches('[data-feature-panel]') && target.closest('[data-stack-active]');
+      if (!stacking && !reduced.matches && !document.hidden && !target.contains(document.activeElement)) target.dataset.motionEntering = '';
     }
   }, { threshold: .08 });
   revealTargets.forEach((target, index) => {
