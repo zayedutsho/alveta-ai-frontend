@@ -174,3 +174,9 @@ Milestone 5 stops after model cards and subscription comparison. No pricing card
 - Corrected the typing treatment to target the inner Ask me anything panel from the user's screenshot. Entered text hides that panel's border/shadow and removes the textarea box outline; the outer gradient/beam remains visible. Empty input restores the inner panel. A thin underline identifies keyboard focus, with a system-color outline fallback in forced-colors mode. Existing multiline growth, signup guidance and privacy behavior remain.
 - Build/type checks pass; all 16 focused Chromium hero tests pass across 320–1920px, including typing/clearing, no JavaScript, reduced motion, draft privacy, stack alignment after growth and high-contrast focus. Refreshed and reviewed hero-typing captures. Full repository suite and other browsers were not rerun for this scoped CSS correction.
 - Commit subject: `fix: remove inner prompt border while typing`. No push, merge or deployment.
+
+## Pointer focus without prompt borders
+
+- Clicking/tapping the prompt now hides the inner panel border immediately, including when empty. A small composer-only pointer marker suppresses the textarea focus underline/outline during pointer use and typing; Tab clears it to restore keyboard focus visibility. High-contrast keyboard indication and the outer border animation are retained. Without JavaScript, the accessible native/CSS focus fallback remains.
+- Build/type checks pass with zero diagnostics; all 17 focused Chromium hero tests pass, including actual mouse click, subsequent typing, Tab/Shift+Tab focus restoration, high contrast, no JavaScript, privacy and responsive geometry. Full suite/other browsers not rerun for this scoped focus fix.
+- Commit subject: `fix: hide prompt focus border on pointer interaction`. No push, merge or deployment.

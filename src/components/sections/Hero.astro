@@ -82,6 +82,13 @@ const modes = [
     <p id="signup-note" class="composer-note">{content.signupNote}</p>
   </div>
 </section>
+<script>
+  const composer = document.querySelector<HTMLElement>('[data-composer]');
+  composer?.addEventListener('pointerdown', () => composer.setAttribute('data-pointer-focus', ''));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Tab') composer?.removeAttribute('data-pointer-focus');
+  });
+</script>
 <style>
   @keyframes composer-border-beam { from { stroke-dashoffset: var(--beam-offset, 0px); } to { stroke-dashoffset: calc(var(--beam-offset, 0px) - 1000px); } }
   .hero { width: min(780px, calc(100% - var(--gutter) * 2)); margin-inline: auto; padding-top: 100px; padding-bottom: 140px; }
@@ -106,11 +113,12 @@ const modes = [
   .assistant { display: flex; align-items: center; justify-content: center; gap: 8px; height: 44px; padding: 10px 16px; border: 1.5px solid var(--color-border); background: var(--color-surface); border-radius: 99px; color: var(--color-muted); box-shadow: var(--shadow-card); white-space: nowrap; }
   .credits { display: flex; align-items: center; gap: 6px; padding-right: 8px; color: var(--color-paragraph); }
   .prompt-panel { margin-top: 12px; border: 1.5px solid var(--color-border); border-radius: 20px; padding: 12px; background: white; box-shadow: var(--shadow-card); }
-  .prompt-panel:has(textarea:not(:placeholder-shown)) { border-color: transparent; box-shadow: none; }
+  .prompt-panel:has(textarea:focus, textarea:not(:placeholder-shown)) { border-color: transparent; box-shadow: none; }
   .prompt-row { display: flex; align-items: flex-start; gap: 12px; min-height: 24px; }
   textarea { flex: 1; width: 100%; min-width: 0; height: 24px; min-height: 24px; max-height: 120px; padding: 0; border: 0; resize: vertical; background: transparent; line-height: 24px; color: var(--color-heading); caret-color: var(--color-primary-deep); }
   textarea:focus-visible { outline: none; }
   .prompt-row:has(textarea:focus-visible) { box-shadow: 0 2px 0 var(--color-primary-deep); }
+  .composer[data-pointer-focus] .prompt-row:has(textarea:focus-visible) { box-shadow: none; outline: none; }
   textarea::placeholder { color: var(--color-muted); opacity: 1; }
   .prompt-enhance { display: grid; place-items: center; }
   .composer-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 36px; }

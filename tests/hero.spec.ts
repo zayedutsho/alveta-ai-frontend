@@ -100,6 +100,7 @@ for (const width of [320, 430, 768, 1440]) {
     }
     await prompt.fill('');
     await expect(beam).toBeVisible();
+    await prompt.blur();
     expect(await page.locator('.prompt-panel').evaluate(el => getComputedStyle(el).borderTopColor)).not.toBe('rgba(0, 0, 0, 0)');
     await expect(page.locator('#signup-note')).toBeHidden();
     expect(await prompt.evaluate(el => el.getBoundingClientRect().height)).toBe(before);
@@ -146,4 +147,20 @@ test('inner prompt retains keyboard focus visibility in high contrast', async ({
   await page.getByLabel('Your prompt', { exact: true }).focus();
   expect(await page.locator('.prompt-row').evaluate(el => getComputedStyle(el).outlineStyle)).toBe('solid');
   expect(await page.locator('.prompt-row').evaluate(el => getComputedStyle(el).outlineWidth)).toBe('2px');
+});
+
+test('clicking the empty prompt shows no border or focus line, while Tab restores keyboard indication', async ({ page }) => {
+  await page.goto('/');
+  const prompt = page.getByLabel('Your prompt', { exact: true });
+  const row = page.locator('.prompt-row');
+  await prompt.click();
+  expect(await row.evaluate(el => getComputedStyle(el).boxShadow)).toBe('none');
+  expect(await prompt.evaluate(el => getComputedStyle(el).outlineStyle)).toBe('none');
+  expect(await page.locator('.prompt-panel').evaluate(el => getComputedStyle(el).borderTopColor)).toBe('rgba(0, 0, 0, 0)');
+  await prompt.pressSequentially('An example prompt');
+  expect(await row.evaluate(el => getComputedStyle(el).boxShadow)).toBe('none');
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Shift+Tab');
+  await expect(prompt).toBeFocused();
+  expect(await row.evaluate(el => getComputedStyle(el).boxShadow)).not.toBe('none');
 });
