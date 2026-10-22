@@ -69,7 +69,7 @@ test('composer beam follows the responsive rounded border and animates smoothly'
 });
 
 for (const width of [320, 430, 768, 1440]) {
-  test(`typing removes the border and makes multiline prompts readable at ${width}px`, async ({ page }) => {
+  test(`typing removes the inner border and makes multiline prompts readable at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 950 });
     await page.goto('/');
     const prompt = page.getByLabel('Your prompt', { exact: true });
@@ -78,8 +78,11 @@ for (const width of [320, 430, 768, 1440]) {
     const before = await prompt.evaluate(el => el.getBoundingClientRect().height);
     await expect(beam).toBeVisible();
     await prompt.fill('Help me plan a project.\nExplain the steps.\nInclude a timeline.');
-    await expect(beam).toBeHidden();
-    expect(await composer.evaluate(el => getComputedStyle(el).backgroundImage)).toBe('none');
+    await expect(beam).toBeVisible();
+    expect(await composer.evaluate(el => getComputedStyle(el).backgroundImage)).not.toBe('none');
+    expect(await page.locator('.prompt-panel').evaluate(el => getComputedStyle(el).borderTopColor)).toBe('rgba(0, 0, 0, 0)');
+    expect(await prompt.evaluate(el => getComputedStyle(el).outlineStyle)).toBe('none');
+    expect(await page.locator('.prompt-row').evaluate(el => getComputedStyle(el).boxShadow)).not.toBe('none');
     await expect(page.locator('#signup-note')).toBeVisible();
     await expect(page.locator('#signup-note')).toContainText('will not be sent or saved');
     expect(await prompt.evaluate(el => el.getBoundingClientRect().height)).toBeGreaterThan(before);
@@ -97,6 +100,7 @@ for (const width of [320, 430, 768, 1440]) {
     }
     await prompt.fill('');
     await expect(beam).toBeVisible();
+    expect(await page.locator('.prompt-panel').evaluate(el => getComputedStyle(el).borderTopColor)).not.toBe('rgba(0, 0, 0, 0)');
     await expect(page.locator('#signup-note')).toBeHidden();
     expect(await prompt.evaluate(el => el.getBoundingClientRect().height)).toBe(before);
   });
@@ -124,13 +128,22 @@ test('reduced motion is respected', async ({ page }) => {
 
 test.describe('composer without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
-  test('typing still removes the border and explains signup', async ({ page }) => {
+  test('typing still removes the inner border and explains signup', async ({ page }) => {
     await page.goto('/');
     const prompt = page.getByLabel('Your prompt', { exact: true });
     await prompt.fill('An example question');
-    await expect(page.locator('.composer-beam')).toBeHidden();
+    await expect(page.locator('.composer-beam')).toBeVisible();
+    expect(await page.locator('.prompt-panel').evaluate(el => getComputedStyle(el).borderTopColor)).toBe('rgba(0, 0, 0, 0)');
     await expect(page.locator('#signup-note')).toBeVisible();
     await prompt.fill('');
     await expect(page.locator('.composer-beam')).toBeVisible();
   });
+});
+
+test('inner prompt retains keyboard focus visibility in high contrast', async ({ page }) => {
+  await page.emulateMedia({ forcedColors: 'active' });
+  await page.goto('/');
+  await page.getByLabel('Your prompt', { exact: true }).focus();
+  expect(await page.locator('.prompt-row').evaluate(el => getComputedStyle(el).outlineStyle)).toBe('solid');
+  expect(await page.locator('.prompt-row').evaluate(el => getComputedStyle(el).outlineWidth)).toBe('2px');
 });
