@@ -8,7 +8,7 @@ for (const width of [320, 430, 768, 1024, 1440, 1920]) {
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
     await expect.poll(() => page.locator('h1').evaluate(el => getComputedStyle(el).translate)).toBe('0px');
-    const panel = page.locator('[data-feature-panel]').first();
+    const panel = page.locator('[data-latest-models] .model-cards');
     await panel.evaluate(el => {
       el.setAttribute('data-test-runs', '0');
       el.addEventListener('animationstart', event => {
@@ -26,7 +26,7 @@ for (const width of [320, 430, 768, 1024, 1440, 1920]) {
     await expect(panel).toHaveAttribute('data-test-runs', '1');
     expect(await panel.evaluate(el => el.getBoundingClientRect().top + scrollY)).toBe(top);
     expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
-    if ([430, 1440].includes(width)) await panel.screenshot({ path: `.work/validation/motion-panel-${width}.png`, animations: 'disabled' });
+    if ([430, 1440].includes(width)) await panel.screenshot({ path: `.work/validation/motion-cards-${width}.png`, animations: 'disabled' });
     expect(errors).toEqual([]);
   });
 }
