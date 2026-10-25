@@ -7,7 +7,6 @@ const names = [...new Set(content.rows.flat().map(logo => logo.name))];
 ---
 <section class="customer-logos" aria-label={content.label} data-customer-logos>
   <ul class="sr-only">{names.map(name => <li>{name}</li>)}</ul>
-  <button class="marquee-toggle" type="button" aria-pressed="false" data-marquee-toggle>Pause logos</button>
   <div class="logo-rows container" aria-hidden="true">
     {content.rows.map(row => <div class="logo-row"><div class="logo-track">
       {Array.from({ length: 4 }, (_, index) => <div class="logo-group" data-clone={index > 0 ? '' : undefined}>
@@ -17,15 +16,14 @@ const names = [...new Set(content.rows.flat().map(logo => logo.name))];
   </div>
 </section>
 <style>
-  .customer-logos { position: relative; margin-top: 70px; overflow: clip; --logo-gap: var(--space-6); }
+  .customer-logos { position: relative; margin-top: 70px; overflow: clip; --logo-gap: var(--space-6); -webkit-mask-image: linear-gradient(to right, transparent, #000 clamp(24px, 8vw, 140px), #000 calc(100% - clamp(24px, 8vw, 140px)), transparent); mask-image: linear-gradient(to right, transparent, #000 clamp(24px, 8vw, 140px), #000 calc(100% - clamp(24px, 8vw, 140px)), transparent); }
   .logo-rows { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
   .logo-row { display: flex; min-width: 0; width: 100%; align-items: center; }
   .logo-track { display: flex; flex-shrink: 0; width: max-content; animation: logo-marquee 48s linear infinite; }
   .logo-row:nth-child(2) .logo-track { animation-direction: reverse; animation-duration: 54s; }
   .logo-group { display: flex; flex-shrink: 0; align-items: center; gap: var(--logo-gap); padding-right: var(--logo-gap); }
   @keyframes logo-marquee { to { transform: translate3d(-25%, 0, 0); } }
-  .customer-logos:is(:hover, :focus-within, [data-paused]) .logo-track { animation-play-state: paused; }
-  .marquee-toggle { position: absolute; z-index: 1; right: var(--gutter); top: 4px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 4px 8px; background: var(--color-white); font-size: 12px; }
+  .customer-logos:is(:hover, :focus-within) .logo-track { animation-play-state: paused; }
   .logo-tile { display: grid; place-items: center; flex: 0 0 186px; height: 88px; padding: 20px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: #fafaf9; }
   .logo-art { display: grid; place-items: center; width: max-content; }
   @media (max-width: 767px) {
@@ -38,16 +36,6 @@ const names = [...new Set(content.rows.flat().map(logo => logo.name))];
     .logo-track { animation: none; }
     .logo-row { justify-content: center; }
     .logo-group { padding-right: 0; }
-    [data-clone], .marquee-toggle { display: none; }
+    [data-clone] { display: none; }
   }
 </style>
-<script>
-  document.querySelectorAll<HTMLButtonElement>('[data-marquee-toggle]').forEach(button => {
-    button.addEventListener('click', () => {
-      const paused = button.getAttribute('aria-pressed') !== 'true';
-      button.setAttribute('aria-pressed', String(paused));
-      button.textContent = paused ? 'Resume logos' : 'Pause logos';
-      button.closest('[data-customer-logos]')?.toggleAttribute('data-paused', paused);
-    });
-  });
-</script>
