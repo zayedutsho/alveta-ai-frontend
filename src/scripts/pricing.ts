@@ -142,7 +142,13 @@ function initialize(root: HTMLElement) {
     } finally { busy = false; }
   }
   currencyControl.addEventListener('change', () => { currency = currencyControl.value as Currency; render(); });
-  root.querySelectorAll<HTMLInputElement>('[name="plan-type"]').forEach(input => input.addEventListener('change', () => { mode = input.value; render(); }));
+  root.querySelectorAll<HTMLInputElement>('[name="plan-type"]').forEach(input => input.addEventListener('change', () => {
+    mode = input.value; render();
+    root.querySelectorAll<HTMLLabelElement>('.toggle-option').forEach(label => {
+      const radio = label.querySelector<HTMLInputElement>('input[type="radio"]');
+      if (radio?.checked) label.setAttribute('data-checked', ''); else label.removeAttribute('data-checked');
+    });
+  }));
   retry.addEventListener('click', () => { invalidatePackageCache(); void load(); });
   void load();
   void loadPublicModels(origin).then(result => { models = result; render(); }).catch(() => { modelFailed = true; render(); });

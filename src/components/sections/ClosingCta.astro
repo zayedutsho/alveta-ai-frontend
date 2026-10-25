@@ -1,5 +1,6 @@
 ---
 import Button from '../common/Button.astro';
+import ClosingArtwork from './ClosingArtwork.astro';
 import type { ClosingCtaContent } from '../../content/landing-end';
 interface Props { content: ClosingCtaContent; }
 const { content } = Astro.props;
@@ -9,7 +10,7 @@ const { content } = Astro.props;
     <div class="copy"><h2 id="closing-heading">{content.heading.map(line => <span>{line}</span>)}</h2><p>{content.description}</p>
       <div class="actions"><Button href={content.primary.href}>{content.primary.label}</Button><Button href={content.secondary.href} variant="light">{content.secondary.label}</Button></div>
     </div>
-    <div class="art" aria-hidden="true"><div class="arch"></div><div class="art-slot"><img src="/images/ending/cta-artwork.svg" width="478" height="264" alt="" loading="lazy" /></div></div>
+    <div class="art" aria-hidden="true"><div class="arch"></div><div class="art-slot"><ClosingArtwork /></div></div>
   </div>
 </section>
 <style>
@@ -24,7 +25,70 @@ const { content } = Astro.props;
   .art { height: 400px; position: relative; }
   .arch { position: absolute; inset: 0 0 8px; border: 1.5px dashed rgb(255 255 255 / 12%); border-top: 0; border-radius: 0 0 999px 999px; background: linear-gradient(rgb(255 255 255 / 20%), rgb(255 255 255 / 2%)); }
   .art-slot { position: absolute; left: 39px; top: 46px; }
+  .art-slot { width: 478px; height: 264px; }
+  .art-slot::before { content: ''; position: absolute; width: 180px; height: 180px; left: 146px; top: 42px; background: radial-gradient(ellipse, #b99aff38, transparent 70%); pointer-events: none; }
+  .art-slot :global(.workflow-artwork) { display: block; position: relative; overflow: visible; }
+  .art-slot :global(.workflow-center), .art-slot :global(.workflow-card) { transform-box: fill-box; transform-origin: center; }
+  .art-slot :global(.workflow-beam) { opacity: 0; stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 12 112; stroke-dashoffset: 12; pointer-events: none; filter: drop-shadow(0 0 2px #c4b5fd); }
+  .art-slot :global(.workflow-card) { transition: transform 300ms ease, filter 300ms ease; }
+  .art-slot :global(.workflow-network) { transition: opacity 300ms ease; }
+  /* The shared motion observer marks the copy once; no extra entrance observer is needed. */
+  .copy[data-motion-entering] { animation: none; }
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes workflow-enter { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes workflow-center { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: scale(1); } }
+    @keyframes workflow-light { 0% { opacity: 0; stroke-dashoffset: 12; } 8%, 65% { opacity: .9; } 82%, 100% { opacity: 0; stroke-dashoffset: -100; } }
+    @keyframes workflow-breathe { from { opacity: .45; transform: scale(.95); } to { opacity: .85; transform: scale(1.06); } }
+    .closing-cta:has(.copy[data-motion-entered]) h2,
+    .closing-cta:has(.copy[data-motion-entered]) .copy > p,
+    .closing-cta:has(.copy[data-motion-entered]) .actions :global(.button),
+    .closing-cta:has(.copy[data-motion-entered]) .art { animation: workflow-enter 750ms var(--motion-ease) both; }
+    .closing-cta:has(.copy[data-motion-entered]) .copy > p { animation-delay: 100ms; }
+    .closing-cta:has(.copy[data-motion-entered]) .actions :global(.button:first-child) { animation-delay: 200ms; }
+    .closing-cta:has(.copy[data-motion-entered]) .actions :global(.button:nth-child(2)) { animation-delay: 280ms; }
+    .closing-cta:has(.copy[data-motion-entered]) .art { animation-delay: 100ms; }
+    .closing-cta:has(.copy[data-motion-entered]) :global(.workflow-center) { animation: workflow-center 800ms var(--motion-ease) 180ms both; }
+    .closing-cta:has(.copy[data-motion-entered]) :global(.workflow-node) { animation: workflow-enter 600ms var(--motion-ease) calc(var(--node-delay) + 520ms) both; }
+    .closing-cta:has(.copy[data-motion-entered]) :global(.workflow-beam) { animation: workflow-light 850ms linear var(--node-delay) both, workflow-light 4200ms linear var(--beam-delay) infinite; }
+    .closing-cta:has(.copy[data-motion-entered]) .art-slot::before { animation: workflow-breathe 6s ease-in-out infinite alternate; }
+    .actions:focus-within :global(.button) { animation: none !important; }
+    @media (hover: hover) and (pointer: fine) {
+      .art-slot :global(.workflow-card:hover) { transform: translateY(-2px); filter: drop-shadow(0 3px 5px #c4b5fd66); }
+    }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .art-slot:has(:global(.workflow-card:hover)) :global(.workflow-network) { opacity: .45; }
+    .art-slot :global(.workflow-network:has(.workflow-card:hover)) { opacity: 1; }
+    .art-slot :global(.workflow-network:has(.workflow-card:hover) > path:first-child) { stroke: #ddd6fe; stroke-width: 1.4; }
+  }
+  .closing-cta[data-workflow-paused] :global(.workflow-beam),
+  .closing-cta[data-workflow-paused] .art-slot::before { animation-play-state: paused; }
   @media (max-width: 1279px) { .inner { gap: 40px; grid-template-columns: 1fr 1fr; } .art-slot { left: 50%; transform: translateX(-50%) scale(.85); transform-origin: top center; } }
   @media (max-width: 767px) { .inner { grid-template-columns: 1fr; gap: 24px; padding-top: 48px; } h2 { font-size: 28px; line-height: 1.3; } .copy p { font-size: 16px; } .actions { margin-top: 28px; gap: 12px; } .art { height: 300px; width: 100%; max-width: 547px; margin-inline: auto; } .art-slot { top: 32px; transform: translateX(-50%) scale(.7); } }
   @media (max-width: 374px) { .art-slot { transform: translateX(-50%) scale(.58); } }
 </style>
+<script>
+  // Suspend continuous effects away from the viewport, and release lifecycle listeners.
+  const sections = document.querySelectorAll<HTMLElement>('[data-closing-cta]');
+  if ('IntersectionObserver' in window) {
+    const visible = new WeakSet<Element>();
+    const sync = () => sections.forEach(section => {
+      section.toggleAttribute('data-workflow-paused', document.hidden || !visible.has(section));
+    });
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => entry.isIntersecting ? visible.add(entry.target) : visible.delete(entry.target));
+      sync();
+    }, { rootMargin: '80px' });
+    const start = () => {
+      sections.forEach(section => observer.observe(section));
+      document.addEventListener('visibilitychange', sync);
+      sync();
+    };
+    window.addEventListener('pagehide', () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', sync);
+    });
+    window.addEventListener('pageshow', event => { if (event.persisted) start(); });
+    start();
+  }
+</script>

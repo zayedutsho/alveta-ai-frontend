@@ -14,6 +14,6 @@ export const pricingContent: PricingContent = {
   labels: {
     loading: 'Loading current plans…', error: 'Plans could not be loaded. Try again or view current plans in Alveta.',
     empty: 'No plans are available right now.', retry: 'Try again', modelsError: 'Model names are temporarily unavailable.',
-    partialModels: 'Additional model names are unavailable.', noModels: 'No models listed for this plan.', usageUnknown: 'Usage varies by model.',
+    partialModels: '', noModels: 'No models listed for this plan.', usageUnknown: 'Usage varies by model.',
   },
 };

@@ -1,6 +1,6 @@
 ---
 import type { SubscriptionComparisonContent } from '../../types/content';
-import { subscriptionConnectors, subscriptionProviderSlots } from '../../content/subscription-art';
+import { subscriptionConnectors, subscriptionProviderSlots, subscriptionNetworks } from '../../content/subscription-art';
 import SectionHeading from '../common/SectionHeading.astro';
 import FigmaAsset from '../common/FigmaAsset.astro';
 interface Props { content: SubscriptionComparisonContent; }
@@ -11,9 +11,28 @@ const { content } = Astro.props;
   <div class="comparison-canvas">
     <div class="comparison-stage">
       <div class="connectors" aria-hidden="true">
-        {subscriptionConnectors.map(layer => <div class="connector" data-figma-node={layer.node} style={`left:${layer.x}px;top:${layer.y}px;width:${layer.w}px;height:${layer.h}px;transform:${layer.transform}`}>
-          <div class="connector-image" style={`left:${layer.offsetX}px;top:${layer.offsetY}px`}><FigmaAsset name={layer.asset} /></div>
-        </div>)}
+        {subscriptionNetworks.map((network, index) => (
+          <div class="network-connection" data-network={network.id} style={`--network-delay:${320 + index * 130}ms;--beam-delay:${1800 + index * 470}ms;--beam-color:${network.color}`}>
+            {network.fragments.map(fragment => {
+              const layer = subscriptionConnectors[fragment];
+              if (!layer) throw new Error(`Unknown subscription connector: ${fragment}`);
+              return <div class="connector" data-figma-node={layer.node} style={`left:${layer.x}px;top:${layer.y}px;width:${layer.w}px;height:${layer.h}px;transform:${layer.transform}`}>
+                <div class="connector-image" style={`left:${layer.offsetX}px;top:${layer.offsetY}px`}><FigmaAsset name={layer.asset} /></div>
+              </div>;
+            })}
+            <svg class="network-svg" viewBox="0 0 1200 496" fill="none">
+              <defs>
+                <linearGradient id={`network-light-${network.id}`} gradientUnits="userSpaceOnUse" x1="190" y1="0" x2="1010" y2="0">
+                  <stop stop-color={network.color} stop-opacity=".25" />
+                  <stop offset=".5" stop-color={network.color} stop-opacity=".9" />
+                  <stop offset="1" stop-color={network.color} stop-opacity=".4" />
+                </linearGradient>
+              </defs>
+              <path class="network-trace" d={network.path} pathLength="100" />
+              <path class="network-beam" d={network.path} pathLength="100" stroke={`url(#network-light-${network.id})`} />
+            </svg>
+          </div>
+        ))}
       </div>
       <div class="alveta-offer" data-comparison-offer data-figma-node="1286:1371">
         <span class="offer-icon" aria-hidden="true"><FigmaAsset name="subscription-alveta" /></span>
@@ -26,7 +45,7 @@ const { content } = Astro.props;
         {content.providers.map(provider => {
           const slot = subscriptionProviderSlots[provider.id];
           if (!slot) throw new Error(`Unknown subscription illustration slot: ${provider.id}`);
-          return <li class="comparison-provider" data-provider={provider.id} data-figma-node={slot.node} style={`--slot-x:${slot.x}px;--slot-y:${slot.y}px`}>
+          return <li class="comparison-provider" data-provider={provider.id} data-figma-node={slot.node} style={`--slot-x:${slot.x}px;--slot-y:${slot.y}px;--network-delay:${320 + subscriptionNetworks.findIndex(network => network.id === provider.id) * 130}ms`}>
             <span class="provider-icon" aria-hidden="true"><FigmaAsset name={provider.icon} /></span>
             <div><h3>{provider.name}</h3><p class="provider-price" lang="bn">{provider.price}<span>{provider.period}</span></p></div>
           </li>;

@@ -19,6 +19,10 @@ if ('IntersectionObserver' in window) {
       const target = entry.target as HTMLElement;
       reveals.unobserve(target);
       target.dataset.motionEntered = '';
+      if (target.matches('.comparison-canvas')) {
+        if (!reduced.matches) target.closest('[data-subscription-comparison]')?.setAttribute('data-network-entered', '');
+        continue;
+      }
       const stacking = target.matches('[data-feature-panel]') && target.closest('[data-stack-active]');
       if (!stacking && !reduced.matches && !document.hidden && !target.contains(document.activeElement)) target.dataset.motionEntering = '';
     }
@@ -36,7 +40,7 @@ if ('IntersectionObserver' in window) {
   });
 
   // Keep authored marquee/keyframes intact; only suspend work outside the viewport or tab.
-  const loops = document.querySelectorAll<HTMLElement>('[data-customer-logos], .feature-illustration.comparison');
+  const loops = document.querySelectorAll<HTMLElement>('[data-customer-logos], .feature-illustration.comparison, [data-subscription-comparison]');
   const near = new WeakMap<Element, boolean>();
   const sync = () => loops.forEach(scope => {
     scope.toggleAttribute('data-motion-suspended', reduced.matches || document.hidden || !near.get(scope));
@@ -47,8 +51,23 @@ if ('IntersectionObserver' in window) {
   }, { rootMargin: '120px 0px' });
   loops.forEach(scope => { visibility.observe(scope); });
   document.addEventListener('visibilitychange', sync);
-  reduced.addEventListener('change', () => {
+  const preferenceChanged = () => {
     if (reduced.matches) revealTargets.forEach(target => { delete target.dataset.motionEntering; });
+    sync();
+  };
+  reduced.addEventListener('change', preferenceChanged);
+  window.addEventListener('pagehide', () => {
+    reveals.disconnect();
+    visibility.disconnect();
+    document.removeEventListener('visibilitychange', sync);
+    reduced.removeEventListener('change', preferenceChanged);
+  });
+  window.addEventListener('pageshow', event => {
+    if (!event.persisted) return;
+    revealTargets.forEach(target => { if (!target.hasAttribute('data-motion-entered')) reveals.observe(target); });
+    loops.forEach(scope => visibility.observe(scope));
+    document.addEventListener('visibilitychange', sync);
+    reduced.addEventListener('change', preferenceChanged);
     sync();
   });
   sync();

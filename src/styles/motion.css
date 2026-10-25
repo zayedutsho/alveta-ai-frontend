@@ -1,3 +1,37 @@
+/* Subscription artwork remains visible without script; only entered sections animate. */
+[data-subscription-comparison] .network-svg { position: absolute; inset: 0; width: 1200px; height: 496px; overflow: visible; }
+[data-subscription-comparison] .connectors { pointer-events: none; }
+[data-subscription-comparison] .network-connection { opacity: .85; transition: opacity 300ms ease; }
+[data-subscription-comparison] .network-trace { stroke: var(--beam-color); stroke-width: 1; opacity: .18; transition: opacity 300ms ease; }
+[data-subscription-comparison] .network-beam { stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 9 111; stroke-dashoffset: 9; opacity: 0; filter: drop-shadow(0 0 3px var(--beam-color)); }
+[data-subscription-comparison] .comparison-canvas::before { content: ''; position: absolute; inset: 8% 20%; pointer-events: none; background: radial-gradient(ellipse, #a78bfa26, transparent 68%); opacity: .55; }
+[data-subscription-comparison] .alveta-offer::before { content: ''; position: absolute; inset: -16px; border-radius: inherit; box-shadow: 0 0 48px #a78bfa30; pointer-events: none; }
+[data-subscription-comparison] .comparison-provider { transition: translate 350ms ease, scale 350ms ease, box-shadow 350ms ease; }
+[data-subscription-comparison] .comparison-provider:focus-within { box-shadow: 0 8px 28px #8b5cf629; }
+@media (hover: hover) and (pointer: fine) {
+  [data-subscription-comparison] .comparison-provider:hover { box-shadow: 0 8px 28px #8b5cf629; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes network-offer { from { opacity: 0; transform: scale(.965); } to { opacity: 1; transform: scale(1); } }
+  @keyframes network-card { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes network-draw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+  @keyframes network-fragments { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes network-travel { 0% { stroke-dashoffset: 9; opacity: 0; } 8%, 65% { opacity: .8; } 78%, 100% { stroke-dashoffset: -100; opacity: 0; } }
+  @keyframes network-ambient { from { opacity: .4; transform: scale(.96); } to { opacity: .8; transform: scale(1.06); } }
+  [data-network-entered] .alveta-offer { animation: network-offer 700ms cubic-bezier(.22, 1, .36, 1) both; }
+  [data-network-entered] .comparison-provider { animation: network-card 650ms cubic-bezier(.22, 1, .36, 1) both; animation-delay: calc(var(--network-delay) + 600ms); }
+  [data-network-entered] .network-trace { stroke-dasharray: 100; animation: network-draw 850ms cubic-bezier(.22, 1, .36, 1) var(--network-delay) both; }
+  [data-network-entered] .connector { animation: network-fragments 850ms ease var(--network-delay) both; }
+  [data-network-entered] .network-beam { animation: network-travel 4400ms linear var(--beam-delay) infinite; }
+  [data-network-entered] .comparison-canvas::before { animation: network-ambient 7s ease-in-out infinite alternate; }
+  [data-subscription-comparison] .comparison-provider:focus-within { translate: 0 -3px; scale: 1.015; }
+  @media (hover: hover) and (pointer: fine) {
+    [data-subscription-comparison] .comparison-provider:hover { translate: 0 -3px; scale: 1.015; }
+  }
+  [data-subscription-comparison][data-motion-suspended] .network-beam,
+  [data-subscription-comparison][data-motion-suspended] .comparison-canvas::before { animation-play-state: paused; }
+}
+
 /* Motion adds feedback without changing layout, image geometry or initial content visibility. */
 [data-motion-suspended] .logo-track,
 [data-motion-suspended] [data-motion-node] { animation-play-state: paused !important; }
@@ -62,4 +96,44 @@
 @media (prefers-reduced-motion: reduce) {
   .composer-beam { display: none; }
   [data-motion-entering], .hero-copy h1, .hero-copy > p, .hero-workspace, .customer-logos .logo-rows, .reveal figure { animation: none !important; }
+}
+
+/* Informational cards keep their semantics; focus styles support future links. */
+[data-subscription-comparison]:has([data-provider="chatgpt"]:focus-within) .network-connection { opacity: .3; }
+[data-subscription-comparison]:has([data-provider="chatgpt"]:focus-within) [data-network="chatgpt"] { opacity: 1; }
+[data-subscription-comparison]:has([data-provider="chatgpt"]:focus-within) [data-network="chatgpt"] .network-trace { opacity: .55; }
+[data-subscription-comparison]:has([data-provider="claude"]:focus-within) .network-connection { opacity: .3; }
+[data-subscription-comparison]:has([data-provider="claude"]:focus-within) [data-network="claude"] { opacity: 1; }
+[data-subscription-comparison]:has([data-provider="claude"]:focus-within) [data-network="claude"] .network-trace { opacity: .55; }
+[data-subscription-comparison]:has([data-provider="grok"]:focus-within) .network-connection { opacity: .3; }
+[data-subscription-comparison]:has([data-provider="grok"]:focus-within) [data-network="grok"] { opacity: 1; }
+[data-subscription-comparison]:has([data-provider="grok"]:focus-within) [data-network="grok"] .network-trace { opacity: .55; }
+[data-subscription-comparison]:has([data-provider="gemini"]:focus-within) .network-connection { opacity: .3; }
+[data-subscription-comparison]:has([data-provider="gemini"]:focus-within) [data-network="gemini"] { opacity: 1; }
+[data-subscription-comparison]:has([data-provider="gemini"]:focus-within) [data-network="gemini"] .network-trace { opacity: .55; }
+[data-subscription-comparison]:has([data-provider="deepseek"]:focus-within) .network-connection { opacity: .3; }
+[data-subscription-comparison]:has([data-provider="deepseek"]:focus-within) [data-network="deepseek"] { opacity: 1; }
+[data-subscription-comparison]:has([data-provider="deepseek"]:focus-within) [data-network="deepseek"] .network-trace { opacity: .55; }
+[data-subscription-comparison]:has([data-provider="kimi"]:focus-within) .network-connection { opacity: .3; }
+[data-subscription-comparison]:has([data-provider="kimi"]:focus-within) [data-network="kimi"] { opacity: 1; }
+[data-subscription-comparison]:has([data-provider="kimi"]:focus-within) [data-network="kimi"] .network-trace { opacity: .55; }
+@media (hover: hover) and (pointer: fine) {
+[data-subscription-comparison]:has([data-provider="chatgpt"]:hover) .network-connection { opacity: .3; }
+[data-subscription-comparison]:has([data-provider="chatgpt"]:hover) [data-network="chatgpt"] { opacity: 1; }
+[data-subscription-comparison]:has([data-provider="chatgpt"]:hover) [data-network="chatgpt"] .network-trace { opacity: .55; }
+[data-subscription-comparison]:has([data-provider="claude"]:hover) .network-connection { opacity: .3; }
+[data-subscription-comparison]:has([data-provider="claude"]:hover) [data-network="claude"] { opacity: 1; }
+[data-subscription-comparison]:has([data-provider="claude"]:hover) [data-network="claude"] .network-trace { opacity: .55; }
+[data-subscription-comparison]:has([data-provider="grok"]:hover) .network-connection { opacity: .3; }
+[data-subscription-comparison]:has([data-provider="grok"]:hover) [data-network="grok"] { opacity: 1; }
+[data-subscription-comparison]:has([data-provider="grok"]:hover) [data-network="grok"] .network-trace { opacity: .55; }
+[data-subscription-comparison]:has([data-provider="gemini"]:hover) .network-connection { opacity: .3; }
+[data-subscription-comparison]:has([data-provider="gemini"]:hover) [data-network="gemini"] { opacity: 1; }
+[data-subscription-comparison]:has([data-provider="gemini"]:hover) [data-network="gemini"] .network-trace { opacity: .55; }
+[data-subscription-comparison]:has([data-provider="deepseek"]:hover) .network-connection { opacity: .3; }
+[data-subscription-comparison]:has([data-provider="deepseek"]:hover) [data-network="deepseek"] { opacity: 1; }
+[data-subscription-comparison]:has([data-provider="deepseek"]:hover) [data-network="deepseek"] .network-trace { opacity: .55; }
+[data-subscription-comparison]:has([data-provider="kimi"]:hover) .network-connection { opacity: .3; }
+[data-subscription-comparison]:has([data-provider="kimi"]:hover) [data-network="kimi"] { opacity: 1; }
+[data-subscription-comparison]:has([data-provider="kimi"]:hover) [data-network="kimi"] .network-trace { opacity: .55; }
 }
