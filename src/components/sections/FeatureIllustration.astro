@@ -6,15 +6,18 @@ import ComparisonArtwork from './ComparisonArtwork.astro';
 interface Props { image: FeaturePanelContent['image']; }
 const { image } = Astro.props;
 const product = image.kind === 'comparison' ? undefined : featureMedia[image.kind];
+const paths = {models: 'feature-product.png', balance: 'feature-product1.png', private: 'feature-product2.png', files: 'feature-product3.png'};
+const customProduct = image.kind === 'comparison' ? Astro.locals.cmsMedia?.['/artwork/feature-comparison'] : Astro.locals.cmsMedia?.[`/src/assets/features/${paths[image.kind]}`];
+const customBackdrop = Astro.locals.cmsMedia?.['/src/assets/features/feature-image1.png'];
 ---
 <figure class:list={['feature-illustration', image.kind]} role="img" aria-label={image.alt} data-feature-illustration>
   <div class="art-stage" aria-hidden="true">
     <div class="backdrop-mask">
-      <Image src={backdrop} alt="" width={520} height={472} widths={[320, 520, 1040]} sizes="(max-width: 1023px) 90vw, 520px" format="webp" quality={92} loading="lazy" class="backdrop" />
+      {customBackdrop ? <img src={customBackdrop.src} alt="" width="520" height="472" loading="lazy" class="backdrop" /> : <Image src={backdrop} alt="" width={520} height={472} widths={[320, 520, 1040]} sizes="(max-width: 1023px) 90vw, 520px" format="webp" quality={92} loading="lazy" class="backdrop" />}
     </div>
-    {image.kind === 'comparison' ? <ComparisonArtwork /> : product && (
+    {image.kind === 'comparison' ? (customProduct ? <div class="product"><img src={customProduct.src} width="472" height="424" alt="" loading="lazy" /></div> : <ComparisonArtwork />) : product && (
       <div class="product">
-        <Image src={product} alt="" width={image.kind === 'files' ? 609 : 472} height={image.kind === 'files' ? 457 : 424} widths={[320, 472, 944]} sizes="(max-width: 1023px) 80vw, 472px" fit={image.kind === 'models' ? 'contain' : 'cover'} format="webp" quality={95} loading="lazy" />
+        {customProduct ? <img src={customProduct.src} alt="" width={image.kind === 'files' ? 609 : 472} height={image.kind === 'files' ? 457 : 424} loading="lazy" /> : <Image src={product} alt="" width={image.kind === 'files' ? 609 : 472} height={image.kind === 'files' ? 457 : 424} widths={[320, 472, 944]} sizes="(max-width: 1023px) 80vw, 472px" fit={image.kind === 'models' ? 'contain' : 'cover'} format="webp" quality={95} loading="lazy" />}
       </div>
     )}
   </div>

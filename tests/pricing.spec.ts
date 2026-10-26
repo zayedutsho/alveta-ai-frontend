@@ -67,7 +67,7 @@ test('currency, model disclosure and team signup retain API values', async ({ pa
   const modelRows = basic.locator('[data-model-list] li, [data-extra-models] li');
   await expect(modelRows.locator('[data-model-icon] img')).toHaveCount(await modelRows.count());
   const geminiRow = modelRows.filter({ hasText: 'Gemini' }).first();
-  await expect(geminiRow.locator('[data-model-icon] img')).toHaveAttribute('src', '/images/figma/model-gemini.png');
+  await expect(geminiRow.locator('[data-model-icon] img')).toHaveAttribute('src', /(?:\/images\/figma\/model-gemini\.png|https:\/\/cdn\.sanity\.io\/images\/iwd3xpdu\/production\/[^?]+\.png)/);
   await expect(geminiRow.locator('[data-model-icon]')).toBeVisible();
   const icons = await modelRows.locator('[data-model-icon] img').evaluateAll(async images => {
     await Promise.all(images.map(image => (image as HTMLImageElement).decode()));

@@ -2,7 +2,7 @@
 import MarketingLayout from '../layouts/MarketingLayout.astro';
 import Announcement from '../components/layout/Announcement.astro';
 import Header from '../components/layout/Header.astro';
-import { landingContent } from '../content/landing';
+import { loadMarketingContent } from '../lib/sanity';
 import Hero from '../components/sections/Hero.astro';
 import HeroBackground from '../components/sections/HeroBackground.astro';
 import CustomerLogos from '../components/sections/CustomerLogos.astro';
@@ -11,31 +11,31 @@ import LatestModels from '../components/sections/LatestModels.astro';
 import SubscriptionComparison from '../components/sections/SubscriptionComparison.astro';
 import Pricing from '../components/sections/Pricing.astro';
 import Testimonials from '../components/sections/Testimonials.astro';
-import { testimonialsContent } from '../content/testimonials';
 import Faq from '../components/sections/Faq.astro';
 import Articles from '../components/sections/Articles.astro';
 import ClosingCta from '../components/sections/ClosingCta.astro';
 import Footer from '../components/layout/Footer.astro';
-import { faqContent, articlesContent, closingCtaContent, footerContent } from '../content/landing-end';
+const { content, media } = await loadMarketingContent();
+Astro.locals.cmsMedia = media;
 ---
-<MarketingLayout>
+<MarketingLayout title={content.seo.title} description={content.seo.description} socialImageAlt={content.seo.socialImageAlt}>
   <div class="masthead">
     <HeroBackground />
-    <Announcement content={landingContent.announcement} />
-    <Header />
+    <Announcement content={content.announcement} />
+    <Header content={content.navigation} />
     <main id="main" tabindex="-1">
-      <div class="hero-area"><Hero content={landingContent.hero} /></div>
-      <CustomerLogos content={landingContent.customerLogos} />
-      <Features content={landingContent.features} />
-      <LatestModels content={landingContent.models} />
-      <SubscriptionComparison content={landingContent.subscriptionComparison} />
-      <Pricing />
-      <Testimonials content={testimonialsContent} />
-      <Faq content={faqContent} />
-      <Articles content={articlesContent} />
-      <ClosingCta content={closingCtaContent} />
+      <div class="hero-area"><Hero content={content.hero} /></div>
+      <CustomerLogos content={{...content.customerLogos, rows: content.customerLogos.rows.map(row => row.logos)}} />
+      <Features content={content.features} />
+      <LatestModels content={content.models} />
+      <SubscriptionComparison content={content.subscriptionComparison} />
+      <Pricing editorial={content.pricing} />
+      <Testimonials content={content.testimonials} />
+      <Faq content={{...content.faq, columns: content.faq.columns.map(column => column.items)}} />
+      <Articles content={content.articles} />
+      <ClosingCta content={content.closingCta} />
     </main>
-    <Footer content={footerContent} />
+    <Footer content={content.footer} />
   </div>
 </MarketingLayout>
 <style>

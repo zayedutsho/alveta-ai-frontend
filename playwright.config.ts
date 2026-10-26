@@ -15,5 +15,11 @@ export default defineConfig({
     url: 'http://127.0.0.1:4372/alveta/__calls',
     reuseExistingServer: true,
     timeout: 30000,
+  }, {
+    command: 'node node_modules/astro/bin/astro.mjs dev --host 127.0.0.1 --port 4373 --ignore-lock',
+    url: 'http://127.0.0.1:4373',
+    env: { SANITY_API_HOST: 'http://127.0.0.1:4372/sanity' },
+    reuseExistingServer: false,
+    timeout: 60000,
   }],
 });

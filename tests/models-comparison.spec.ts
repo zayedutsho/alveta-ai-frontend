@@ -64,7 +64,7 @@ for (const width of [320, 430, 768, 1024, 1440, 1920]) {
     // Every image must preserve its original aspect ratio after wrapper scaling.
     const ratios = await page.locator('[data-latest-models] img, [data-subscription-comparison] img').evaluateAll(images => images.filter(image => image.getBoundingClientRect().width).map(image => {
       const rect = image.getBoundingClientRect();
-      return { path: new URL((image as HTMLImageElement).src).pathname, ratio: rect.width / rect.height };
+      return { path: image.getAttribute('data-asset-source') ?? new URL((image as HTMLImageElement).src).pathname, ratio: rect.width / rect.height };
     }));
     for (const image of ratios) {
       const source = Object.values(assets).find(asset => asset.src === image.path);
