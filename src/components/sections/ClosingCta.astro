@@ -4,13 +4,14 @@ import ClosingArtwork from './ClosingArtwork.astro';
 import type { ClosingCtaContent } from '../../content/landing-end';
 interface Props { content: ClosingCtaContent; }
 const { content } = Astro.props;
+const artwork = Astro.locals.cmsMedia?.['/artwork/closing-workflow'];
 ---
 <section class="closing-cta" data-closing-cta aria-labelledby="closing-heading">
   <div class="container inner">
     <div class="copy"><h2 id="closing-heading">{content.heading.map(line => <span>{line}</span>)}</h2><p>{content.description}</p>
       <div class="actions"><Button href={content.primary.href}>{content.primary.label}</Button><Button href={content.secondary.href} variant="light">{content.secondary.label}</Button></div>
     </div>
-    <div class="art" aria-hidden="true"><div class="arch"></div><div class="art-slot"><ClosingArtwork /></div></div>
+    <div class="art" aria-hidden="true"><div class="arch"></div><div class="art-slot">{artwork ? <img src={artwork.src} width="478" height="264" alt="" loading="lazy" /> : <ClosingArtwork />}</div></div>
   </div>
 </section>
 <style>

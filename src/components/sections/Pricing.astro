@@ -1,10 +1,16 @@
 ---
-import { pricingContent as content } from '../../content/pricing';
+import { pricingContent } from '../../content/pricing';
+import { marketingDefaults, type MarketingContent } from '../../content/marketing';
 import { publicApiOrigin } from '../../lib/public-catalog';
 import { appLink } from '../../lib/app-links';
 import SectionHeading from '../common/SectionHeading.astro';
 import Button from '../common/Button.astro';
 import FigmaAsset from '../common/FigmaAsset.astro';
+interface Props { editorial?: MarketingContent['pricing']; }
+const { editorial = marketingDefaults.pricing } = Astro.props;
+const content = {...pricingContent, ...editorial, order: pricingContent.order, popular: pricingContent.popular,
+  features: pricingContent.features.map(feature => ({...feature, label: editorial.features.find(item => item.key === feature.key)?.label ?? feature.label})),
+};
 ---
 <section id="pricing" class="pricing container" aria-labelledby="pricing-heading" data-pricing data-api-origin={publicApiOrigin} data-register={appLink('/register')} data-content={JSON.stringify(content)}>
   <SectionHeading id="pricing-heading" heading={content.heading} description={content.description} />
@@ -14,12 +20,12 @@ import FigmaAsset from '../common/FigmaAsset.astro';
       <label class="toggle-option" data-checked>
         <input type="radio" name="plan-type" value="individual" checked class="toggle-radio" />
         <img class="toggle-icon individual-icon" src="/images/figma/pricing-individual.svg" width="20" height="20" alt="" />
-        <span>Individual</span>
+        <span>{content.individualLabel}</span>
       </label>
       <label class="toggle-option" data-team-option hidden>
         <input type="radio" name="plan-type" value="team" aria-label="Team/Organization" class="toggle-radio" />
         <img class="toggle-icon team-icon" src="/images/figma/pricing-team.svg" width="20" height="20" alt="" />
-        <span>Team Plan<span class="sr-only">/Organization</span></span>
+        <span>{content.teamLabel}<span class="sr-only">/Organization</span></span>
       </label>
     </fieldset>
     <label class="currency-label sr-only">Currency <select data-currency aria-label="Pricing currency"><option value="USD">USD</option><option value="BDT">BDT</option></select></label>
@@ -29,8 +35,8 @@ import FigmaAsset from '../common/FigmaAsset.astro';
   <div class="plan-grid" data-plan-grid aria-busy="true">
     {[0, 1, 2, 3].map(() => <div class="plan-skeleton" aria-hidden="true"></div>)}
   </div>
-  <p class="pricing-help"><a href={appLink('/#pricing')}>View current plans in Alveta<span aria-hidden="true"> →</span></a></p>
-  <noscript><p>Enable JavaScript to load current prices here, or follow the link above to view plans in Alveta.</p></noscript>
+  <p class="pricing-help"><a href={appLink('/#pricing')}>{content.helpLabel}<span aria-hidden="true"> →</span></a></p>
+  <noscript><p>{content.noScriptMessage}</p></noscript>
   <template data-plan-template>
     <article class="plan">
       <div class="popular-label" data-popular-label hidden>{content.popularLabel}</div>
@@ -40,9 +46,9 @@ import FigmaAsset from '../common/FigmaAsset.astro';
         <p class="currency-fallback" data-currency-fallback hidden>BDT unavailable; shown in USD.</p>
         <label class="seat-control" data-seat-control hidden>Seats <input data-seats type="number" inputmode="numeric" step="1" /></label>
         <p class="team-total" data-team-total hidden></p>
-        <p class="token-value"><span class="token-stars" aria-hidden="true"><FigmaAsset name="pricing-stars" /></span><span><span class="token-prefix">Includes </span><span data-tokens></span></span></p>
+        <p class="token-value"><span class="token-stars" aria-hidden="true"><FigmaAsset name="pricing-stars" /></span><span><span class="token-prefix">{content.tokenPrefix}</span><span data-tokens></span></span></p>
         <Button href={appLink('/register')} variant="light" class="pricing-cta">{content.ctaLabel}</Button>
-        <div class="plan-models"><div class="models-heading"><span>AI Models</span><span class="model-count" data-model-count></span></div><ul data-model-list></ul><details data-more-models hidden><summary><span data-more-label></span><span class="more-arrow" aria-hidden="true"><FigmaAsset name="pricing-arrowup01" /></span></summary><ul data-extra-models></ul></details><p data-model-status></p></div>
+        <div class="plan-models"><div class="models-heading"><span>{content.modelsLabel}</span><span class="model-count" data-model-count></span></div><ul data-model-list></ul><details data-more-models hidden><summary><span data-more-label></span><span class="more-arrow" aria-hidden="true"><FigmaAsset name="pricing-arrowup01" /></span></summary><ul data-extra-models></ul></details><p data-model-status></p></div>
         <ul class="plan-features" data-plan-features></ul>
       </div>
     </article>

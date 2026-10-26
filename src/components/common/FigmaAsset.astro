@@ -3,5 +3,6 @@ import { figmaAsset } from '../../lib/figma-assets';
 interface Props { name: string; alt?: string; class?: string; }
 const { name, alt = '', class: className } = Astro.props;
 const asset = figmaAsset(name);
+const media = Astro.locals.cmsMedia?.[asset.src];
 ---
-<img {...asset} alt={alt} class={className} draggable="false" />
+<img {...{...asset, src: media?.src ?? asset.src}} data-asset-source={asset.src} alt={media?.alt || alt} class={className} draggable="false" />

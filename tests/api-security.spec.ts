@@ -59,7 +59,10 @@ for (const origin of ['', 'https://unapproved.example.test', 'http://api.alveta.
     test.use({ apiOrigin: origin });
     test('shows a safe failure without sending catalog requests', async ({ page, request }) => {
       const external: string[] = [];
-      page.on('request', req => { if (!req.url().startsWith('http://127.0.0.1:4371')) external.push(req.url()); });
+      page.on('request', req => {
+        // Public Sanity image requests are expected; this guarantee concerns catalog/API traffic.
+        if (['fetch', 'xhr'].includes(req.resourceType()) && !req.url().startsWith('http://127.0.0.1:4371')) external.push(req.url());
+      });
       await page.goto('/');
       await expect(page.locator('[data-pricing-retry]')).toBeVisible();
       await expect(page.locator('[data-pricing] article')).toHaveCount(0);

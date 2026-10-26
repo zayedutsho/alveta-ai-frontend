@@ -5,7 +5,7 @@ export interface TestimonialCard {
   portrait: { src: string; width: number; height: number };
   quote?: string;
   demo?: boolean;
-  avatar?: { src: string; width: number; height: number };
+  avatar?: { src: string; width: number; height: number } | null;
 }
 /** Figma editorial examples. Verify attribution and consent before publication. */
 export interface TestimonialsContent {

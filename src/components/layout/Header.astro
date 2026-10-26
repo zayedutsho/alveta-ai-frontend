@@ -3,12 +3,10 @@ import FigmaAsset from '../common/FigmaAsset.astro';
 import Button from '../common/Button.astro';
 import { appLink } from '../../lib/app-links';
 import { publicApiOrigin as apiOrigin } from '../../lib/public-catalog';
-const products = [
-  { label: 'AI Chat', path: '/chat' },
-  { label: 'Image workspace', path: '/images' },
-  { label: 'Design workspace', path: '/designs' },
-  { label: 'Balance & top-ups', path: '/wallet' },
-];
+import { marketingDefaults, type MarketingContent } from '../../content/marketing';
+interface Props { content?: MarketingContent['navigation']; }
+const { content = marketingDefaults.navigation } = Astro.props;
+const products = content.products;
 ---
 <header class="header container" data-header>
   <a class="brand" href="/" aria-label="Alveta home" data-home-link>
@@ -20,27 +18,27 @@ const products = [
   </button>
   <nav id="primary-navigation" class="navigation" aria-label="Main navigation">
     <div class="nav-links">
-      <a href="#features">Features</a>
+      <a href="#features">{content.featuresLabel}</a>
       <details class="nav-dropdown" data-model-menu data-api-origin={apiOrigin}>
-        <summary>Models<FigmaAsset name="huge-icon-arrows-outline-direction-down2" /></summary>
+        <summary>{content.modelsLabel}<FigmaAsset name="huge-icon-arrows-outline-direction-down2" /></summary>
         <div class="dropdown-panel model-panel">
-          <p class="dropdown-heading">Leading models, one workspace</p>
+          <p class="dropdown-heading">{content.modelsHeading}</p>
           <ul data-model-list></ul>
-          <p class="model-status" data-model-status role="status">Explore available models in Alveta.</p>
-          <a href={appLink('/register')}>Explore models <span aria-hidden="true">→</span></a>
+          <p class="model-status" data-model-status role="status">{content.modelsEmpty}</p>
+          <a href={appLink('/register')}>{content.modelsCtaLabel} <span aria-hidden="true">→</span></a>
         </div>
       </details>
       <details class="nav-dropdown">
-        <summary>Products<FigmaAsset name="huge-icon-arrows-outline-direction-down2" /></summary>
+        <summary>{content.productsLabel}<FigmaAsset name="huge-icon-arrows-outline-direction-down2" /></summary>
         <div class="dropdown-panel">
           {products.map(product => <a href={appLink(product.path)}>{product.label}</a>)}
         </div>
       </details>
-      <a href="#pricing">Pricing</a>
+      <a href="#pricing">{content.pricingLabel}</a>
     </div>
     <div class="account-links">
-      <a class="sign-in" href={appLink('/login')}>Sign In<FigmaAsset name="square-unlock02" /></a>
-      <Button href={appLink('/register')}>Get Started<FigmaAsset name="arrow-right02" /></Button>
+      <a class="sign-in" href={appLink('/login')}>{content.signInLabel}<FigmaAsset name="square-unlock02" /></a>
+      <Button href={appLink('/register')}>{content.signupLabel}<FigmaAsset name="arrow-right02" /></Button>
     </div>
   </nav>
 </header>

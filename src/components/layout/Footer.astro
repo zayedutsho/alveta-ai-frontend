@@ -1,12 +1,13 @@
 ---
 import type { FooterContent } from '../../content/landing-end';
+import ContentImage from '../common/ContentImage.astro';
 interface Props { content: FooterContent; }
 const { content } = Astro.props;
 ---
 <footer class="footer" data-footer>
   <div class="container">
     <div class="top">
-      <div class="brand"><a href="#main" aria-label="Alveta, back to main content"><img src="/images/ending/footer-logo6.svg" width="174" height="42" alt="Alveta" loading="lazy" /></a><p>{content.description}</p>
+      <div class="brand"><a href="#main" aria-label="Alveta, back to main content"><ContentImage src="/images/ending/footer-logo6.svg" width="174" height="42" alt="Alveta" loading="lazy" /></a><p>{content.description}</p>
         <ul class="socials" aria-label="Social profiles pending publication">{content.socials.map(item => <li><span aria-label={`${item.name} profile coming soon`}><img src={item.image} width="28" height="28" alt={item.name} loading="lazy" /></span></li>)}</ul>
       </div>
       <nav aria-label="Legal"><h2>{content.legalHeading}</h2><ul>{content.legal.map(item => <li>{item.href ? <a href={item.href}>{item.label}</a> : <span aria-disabled="true">{item.label}</span>}</li>)}</ul></nav>
@@ -16,8 +17,8 @@ const { content } = Astro.props;
         <p id="newsletter-notice" class="notice">{content.newsletter.notice}</p>
       </div>
     </div>
-    <div class="watermark" aria-hidden="true"><img src="/images/ending/footer-logo5.svg" width="1204" height="248" alt="" loading="lazy" /></div>
-    <div class="attribution"><p>{content.attribution}</p><img src="/images/ending/footer-logo11.svg" width="129" height="24" alt="SubscriptionPro" loading="lazy" /></div>
+    <div class="watermark" aria-hidden="true"><ContentImage src="/images/ending/footer-logo5.svg" width="1204" height="248" alt="" loading="lazy" /></div>
+    <div class="attribution"><p>{content.attribution}</p><ContentImage src="/images/ending/footer-logo11.svg" width="129" height="24" alt="SubscriptionPro" loading="lazy" /></div>
   </div>
   <img class="glow" src="/images/ending/footer-vector18.svg" width="1752" height="1760" alt="" loading="lazy" aria-hidden="true" />
 </footer>

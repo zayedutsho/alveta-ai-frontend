@@ -3,32 +3,30 @@ import FigmaAsset from '../common/FigmaAsset.astro';
 import ResponsiveAsset from '../common/ResponsiveAsset.astro';
 import type { HeroContent } from '../../types/content';
 import { appLink } from '../../lib/app-links';
-interface Props { content: HeroContent; }
+import { heroVariants as modes } from '../../content/hero-variants';
+interface Props { content: HeroContent & {variants?: {id: string; label: string; assistant: string; placeholder: string}[]}; }
 const { content } = Astro.props;
 const signup = appLink('/register');
-const modes = [
-  { icon: 'ai-browser', label: 'AI chat' },
-  { icon: 'ai-image-edit', label: 'AI images' },
-  { icon: 'ai-programming', label: 'AI coding' },
-  { icon: 'ai-voice', label: 'AI voice tools' },
-  { icon: 'ai-video', label: 'AI video tools' },
-];
+const variants = modes.map(mode => ({...mode, ...content.variants?.find(variant => variant.id === mode.id)}));
 ---
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero-copy">
     <h1 id="hero-title"><span>{content.heading[0]}</span><span>{content.heading[1]}</span></h1>
     <p>{content.description}</p>
   </div>
-  <div class="hero-workspace">
+  <div class="hero-workspace" data-hero-workspace>
     <div class="modes" role="group" aria-label="Explore AI tools">
-      {modes.map((mode, index) => (
+      {variants.map((mode, index) => (
         <div class:list={['mode-slot', { selected: index === 0 }]}>
-          <a class="mode" href={signup} aria-label={`Sign up for ${mode.label}`}><ResponsiveAsset name={mode.icon} /></a>
-          {index === 0 && <span class="mode-pointer"><ResponsiveAsset name="vector" /></span>}
+          <button type="button" class="mode" data-hero-mode={mode.id} aria-label={mode.label} aria-pressed={index === 0 ? 'true' : 'false'} aria-controls="hero-composer">
+            <span class="mode-icon inactive-icon">{mode.inactiveIcon ? <img src={mode.inactiveIcon} width="28" height="28" alt="" /> : <ResponsiveAsset name={mode.icon} />}</span>
+            <span class="mode-icon active-icon">{mode.activeIcon ? <img src={mode.activeIcon} width="28" height="28" alt="" /> : <ResponsiveAsset name={mode.icon} />}</span>
+          </button>
+          <span class="mode-pointer" hidden={index !== 0}><ResponsiveAsset name="vector" /></span>
         </div>
       ))}
     </div>
-    <form class="composer" action={signup} method="get" aria-label="Start using Alveta" data-composer>
+    <form id="hero-composer" class="composer" action={signup} method="get" aria-label="Start using Alveta" data-composer data-mode="chat" data-default-placeholder={content.placeholder} data-default-cta={content.ctaLabel} data-variants={JSON.stringify(variants.map(({id, label, assistant, placeholder}) => ({id, label, assistant, placeholder})))}>
       <svg class="composer-beam" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="composer-beam-gradient">
@@ -43,7 +41,7 @@ const modes = [
       </svg>
       <div class="composer-header">
         <a class="assistant" href={signup} aria-label="Sign up to choose an AI assistant">
-          <ResponsiveAsset name="robotic" /><span>General Assistance</span>
+          <ResponsiveAsset name="robotic" /><span data-assistant-label>{variants[0]!.assistant}</span>
           <span class="separator small"><ResponsiveAsset name="line9" /></span>
           <ResponsiveAsset name="arrow-down01" />
         </a>
@@ -62,19 +60,28 @@ const modes = [
             <a href={signup} class="round-control mobile-search" aria-label="Sign up to research with AI"><FigmaAsset name="mobile-telescope01" /></a>
             <a href={signup} class="model-picker" aria-label="Sign up to select from multiple AI models">
               <span class="model-logos" aria-hidden="true">
-                <span class="provider openai"><ResponsiveAsset name="chat-gpt" /></span>
-                <span class="provider gemini"><span class="gemini-asset"><FigmaAsset name="logo" /></span></span>
-                <span class="provider claude"><FigmaAsset name="claude" /></span>
-                <span class="provider copilot"><FigmaAsset name="logo1" /></span>
+                <span class="provider openai" data-modes="chat code voice video"><ResponsiveAsset name="chat-gpt" /></span>
+                <span class="provider gemini" data-modes="chat image voice video"><span class="gemini-asset"><FigmaAsset name="logo" /></span></span>
+                <span class="provider claude" data-modes="chat code voice video"><FigmaAsset name="claude" /></span>
+                <span class="provider copilot" data-modes="chat" data-last-provider><FigmaAsset name="logo1" /></span>
               </span>
-              <span class="model-count">4+</span><span class="separator"><ResponsiveAsset name="line10" /></span><ResponsiveAsset name="arrow-down2" />
+              <span class="model-count" data-modes="chat">4+</span><span class="image-model-name" data-modes="image" hidden>Nano Banna</span><span class="separator"><ResponsiveAsset name="line10" /></span><ResponsiveAsset name="arrow-down2" />
             </a>
-            <a href={signup} class="round-control desktop-filters" aria-label="Sign up to configure AI settings"><FigmaAsset name="filter-horizontal" /></a>
+            <a href={signup} class="round-control desktop-filters" data-modes="chat image code" aria-label="Sign up to configure AI settings"><FigmaAsset name="filter-horizontal" /></a>
           </div>
+          <div class="aspect-options" data-modes="image video" hidden role="group" aria-label="Aspect ratio">
+            <button type="button" class="aspect-option" data-aspect="1:1" data-modes="image" aria-pressed="true"><img src="/images/figma/hero-square.svg" width="20" height="20" alt="" /><span>1:1</span></button>
+            <button type="button" class="aspect-option" data-aspect="16:9" aria-pressed="false"><img src="/images/figma/hero-square.svg" width="20" height="20" alt="" /><span>16:9</span></button>
+            <a href={signup} class="aspect-option more-options" aria-label="Sign up for more aspect ratios"><img src="/images/figma/hero-ellipsis.svg" width="20" height="20" alt="" /></a>
+          </div>
+          <a href={signup} class="duration-option" data-modes="video" hidden aria-label="Sign up to change video duration">10 S</a>
           <div class="tools-right">
-            <label class="compare"><span class="compare-label">Compare</span><input type="checkbox" aria-label="Compare AI model responses" /><span class="switch" aria-hidden="true"></span></label>
-            <a href={signup} class="microphone" aria-label="Sign up to use voice input"><ResponsiveAsset name="mic01" /></a>
-            <button type="submit" class="generate" aria-label={`${content.ctaLabel} — sign up to chat`}><span>{content.ctaLabel}</span><ResponsiveAsset name="ai-sparkles" /></button>
+            <label class="compare" data-modes="chat code voice video"><span class="compare-label">Compare</span><input type="checkbox" aria-label="Compare AI model responses" /><span class="switch" aria-hidden="true"></span></label>
+            <a href={signup} class="microphone" data-modes="chat" aria-label="Sign up to use voice input"><ResponsiveAsset name="mic01" /></a>
+            <a href={signup} class="voice-picker" data-modes="voice video" hidden aria-label="Sign up to choose a voice">
+              <img class="voice-avatar" src="/images/figma/hero-voice-avatar.png" width="28" height="28" alt="" /><span>Ricky Jerry</span><img class="voice-arrow" src="/images/figma/hero-voice-arrow.svg" width="20" height="20" alt="" />
+            </a>
+            <button type="submit" class="generate" aria-label={`${content.ctaLabel} — sign up to chat`}><span data-generate-label>{content.ctaLabel}</span><ResponsiveAsset name="ai-sparkles" /></button>
           </div>
         </div>
       </div>
@@ -83,6 +90,7 @@ const modes = [
   </div>
 </section>
 <script>
+  import '../../scripts/hero-variants';
   const composer = document.querySelector<HTMLElement>('[data-composer]');
   composer?.addEventListener('pointerdown', () => composer.setAttribute('data-pointer-focus', ''));
   document.addEventListener('keydown', event => {
@@ -98,12 +106,14 @@ const modes = [
   .hero-copy p { margin-top: 24px; font-size: 18px; line-height: 1.35; color: var(--color-paragraph); }
   .hero-workspace { margin-top: 32px; }
   .modes { display: flex; align-items: flex-start; justify-content: center; gap: 12px; height: 68px; }
-  .mode-slot { position: relative; width: 52px; flex: 0 0 52px; }
-  .mode-slot.selected { width: 48px; flex-basis: 48px; }
-  .mode { position: relative; display: grid; place-items: center; width: 52px; height: 52px; border: 2px solid white; border-radius: 99px; background: var(--color-primary-wash); box-shadow: var(--shadow-nav); transition: translate var(--motion-fast) var(--motion-ease), box-shadow var(--motion-fast) ease-out; }
+  .mode-slot { position: relative; width: 51.2px; flex: 0 0 51.2px; }
+  .mode { position: relative; left: -.4px; display: grid; place-items: center; width: 52px; height: 52px; padding: 0; border: 2px solid white; border-radius: 99px; background: var(--color-primary-wash); box-shadow: var(--shadow-nav); transition: background-color 300ms ease, translate var(--motion-fast) var(--motion-ease), box-shadow var(--motion-fast) ease-out; }
   .mode:hover { box-shadow: 0 2px 12px #7d52f44d; }
-  .selected .mode { background: var(--color-primary); margin-left: -2px; }
-  .mode-pointer { position: absolute; left: 8px; top: 50.25px; }
+  .selected .mode { background: var(--color-primary); }
+  .mode-icon { grid-area: 1 / 1; display: grid; place-items: center; opacity: 1; transition: opacity 300ms ease; }
+  .active-icon, .selected .inactive-icon { opacity: 0; }
+  .selected .active-icon { opacity: 1; }
+  .mode-pointer { position: absolute; left: 9.6px; top: 50.25px; }
   .composer { --composer-radius: 24px; --composer-border-width: 1.5px; position: relative; border: var(--composer-border-width) solid transparent; border-radius: var(--composer-radius); padding: 10px; background: linear-gradient(#fcfcfc, #fcfcfc) padding-box, linear-gradient(110deg, #f7bf6f, #ffc4e7) border-box; box-shadow: var(--shadow-nav); }
   .composer-beam { position: absolute; z-index: 2; top: calc(0px - var(--composer-border-width)); left: calc(0px - var(--composer-border-width)); right: auto; bottom: auto; width: calc(100% + var(--composer-border-width) + var(--composer-border-width)); height: calc(100% + var(--composer-border-width) + var(--composer-border-width)); overflow: visible; pointer-events: none; filter: drop-shadow(0 0 1px rgb(125 82 244 / 18%)); }
   .composer-beam rect { width: calc(100% - 1.5px); height: calc(100% - 1.5px); rx: calc(var(--composer-radius) - 0.75px); animation: composer-border-beam 28s linear infinite; }
@@ -121,7 +131,7 @@ const modes = [
   .composer[data-pointer-focus] .prompt-row:has(textarea:focus-visible) { box-shadow: none; outline: none; }
   textarea::placeholder { color: var(--color-muted); opacity: 1; }
   .prompt-enhance { display: grid; place-items: center; }
-  .composer-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 36px; }
+  .composer-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 36px; min-height: 46px; }
   .tools-left, .tools-right { display: flex; align-items: center; }
   .tools-left { gap: 12px; }
   .tools-right { gap: 20px; }
@@ -133,6 +143,7 @@ const modes = [
   .model-logos { display: flex; align-items: center; }
   .provider { position: relative; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 99px; overflow: clip; }
   .provider:not(:last-child) { margin-right: -18px; }
+  .provider[data-last-provider] { margin-right: 0; }
   .openai { background: #111; }
   .gemini, .copilot { background: white; }
   .claude { background: #f0eee5; }
@@ -149,20 +160,40 @@ const modes = [
   .generate:hover { background: var(--color-primary-darkest); }
   .round-control:hover, .assistant:hover, .model-picker:hover { background: var(--color-primary-wash); }
   .mobile-search { display: none; }
-  @media (max-width: 900px) and (min-width: 768px) { .hero { padding-top: 80px; } }
+  .image-model-name { font-weight: 500; white-space: nowrap; color: #000; }
+  .aspect-options { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .aspect-option { display: inline-flex; justify-content: center; align-items: center; gap: 8px; height: 42px; padding: 10px 12px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); font-size: 14px; font-weight: 500; line-height: 20px; letter-spacing: .42px; white-space: nowrap; }
+  .aspect-option[aria-pressed='true']:focus-visible { outline-color: var(--color-primary); }
+  .duration-option { display: grid; place-items: center; flex: 0 0 60px; height: 46px; border: 1px solid var(--color-border); border-radius: 99px; background: var(--color-surface); font-size: 14px; font-weight: 500; letter-spacing: .42px; }
+  .voice-picker { display: flex; align-items: center; gap: 6px; height: 46px; padding: 10px; border: 1px solid var(--color-border); border-radius: 99px; background: var(--color-surface); white-space: nowrap; color: #000; }
+  .voice-avatar { object-fit: cover; mask: url('/images/figma/hero-voice-mask.svg') center / contain no-repeat; }
+  .voice-arrow { margin-left: 2px; transform: scaleY(-1); }
+  .composer[data-mode='image'] .model-picker { gap: 8px; }
+  .composer:not([data-mode='chat']) textarea::placeholder { color: var(--color-heading); }
+  .composer:not([data-mode='chat']) .compare { font-weight: 500; }
+  .composer[data-mode='video'] .compare-label, .composer[data-mode='video'] .generate > span { display: none; }
+  .composer[data-mode='video'] .generate { width: 60px; padding: 8px 20px; }
+  @media (max-width: 900px) and (min-width: 768px) {
+    .hero { padding-top: 80px; }
+    .composer-toolbar, .tools-left { gap: 8px; }
+    .voice-picker > span { display: none; }
+  }
   @media (max-width: 767px) {
     .hero { padding-top: 33px; padding-bottom: 24px; }
     h1 { font-size: 32px; line-height: 38px; text-box: normal; }
     .hero-copy p { margin-top: 12px; font-size: 14px; line-height: 1.4; }
     .hero-workspace { margin-top: 24px; }
     .modes { gap: 8px; }
+    .mode-icon > img { transform: scale(.857142857); }
     .composer { --composer-radius: 16px; padding: 8px; }
     .assistant { height: 40px; font-size: 14px; padding: 10px 12px; gap: 6px; }
     .credits { font-size: 14px; letter-spacing: .42px; }
     .prompt-panel { padding: 8px; box-shadow: none; }
     textarea { font-size: 12px; line-height: 20px; height: 20px; min-height: 20px; }
     .prompt-row { min-height: 20px; }
-    .composer-toolbar { margin-top: 20px; gap: 8px; }
+    .composer-toolbar { margin-top: 20px; gap: 8px; flex-wrap: wrap; min-height: 90px; align-content: space-between; }
+    .tools-left { flex-basis: 100%; }
+    .tools-right { margin-left: auto; }
     .tools-left { gap: 8px; }
     .tools-right { gap: 10px; }
     .round-control { width: 40px; height: 40px; flex-shrink: 0; }
@@ -172,6 +203,7 @@ const modes = [
     .provider { width: 32px; height: 32px; }
     .provider:not(.openai) { display: none; }
     .provider.openai { margin-right: 0; }
+    .composer[data-mode='image'] .provider.gemini { display: grid; margin-right: 0; }
     .compare-label { display: none; }
     .compare { min-height: 40px; }
     .switch { width: 36.667px; height: 20px; padding: 1.667px; }
@@ -179,10 +211,19 @@ const modes = [
     .compare input:checked + .switch::after { transform: translateX(16.667px); }
     .generate { min-height: 40px; width: 40px; padding: 10px; background: var(--color-primary-darkest); }
     .generate > span { display: none; }
+    .image-model-name { font-size: 14px; }
+    .aspect-options { gap: 4px; }
+    .aspect-option { height: 36px; padding: 6px 4px; gap: 4px; font-size: 12px; letter-spacing: 0; }
+    .more-options { width: 28px; }
+    .duration-option { flex-basis: 36px; height: 36px; font-size: 12px; letter-spacing: 0; }
+    .voice-picker { height: 40px; width: 40px; padding: 5px; }
+    .voice-picker > span, .voice-arrow { display: none; }
+    .composer[data-mode='video'] .generate { width: 40px; padding: 10px; }
   }
   @media (max-width: 390px) {
     h1 { font-size: clamp(24px, 7.45vw, 29px); line-height: 1.2; }
     .assistant { gap: 4px; padding-inline: 8px; font-size: 12px; }
+    .prompt-row { min-height: 40px; }
     .composer-toolbar { flex-wrap: wrap; justify-content: space-between; row-gap: 12px; }
     .mobile-search { display: none; }
     .model-picker { gap: 5px; padding-right: 8px; }
