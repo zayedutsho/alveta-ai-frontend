@@ -9,16 +9,16 @@ import FigmaAsset from '../common/FigmaAsset.astro';
 <section id="pricing" class="pricing container" aria-labelledby="pricing-heading" data-pricing data-api-origin={publicApiOrigin} data-register={appLink('/register')} data-content={JSON.stringify(content)}>
   <SectionHeading id="pricing-heading" heading={content.heading} description={content.description} />
   <div class="pricing-controls" data-controls hidden>
-    <fieldset class="toggle-pill">
+    <fieldset class="toggle-pill" data-pricing-toggle>
       <legend class="sr-only">Plan type</legend>
       <label class="toggle-option" data-checked>
         <input type="radio" name="plan-type" value="individual" checked class="toggle-radio" />
-        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <img class="toggle-icon individual-icon" src="/images/figma/pricing-individual.svg" width="20" height="20" alt="" />
         <span>Individual</span>
       </label>
       <label class="toggle-option" data-team-option hidden>
         <input type="radio" name="plan-type" value="team" aria-label="Team/Organization" class="toggle-radio" />
-        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-3-3.87"/><path d="M9 21v-2a4 4 0 0 1 4-4h2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <img class="toggle-icon team-icon" src="/images/figma/pricing-team.svg" width="20" height="20" alt="" />
         <span>Team Plan<span class="sr-only">/Organization</span></span>
       </label>
     </fieldset>
@@ -40,7 +40,7 @@ import FigmaAsset from '../common/FigmaAsset.astro';
         <p class="currency-fallback" data-currency-fallback hidden>BDT unavailable; shown in USD.</p>
         <label class="seat-control" data-seat-control hidden>Seats <input data-seats type="number" inputmode="numeric" step="1" /></label>
         <p class="team-total" data-team-total hidden></p>
-        <p class="token-value"><span class="token-stars" aria-hidden="true"><FigmaAsset name="pricing-stars" /></span><span class="token-prefix">Includes </span><span data-tokens></span></p>
+        <p class="token-value"><span class="token-stars" aria-hidden="true"><FigmaAsset name="pricing-stars" /></span><span><span class="token-prefix">Includes </span><span data-tokens></span></span></p>
         <Button href={appLink('/register')} variant="light" class="pricing-cta">{content.ctaLabel}</Button>
         <div class="plan-models"><div class="models-heading"><span>AI Models</span><span class="model-count" data-model-count></span></div><ul data-model-list></ul><details data-more-models hidden><summary><span data-more-label></span><span class="more-arrow" aria-hidden="true"><FigmaAsset name="pricing-arrowup01" /></span></summary><ul data-extra-models></ul></details><p data-model-status></p></div>
         <ul class="plan-features" data-plan-features></ul>
@@ -53,73 +53,123 @@ import FigmaAsset from '../common/FigmaAsset.astro';
   <template data-provider-icon="anthropic"><FigmaAsset name="pricing-claude" /></template>
   <template data-provider-icon="anthropic-popular"><FigmaAsset name="pricing-claude1" /></template>
   <template data-provider-icon="google"><span class="gemini-scale"><FigmaAsset name="model-gemini" /></span></template>
+  <template data-provider-icon="xai"><span class="provider-scale" style="--icon-scale: .50367785"><FigmaAsset name="model-logos-grok-icon" /></span></template>
+  <template data-provider-icon="deepseek"><span class="provider-scale" style="--icon-scale: .5209701"><FigmaAsset name="subscription-icon1" /></span></template>
+  <template data-provider-icon="moonshot"><span class="provider-scale" style="--icon-scale: .52084375"><FigmaAsset name="subscription-kimi" /></span></template>
+  <template data-provider-icon="unknown"><span class="provider-scale" style="--icon-scale: .83335"><FigmaAsset name="pricing-stars" /></span></template>
 </section>
-<script>import '../../scripts/pricing';</script>
+<script>
+  import '../../scripts/pricing';
+  import '../../scripts/pricing-toggle-motion';
+</script>
 <style>
+  @property --pricing-beam-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  @keyframes pricing-team-beam {
+    0% { --pricing-beam-angle: -45deg; opacity: 0; }
+    8% { opacity: 1; }
+    42% { opacity: 1; }
+    52%, 100% { --pricing-beam-angle: 315deg; opacity: 0; }
+  }
+  @keyframes pricing-individual-beam {
+    0%, 42% { --pricing-beam-angle: -225deg; opacity: 0; }
+    54% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { --pricing-beam-angle: 135deg; opacity: 0; }
+  }
+  @keyframes pricing-beam-transfer {
+    0%, 39% { transform: translate(6px, -50%); opacity: 0; }
+    45% { opacity: .8; }
+    55% { transform: translate(-6px, -50%); opacity: .8; }
+    62%, 100% { transform: translate(-6px, -50%); opacity: 0; }
+  }
+  @font-face { font-family: 'Pricing Inter Display'; src: url('/fonts/inter-display-semibold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
   .pricing { margin-top: 72px; margin-bottom: 96px; scroll-margin-top: 24px; }
-  .pricing :global(.section-heading) { max-width: 580px; margin-inline: auto; text-align: center; }
-  .pricing :global(.section-heading h2) { font-size: 38px; line-height: 1.25; font-weight: 600; color: #111827; letter-spacing: -0.02em; }
-  .pricing :global(.section-heading p) { margin-top: 14px; font-size: 14px; line-height: 1.5; color: #52525b; }
-  .pricing-controls { display: flex; justify-content: center; align-items: center; margin-top: 28px; position: relative; font-size: 13px; }
-  .toggle-pill { display: inline-flex; align-items: center; background: #f1eff8; border: none; border-radius: 99px; padding: 4px; gap: 4px; margin: 0; }
-  .toggle-option { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 99px; font-size: 13px; font-weight: 500; color: #555170; cursor: pointer; transition: background 0.15s ease, color 0.15s ease; user-select: none; }
-  .toggle-option[data-checked] { background: #380e87; color: #ffffff; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12); }
-  .toggle-option:focus-within { outline: 2px solid #380e87; outline-offset: 2px; }
-  .toggle-radio { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.001; margin: 0; cursor: pointer; z-index: 1; }
+  .pricing :global(.section-heading) { max-width: 514px; margin-inline: auto; text-align: center; }
+  .pricing :global(.section-heading h2) { font-size: 40px; line-height: 52px; font-weight: 500; color: var(--color-heading); letter-spacing: 0; }
+  .pricing :global(.section-heading p) { margin-top: 20px; font-size: 16px; line-height: 24px; color: var(--color-paragraph); }
+  .pricing-controls { display: flex; justify-content: center; align-items: center; margin-top: 24px; position: relative; }
+  .toggle-pill { position: relative; display: inline-flex; align-items: center; background: var(--color-primary-wash); border: 0; border-radius: 99px; padding: 4px; gap: 6px; margin: 0; min-width: 0; }
+  .toggle-option { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 132px; height: 40px; padding: 6px 15px; border: 1px solid transparent; border-radius: 99px; font-size: 16px; line-height: 24px; font-weight: 400; color: var(--color-paragraph); cursor: pointer; white-space: nowrap; }
+  .toggle-option[data-checked] { background: var(--color-primary-deep); border-color: #f7bf6f; border-radius: 99px; color: white; }
+  .toggle-option::before {
+    content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; pointer-events: none; opacity: 0;
+    background: conic-gradient(from var(--pricing-beam-angle), transparent 0deg 240deg, #7d52f4 280deg, #d9caff 315deg, #9e86f8 340deg, transparent 360deg);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude;
+    filter: drop-shadow(0 0 2px rgb(125 82 244 / 25%));
+  }
+  .toggle-pill::after {
+    content: ''; position: absolute; left: calc(50% - 7px); top: 50%; width: 14px; height: 2px; border-radius: 99px;
+    background: linear-gradient(90deg, transparent, #d9caff, #7d52f4, transparent); opacity: 0; pointer-events: none;
+    box-shadow: 0 0 3px rgb(125 82 244 / 20%);
+  }
+  .toggle-pill[data-border-transfer="running"] .toggle-option:has(input[value="team"])::before { animation: pricing-team-beam 1.8s cubic-bezier(.4, 0, .2, 1) both; }
+  .toggle-pill[data-border-transfer="running"] .toggle-option:has(input[value="individual"])::before { animation: pricing-individual-beam 1.8s cubic-bezier(.4, 0, .2, 1) both; }
+  .toggle-pill[data-border-transfer="running"]::after { animation: pricing-beam-transfer 1.8s cubic-bezier(.4, 0, .2, 1) both; }
+  @media (prefers-reduced-motion: reduce) {
+    .toggle-pill[data-border-transfer="running"] .toggle-option::before,
+    .toggle-pill[data-border-transfer="running"]::after { animation: none; opacity: 0; }
+  }
+  .toggle-option:focus-within { outline: 2px solid var(--color-primary-deep); outline-offset: 2px; }
+  .toggle-radio { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; margin: 0; cursor: pointer; z-index: 1; }
   .toggle-icon { display: block; flex-shrink: 0; }
-  .currency-label { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .toggle-option:not([data-checked]) .individual-icon { filter: brightness(0); opacity: .73; }
+  .toggle-option[data-checked] .team-icon { filter: brightness(0) invert(1); }
   .pricing-status, .pricing-help, noscript { text-align: center; font-size: 14px; }
   .pricing-status { margin-top: 24px; }
   .retry { display: block; margin: 16px auto; border: 1px solid var(--color-border); border-radius: 99px; padding: 10px 20px; background: var(--color-primary-wash); }
-  .plan-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: start; gap: 20px; margin-top: 40px; }
-  .plan, .plan-skeleton { min-width: 0; border: 1px solid #e5e7eb; border-radius: 16px; background: white; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); }
-  .plan { overflow-wrap: anywhere; display: flex; flex-direction: column; }
-  .plan-skeleton { min-height: 728px; background: var(--color-surface); }
-  .plan.popular { border: 2px solid #7d52f4; border-radius: 16px; box-shadow: 0 8px 30px -4px rgba(125, 82, 244, 0.22), 0 2px 6px rgba(125, 82, 244, 0.1); overflow: hidden; }
-  .plan.subtle { border-color: #e5e7eb; }
-  .popular-label { text-align: center; color: white; background: #7d52f4; font-size: 13px; font-weight: 500; padding: 9px 16px; line-height: 1.4; margin: 0; letter-spacing: 0.01em; }
-  .plan-body { display: flex; flex-direction: column; padding: 24px 22px 28px; background: white; }
-  .popular .plan-body { padding: 22px 22px 28px; }
-  h3 { margin: 0; font-size: 22px; font-weight: 600; line-height: 1.25; color: #111827; letter-spacing: -0.01em; }
-  .plan-description { margin-top: 4px; font-size: 13px; line-height: 1.4; color: #6b7280; }
-  .plan-price { margin-top: 10px; color: #111827; display: flex; align-items: baseline; gap: 2px; }
-  .plan-price strong { font-size: 30px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: #111827; }
-  .plan-price [data-price-period] { font-size: 13px; color: #9ca3af; margin-left: 2px; font-weight: 400; }
+  /* Figma 1:21073: 281.33px cards, 24px gaps, and an extra 8px Play surround. */
+  .plan-grid { --plan-width: calc((100% - 80px) / 4); display: grid; grid-template-columns: var(--plan-width) calc(var(--plan-width) + 8px) var(--plan-width) var(--plan-width); align-items: stretch; gap: 24px; margin: 40px -2.6667px 0; }
+  .plan, .plan-skeleton { min-width: 0; border: 1px solid var(--color-border); border-radius: 16px; background: white; box-shadow: var(--shadow-card); }
+  .plan { overflow-wrap: anywhere; display: flex; flex-direction: column; margin-top: 12px; min-height: 735px; }
+  .plan-skeleton { min-height: 735px; background: var(--color-surface); }
+  .plan.popular { margin-top: 0; min-height: 747px; padding: 8px 4px 4px; border: 0; border-radius: 20px; background: linear-gradient(180deg, #8351ff, #e8dfff); box-shadow: 0 2px 4px rgb(145 158 171 / 16%); }
+  .plan.subtle { border-color: rgb(158 134 248 / 30%); }
+  .popular-label { text-align: center; color: white; font-size: 18px; font-weight: 500; line-height: 22px; margin-bottom: 8px; }
+  .plan-body { display: flex; flex: 1; flex-direction: column; padding: 24px 24px 32px; background: white; border-radius: 16px; }
+  .popular .plan-body { box-shadow: 0 1px 2px rgb(16 24 40 / 5%); }
+  h3 { margin: 0; font-size: 24px; font-weight: 500; line-height: 29px; color: var(--color-heading); }
+  .plan-description { margin-top: 4px; font-size: 14px; line-height: 1.4; color: var(--color-paragraph); }
+  .plan-price { margin-top: 8px; min-height: 39px; color: var(--color-heading); display: flex; align-items: baseline; gap: 4px; }
+  .plan-price strong { font-family: 'Pricing Inter Display', var(--font-body); font-size: 28px; font-weight: 600; line-height: 39px; }
+  .plan-price [data-price-period] { font-size: 13px; color: var(--color-muted); font-weight: 400; }
   .currency-fallback, .team-total { font-size: 12px; color: var(--color-paragraph); }
   .seat-control { display: flex; gap: 8px; align-items: center; margin-block: 8px; font-size: 14px; }
   .seat-control input { min-width: 0; width: 90px; border: 1px solid var(--color-border); border-radius: 8px; padding: 8px; }
-  .token-value { display: flex; gap: 6px; align-items: center; min-height: 32px; margin-top: 12px; padding: 6px 10px; border: 1px solid #e0d5fe; background: #faf8ff; border-radius: 6px; font-size: 12px; font-weight: 500; line-height: 1.4; color: #7d52f4; }
-  .token-stars { display: flex; align-items: center; justify-content: center; width: 14px; height: 14px; flex-shrink: 0; }
-  .token-stars :global(img) { width: 14px; height: 14px; }
-  .pricing :global(.pricing-cta) { width: 100%; margin-top: 16px; height: 42px; min-height: 42px; padding: 0 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; border-radius: 99px; border: 1px solid #ebebf0; background: #f8f8fa; color: #111827; box-shadow: none; transition: background 0.15s ease, border-color 0.15s ease; }
-  .pricing :global(.pricing-cta:hover) { background: #f1eff8; border-color: #dcd7ee; }
-  .popular :global(.pricing-cta) { background: #380e87; border-color: #380e87; color: #ffffff; box-shadow: 0 2px 6px rgba(56, 14, 135, 0.2); }
-  .popular :global(.pricing-cta:hover) { background: #2b0b68; border-color: #2b0b68; }
-  .plan-models { margin-top: 16px; padding: 12px; border: 1px solid #e5e7eb; border-radius: 12px; background: #ffffff; }
-  .models-heading { display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; border-bottom: 1px solid #f3f4f6; font-size: 11px; margin-bottom: 10px; }
-  .models-heading > span:first-child { text-transform: uppercase; font-weight: 600; letter-spacing: 0.06em; color: #6b7280; }
-  .model-count { background: #ede9fe; color: #7c3aed; border-radius: 99px; padding: 2px 8px; font-weight: 500; font-size: 11px; }
-  .plan-models ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-  .plan-models :global(li) { display: flex; gap: 8px; align-items: center; font-size: 12px; line-height: 1.35; color: #374151; }
-  .plan-models :global(.model-icon) { display: grid; flex: 0 0 20px; width: 20px; height: 20px; place-items: center; background: #f4f4f5; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
+  .token-value { display: flex; gap: 8px; align-items: center; min-height: 36px; margin-top: 8px; padding: 7px 10px; border: 1px solid #e8dfff; background: rgb(125 82 244 / 4%); border-radius: 4px; font-size: 14px; font-weight: 400; line-height: 1.4; color: var(--color-paragraph); }
+  .token-stars { display: flex; align-items: center; justify-content: center; flex: 0 0 20px; width: 20px; height: 20px; }
+  .pricing :global(.pricing-cta) { width: 100%; margin-top: 20px; height: 44px; min-height: 44px; padding: 8px 20px; font-size: 14px; line-height: 14px; font-weight: 500; letter-spacing: .42px; border-radius: 99px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-heading); box-shadow: 0 2px 2px -1px rgb(7 1 19 / 3%), 0 1px 1px -.5px rgb(7 1 19 / 3%), 0 .5px .5px rgb(7 1 19 / 3%), inset 0 1px 2px -.5px rgb(255 255 255 / 12%), inset 0 .5px .5px rgb(255 255 255 / 16%), inset 0 8px 24px -4px rgb(255 255 255 / 16%); }
+  .pricing :global(.pricing-cta:hover) { background: var(--color-primary-wash); }
+  .popular :global(.pricing-cta) { background: var(--color-primary-deep); border-color: transparent; color: white; }
+  .popular :global(.pricing-cta:hover) { background: var(--color-primary-darkest); }
+  .plan-models { margin-top: 16px; padding: 12px; border: 1px solid var(--color-border); border-radius: 12px; background: white; box-shadow: var(--shadow-card); }
+  .subtle .plan-models { border-color: rgb(223 214 255 / 60%); border-radius: 10px; background: rgb(255 255 255 / 80%); }
+  .models-heading { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; padding-bottom: 8px; border-bottom: 1px solid var(--color-surface); margin-bottom: 10px; font-size: 12px; line-height: 20px; }
+  .models-heading > span:first-child { text-transform: uppercase; font-weight: 400; letter-spacing: .24px; color: var(--color-heading); }
+  .model-count { background: var(--color-primary-wash); color: var(--color-primary); border-radius: 99px; padding: 0 10px; font-weight: 400; font-size: 12px; line-height: 20px; }
+  .plan-models ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .plan-models :global(li) { display: flex; gap: 6px; align-items: center; font-size: 12px; line-height: 1.35; color: var(--color-paragraph); }
+  .plan-models :global(.model-icon) { display: grid; flex: 0 0 20px; width: 20px; height: 20px; place-items: center; background: var(--color-surface); border-radius: 50%; overflow: hidden; }
   .pricing :global(.gemini-scale) { width: 16.667px; height: 16.667px; }
   .pricing :global(.gemini-scale img) { transform: scale(.52084375); transform-origin: top left; }
-  summary { display: inline-flex; gap: 4px; align-items: center; margin-top: 8px; cursor: pointer; font-size: 12px; font-weight: 500; color: #7d52f4; }
+  .pricing :global(.provider-scale) { width: 16.667px; height: 16.667px; }
+  .pricing :global(.provider-scale img) { transform: scale(var(--icon-scale)); transform-origin: top left; }
+  summary { display: flex; width: fit-content; gap: 4px; align-items: center; margin-top: 10px; cursor: pointer; font-size: 12px; line-height: 18px; font-weight: 500; letter-spacing: .24px; color: var(--color-primary); list-style: none; }
   summary::-webkit-details-marker { display: none; }
   .more-arrow { display: inline-flex; transform: scaleY(-1); }
   details[open] .more-arrow { transform: none; }
+  details[open] ul { margin-top: 10px; }
   [data-model-status] { font-size: 11px; color: var(--color-muted); margin-top: 6px; }
   [data-model-status]:empty { display: none; }
-  .plan-features { display: grid; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
-  .plan-features :global(li) { display: flex; gap: 8px; align-items: center; font-size: 13px; line-height: 1.4; color: #374151; }
-  .feature-yes { display: grid; place-items: center; flex: 0 0 16px; width: 16px; height: 16px; border-radius: 99px; background: #ede9fe; }
-  .feature-yes :global(img) { width: 9px; height: 9px; }
+  .plan-features { display: grid; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+  .plan-features :global(li) { display: flex; gap: 8px; align-items: center; font-size: 14px; line-height: 1.4; color: var(--color-paragraph); }
+  .feature-yes { display: grid; place-items: center; flex: 0 0 16px; width: 16px; height: 16px; border-radius: 99px; background: var(--color-border); }
+  .subtle .feature-yes { background: white; }
   .feature-no { display: none; flex: 0 0 16px; width: 16px; height: 16px; }
   .plan-features :global(.unavailable .feature-yes) { display: none; }
   .plan-features :global(.unavailable .feature-no) { display: block; }
-  .plan-features :global(.unavailable) { color: #b0b5c3; }
-  .pricing-help { margin-top: 28px; text-align: center; font-size: 13px; color: var(--color-primary-deep); }
-  @media (max-width: 1279px) { .plan-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; } }
-  @media (max-width: 767px) { .pricing { margin-block: 48px; } .pricing :global(.section-heading h2) { font-size: 30px; line-height: 1.3; } .plan-grid { gap: 16px; margin-top: 32px; } }
-  @media (max-width: 599px) { .plan-grid { grid-template-columns: 1fr; } .plan-body { padding: 20px; } }
+  .plan-features :global(.unavailable) { color: #b9b9b9; }
+  .pricing-help { margin-top: 28px; font-size: 13px; color: var(--color-primary-deep); }
+  @media (max-width: 1279px) { .plan-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-inline: 0; } }
+  @media (max-width: 767px) { .pricing { margin-block: 48px; } .pricing :global(.section-heading h2) { font-size: 28px; line-height: 1.3; } .pricing :global(.section-heading p) { font-size: 14px; line-height: 21px; } }
+  @media (max-width: 599px) { .plan-grid { grid-template-columns: minmax(0, 1fr); } .plan { margin-top: 0; min-height: 0; } .plan.popular { min-height: 0; } }
 </style>

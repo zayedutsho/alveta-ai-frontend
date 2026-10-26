@@ -22,6 +22,12 @@ function initialize(root: HTMLElement) {
   let mode = 'individual';
   let busy = false;
   const seatsBySlug = new Map<string, number>();
+  const providerIcons = new Map([
+    ['openai', 'openai'], ['anthropic', 'anthropic'],
+    ['google', 'google'], ['gemini', 'google'],
+    ['xai', 'xai'], ['grok', 'xai'], ['deepseek', 'deepseek'],
+    ['moonshot', 'moonshot'], ['kimi', 'moonshot'],
+  ]);
   const write = (parent: ParentNode, selector: string, value: string) => { find(selector, parent).textContent = value; };
   const money = (value: number, unit: Currency) => (unit === 'BDT' ? '৳' : '$') + new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(value);
 
@@ -40,6 +46,9 @@ function initialize(root: HTMLElement) {
       mode = 'individual';
       find<HTMLInputElement>('[name="plan-type"][value="individual"]').checked = true;
     }
+    root.querySelectorAll<HTMLLabelElement>('.toggle-option').forEach(label => {
+      label.toggleAttribute('data-checked', !!label.querySelector<HTMLInputElement>('input')?.checked);
+    });
     grid.replaceChildren();
     const packages = content.order.flatMap(slug => catalog!.packages.filter(pkg => pkg.slug.toLowerCase() === slug))
       .filter(pkg => mode !== 'team' || (pkg.is_team_enabled && priceFor(pkg).amount !== null));
@@ -61,6 +70,7 @@ function initialize(root: HTMLElement) {
       const selected = priceFor(pkg);
       write(card, '[data-price]', money(selected.amount!, selected.currency));
       write(card, '[data-price-period]', mode === 'team' ? '/seat/mo' : '/mo');
+      find('[data-price-period]', card).classList.toggle('sr-only', mode !== 'team');
       find('[data-currency-fallback]', card).hidden = currency !== 'BDT' || selected.currency === 'BDT';
       const seatControl = find('[data-seat-control]', card);
       const total = find('[data-team-total]', card);
@@ -95,8 +105,8 @@ function initialize(root: HTMLElement) {
       accessibleModels.forEach((model, index) => {
         const row = clone('[data-model-template]');
         write(row, '[data-model-name]', model.name);
-        const provider = model.provider.toLowerCase();
-        const icon = root.querySelector<HTMLTemplateElement>(`[data-provider-icon="${provider === 'anthropic' && popular ? 'anthropic-popular' : ['openai', 'anthropic', 'google'].includes(provider) ? provider : 'unknown'}"]`);
+        const provider = providerIcons.get(model.provider.trim().toLowerCase()) ?? 'unknown';
+        const icon = root.querySelector<HTMLTemplateElement>(`[data-provider-icon="${provider === 'anthropic' && popular ? 'anthropic-popular' : provider}"]`);
         if (icon) find('[data-model-icon]', row).append(icon.content.cloneNode(true));
         else find('[data-model-icon]', row).hidden = true;
         find(index < 3 ? '[data-model-list]' : '[data-extra-models]', card).append(row);
@@ -144,10 +154,6 @@ function initialize(root: HTMLElement) {
   currencyControl.addEventListener('change', () => { currency = currencyControl.value as Currency; render(); });
   root.querySelectorAll<HTMLInputElement>('[name="plan-type"]').forEach(input => input.addEventListener('change', () => {
     mode = input.value; render();
-    root.querySelectorAll<HTMLLabelElement>('.toggle-option').forEach(label => {
-      const radio = label.querySelector<HTMLInputElement>('input[type="radio"]');
-      if (radio?.checked) label.setAttribute('data-checked', ''); else label.removeAttribute('data-checked');
-    });
   }));
   retry.addEventListener('click', () => { invalidatePackageCache(); void load(); });
   void load();
