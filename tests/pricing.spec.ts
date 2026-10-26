@@ -1,6 +1,6 @@
 import { test, expect, simulationOrigin } from './fixtures/browser';
 
-for (const width of [320, 430, 768, 1024, 1440, 1920]) {
+for (const width of [320, 390, 430, 768, 1024, 1440, 1920]) {
   test(`live-contract pricing renders at ${width}px`, async ({ page, request }) => {
     await page.setViewportSize({ width, height: 950 });
     const errors: string[] = [];
@@ -28,7 +28,19 @@ for (const width of [320, 430, 768, 1024, 1440, 1920]) {
     }));
     expect(layout.overflow).toBe(false); expect(layout.outside).toBe(false);
     expect(layout.columns).toBe(width < 600 ? 1 : width < 1280 ? 2 : 4);
+    if (width >= 600) {
+      const bottoms = await cards.evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect().bottom));
+      const columns = layout.columns;
+      for (let row = 0; row < bottoms.length; row += columns) {
+        expect(Math.max(...bottoms.slice(row, row + columns)) - Math.min(...bottoms.slice(row, row + columns))).toBeLessThan(1);
+      }
+    }
     await expect(cards.first().locator('[data-model-list] li')).toHaveCount(3);
+    await expect(section.locator('.toggle-option').first()).toHaveCSS('border-top-left-radius', '99px');
+    if ([320, 390, 768, 1024, 1440].includes(width)) {
+      await page.evaluate(() => (document.activeElement as HTMLElement)?.blur());
+      await section.screenshot({ path: `.work/validation/m6-pricing-${width}.png`, animations: 'disabled', style: '[data-header], .skip-link { visibility: hidden !important; }' });
+    }
     const menuToggle = page.getByRole('button', { name: 'Open navigation' });
     if (await menuToggle.isVisible()) await menuToggle.click();
     await page.locator('[data-model-menu] summary').click();
@@ -38,11 +50,6 @@ for (const width of [320, 430, 768, 1024, 1440, 1920]) {
     expect(calls.filter((call: { url: string }) => call.url === '/api/v1/models/public')).toHaveLength(1);
     expect(calls.every((call: { authorization: boolean; cookie: boolean }) => !call.authorization && !call.cookie)).toBe(true);
     expect(errors).toEqual([]);
-    if ([430, 1440].includes(width)) {
-      await page.keyboard.press('Escape');
-      await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
-      await section.screenshot({ path: `.work/validation/m6-pricing-${width}.png`, animations: 'disabled', style: '.skip-link:not(:focus-visible) { visibility: hidden !important; }' });
-    }
   });
 }
 
@@ -57,7 +64,18 @@ test('currency, model disclosure and team signup retain API values', async ({ pa
   await basic.locator('[data-more-models] summary').focus();
   await page.keyboard.press('Enter');
   await expect(basic.locator('[data-extra-models]')).toBeVisible();
+  const modelRows = basic.locator('[data-model-list] li, [data-extra-models] li');
+  await expect(modelRows.locator('[data-model-icon] img')).toHaveCount(await modelRows.count());
+  const geminiRow = modelRows.filter({ hasText: 'Gemini' }).first();
+  await expect(geminiRow.locator('[data-model-icon] img')).toHaveAttribute('src', '/images/figma/model-gemini.png');
+  await expect(geminiRow.locator('[data-model-icon]')).toBeVisible();
+  const icons = await modelRows.locator('[data-model-icon] img').evaluateAll(async images => {
+    await Promise.all(images.map(image => (image as HTMLImageElement).decode()));
+    return images.map(image => ({ loaded: (image as HTMLImageElement).naturalWidth > 0, width: image.getBoundingClientRect().width, height: image.getBoundingClientRect().height }));
+  });
+  expect(icons.every(icon => icon.loaded && icon.width >= 16 && icon.width <= 17 && icon.height >= 16 && icon.height <= 17)).toBe(true);
   await pricing.getByRole('radio', { name: 'Team/Organization' }).check();
+  await expect(pricing.locator('[data-team-option]')).toHaveAttribute('data-checked', '');
   await expect(play.locator('.pricing-cta')).toHaveAttribute('href', 'https://app.alveta.ai/register?package=Play&team=1');
   const seats = play.getByRole('spinbutton');
   const minimum = Number(await seats.getAttribute('min'));
@@ -67,6 +85,9 @@ test('currency, model disclosure and team signup retain API values', async ({ pa
   await expect(play.locator('[data-team-total]')).toContainText('/mo total');
   await pricing.getByLabel('Pricing currency').selectOption('BDT');
   await expect(play.getByRole('spinbutton')).toHaveValue(String(minimum + 1));
+  await pricing.getByRole('radio', { name: 'Individual' }).check();
+  await expect(play.locator('.pricing-cta')).toHaveAttribute('href', 'https://app.alveta.ai/register?package=Play');
+  await expect(play.locator('[data-seat-control]')).toBeHidden();
 });
 
 for (const scenario of ['failure', 'malformed', 'empty', 'modelsFailure', 'noBdt', 'noTeam', 'delay', 'timeout']) {
