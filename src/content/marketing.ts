@@ -7,8 +7,8 @@ import { heroVariants } from './hero-variants';
 /** Current editorial defaults; the product API remains the only source of prices/entitlements. */
 export const marketingDefaults = {
   seo: {
-    title: 'Alveta.ai — All the Best AI Models, One Place',
-    description: landingContent.hero.description,
+    title: 'Alveta - Multi-Model AI Platform for Chat, Images & More',
+    description: 'Access ChatGPT, Claude, Gemini, Grok, DeepSeek, and more in one AI platform. Compare responses, create images and videos, and manage your AI credits with Alveta.',
     socialImageAlt: 'Alveta.ai — All Your AI Tools in One Subscription',
   },
   navigation: {

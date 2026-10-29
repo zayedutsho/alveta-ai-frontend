@@ -3,13 +3,33 @@ import '@fontsource/faculty-glyphic/latin-400.css';
 import heroFont from '@fontsource/faculty-glyphic/files/faculty-glyphic-latin-400-normal.woff2?url';
 import '../styles/global.css';
 import '../styles/motion.css';
-import { appLink } from '../lib/app-links';
+import { marketingDefaults } from '../content/marketing';
 interface Props { title?: string; description?: string; socialImageAlt?: string; }
-const { title = 'Alveta.ai — All the Best AI Models, One Place', description = 'Bring your AI workflow together in one place. Access multiple models, compare their responses, and choose the perspective that works for you.' } = Astro.props;
-const siteOrigin = import.meta.env.PUBLIC_SITE_ORIGIN;
-const canonical = siteOrigin ? new URL(Astro.url.pathname, siteOrigin) : undefined;
-const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true' && Boolean(canonical);
-const socialImage = siteOrigin ? new URL('/OpenGraphbanner.png', siteOrigin).href : appLink('/OpenGraphbanner.png');
+const { title = marketingDefaults.seo.title, description = marketingDefaults.seo.description } = Astro.props;
+const siteOrigin = import.meta.env.PUBLIC_SITE_ORIGIN || 'https://alveta.ai/';
+const canonical = new URL(Astro.url.pathname, siteOrigin);
+const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true';
+const socialImage = new URL('/OpenGraphbanner.png', siteOrigin).href;
+const homeUrl = new URL('/', siteOrigin).href;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Organization', '@id': homeUrl + '#organization', name: 'Alveta', url: homeUrl },
+    {
+      '@type': 'WebSite', '@id': homeUrl + '#website', name: 'Alveta', url: homeUrl,
+      publisher: { '@id': homeUrl + '#organization' },
+    },
+    {
+      '@type': 'WebPage', '@id': canonical.href + '#webpage', url: canonical.href, name: title, description,
+      isPartOf: { '@id': homeUrl + '#website' }, about: { '@id': homeUrl + '#application' },
+    },
+    {
+      '@type': 'SoftwareApplication', '@id': homeUrl + '#application', name: 'Alveta', url: homeUrl,
+      description, applicationCategory: 'ProductivityApplication', operatingSystem: 'Web',
+      publisher: { '@id': homeUrl + '#organization' },
+    },
+  ],
+};
 const sharingImage = Astro.locals.cmsMedia?.['/OpenGraphbanner.png'];
 ---
 <!doctype html>
@@ -19,6 +39,7 @@ const sharingImage = Astro.locals.cmsMedia?.['/OpenGraphbanner.png'];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")} />
     <meta name="robots" content={indexable ? 'index,follow' : 'noindex,nofollow'} />
     {canonical && <link rel="canonical" href={canonical} />}
     <meta property="og:title" content={title} />

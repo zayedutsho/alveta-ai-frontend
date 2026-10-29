@@ -1,4 +1,3 @@
-import { loadPublicModels } from '../lib/public-catalog';
 const header = document.querySelector<HTMLElement>('[data-header]');
 const toggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
 const nav = header?.querySelector<HTMLElement>('nav');
@@ -7,6 +6,7 @@ function syncNavigationAccess() {
   if (nav) nav.inert = mobileNavigation.matches && !header?.hasAttribute('data-menu-open');
 }
 function closeNavigation(returnFocus = false) {
+  if (header?.hasAttribute('data-menu-open')) document.body.style.overflow = '';
   header?.removeAttribute('data-menu-open');
   toggle?.setAttribute('aria-expanded', 'false');
   toggle?.setAttribute('aria-label', 'Open navigation');
@@ -18,6 +18,7 @@ toggle?.addEventListener('click', () => {
   const open = toggle.getAttribute('aria-expanded') !== 'true';
   if (!open) return closeNavigation();
   header?.setAttribute('data-menu-open', '');
+  document.body.style.overflow = 'hidden';
   toggle.setAttribute('aria-expanded', 'true');
   toggle.setAttribute('aria-label', 'Close navigation');
   syncNavigationAccess();
@@ -30,7 +31,14 @@ document.addEventListener('keydown', event => {
   else closeNavigation(true);
 });
 document.addEventListener('click', event => {
-  if (event.target instanceof Node && !header?.contains(event.target)) closeNavigation();
+  if (event.target instanceof Node && (!header?.contains(event.target) || event.target === header)) closeNavigation();
+});
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Tab' || !mobileNavigation.matches || !header?.hasAttribute('data-menu-open')) return;
+  const focusable = [...header.querySelectorAll<HTMLElement>('a, button, summary, input')].filter(el => el.getClientRects().length);
+  const first = focusable[0], last = focusable.at(-1);
+  if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+  if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
 });
 nav?.addEventListener('click', event => {
   if (event.target instanceof Element && event.target.closest('a')) closeNavigation();
@@ -41,29 +49,3 @@ header?.querySelectorAll<HTMLDetailsElement>('details').forEach(menu => {
   });
 });
 matchMedia('(min-width: 901px)').addEventListener('change', () => closeNavigation());
-
-// Public API only: no JWT, auth-store or refresh-token coupling in marketing.
-const modelMenu = document.querySelector<HTMLDetailsElement>('[data-model-menu]');
-let modelsLoaded = false;
-modelMenu?.addEventListener('toggle', async () => {
-  if (!modelMenu.open || modelsLoaded || !modelMenu.dataset.apiOrigin) return;
-  const status = modelMenu.querySelector<HTMLElement>('[data-model-status]');
-  const list = modelMenu.querySelector<HTMLUListElement>('[data-model-list]');
-  if (!status || !list) return;
-  modelsLoaded = true;
-  status.textContent = 'Loading available models…';
-  try {
-    const names = (await loadPublicModels(modelMenu.dataset.apiOrigin)).map(model => model.name);
-    for (const name of names) {
-      const li = document.createElement('li');
-      const link = document.createElement('a');
-      link.href = modelMenu.querySelector<HTMLAnchorElement>('.dropdown-panel > a')!.href;
-      link.textContent = name;
-      li.append(link); list.append(li);
-    }
-    status.textContent = names.length ? 'Sign up to start using these models.' : 'Explore available models in Alveta.';
-  } catch {
-    modelsLoaded = false;
-    status.textContent = 'Models could not be loaded. Explore them in Alveta or reopen this menu to retry.';
-  }
-});
