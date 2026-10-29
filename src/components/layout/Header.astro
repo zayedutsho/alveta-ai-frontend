@@ -4,6 +4,7 @@ import Button from '../common/Button.astro';
 import { appLink } from '../../lib/app-links';
 import { publicApiOrigin as apiOrigin } from '../../lib/public-catalog';
 import { marketingDefaults, type MarketingContent } from '../../content/marketing';
+import '../../styles/model-catalog.css';
 interface Props { content?: MarketingContent['navigation']; }
 const { content = marketingDefaults.navigation } = Astro.props;
 const products = content.products;
@@ -18,14 +19,17 @@ const products = content.products;
   </button>
   <nav id="primary-navigation" class="navigation" aria-label="Main navigation">
     <div class="nav-links">
-      <a href="#features">{content.featuresLabel}</a>
+      <a href="/#features">{content.featuresLabel}</a>
       <details class="nav-dropdown" data-model-menu data-api-origin={apiOrigin}>
         <summary>{content.modelsLabel}<FigmaAsset name="huge-icon-arrows-outline-direction-down2" /></summary>
-        <div class="dropdown-panel model-panel">
+        <div class="dropdown-panel model-panel" data-model-catalog data-api-origin={apiOrigin} data-register={appLink('/register')}>
           <p class="dropdown-heading">{content.modelsHeading}</p>
-          <ul data-model-list></ul>
-          <p class="model-status" data-model-status role="status">{content.modelsEmpty}</p>
-          <a href={appLink('/register')}>{content.modelsCtaLabel} <span aria-hidden="true">→</span></a>
+          <label class="model-search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Search models or providers" aria-label="Search models or providers" data-catalog-search /></label>
+          <div class="provider-filters" role="group" aria-label="Filter by provider" data-provider-filters></div>
+          <p class="model-count" data-catalog-count></p>
+          <p class="model-status" data-catalog-status role="status">{content.modelsEmpty}</p>
+          <button class="model-retry" type="button" data-catalog-retry hidden>Try again</button>
+          <div class="model-menu-grid" data-catalog-grid aria-busy="true"></div>
         </div>
       </details>
       <details class="nav-dropdown">
@@ -34,7 +38,7 @@ const products = content.products;
           {products.map(product => <a href={appLink(product.path)}>{product.label}</a>)}
         </div>
       </details>
-      <a href="#pricing">{content.pricingLabel}</a>
+      <a href={Astro.url.pathname === '/' ? '#pricing' : '/#pricing'}>{content.pricingLabel}</a>
     </div>
     <div class="account-links">
       <a class="sign-in" href={appLink('/login')}>{content.signInLabel}<FigmaAsset name="square-unlock02" /></a>
@@ -44,6 +48,7 @@ const products = content.products;
 </header>
 <script>
   import '../../scripts/navigation';
+  import '../../scripts/model-catalog';
 </script>
 <style>
   .header { position: sticky; top: 12px; z-index: 5; margin-top: 22px; min-height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 14px; border-radius: 12px; background: white; box-shadow: var(--shadow-nav); }
@@ -63,9 +68,20 @@ const products = content.products;
   .dropdown-panel a { display: block; padding: 10px 12px; border-radius: 8px; }
   .dropdown-panel a:hover { background: var(--color-primary-wash); }
   .dropdown-heading { padding: 8px 12px; font-weight: 500; }
-  .model-panel { width: 300px; }
-  .model-panel ul { list-style: none; margin: 0; padding: 0; max-height: 260px; overflow-y: auto; }
-  .model-status { padding: 8px 12px; font-size: 14px; color: var(--color-muted); }
+  .model-panel { width: min(720px, calc(100vw - 48px)); left: -180px; padding: 20px; max-height: min(680px, calc(100dvh - 160px)); overflow: hidden; }
+  details[open] > .model-panel { display: flex; flex-direction: column; gap: 10px; }
+  .dropdown-heading { padding: 0 0 16px; font-size: 17px; color: var(--color-heading); }
+  .model-search { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--color-border); background: #fcfbfe; border-radius: 10px; }
+  .model-search input { width: 100%; min-width: 0; font-size: 14px; border: 0; background: transparent; }
+  .provider-filters { display: flex; gap: 6px; overflow-x: auto; flex-shrink: 0; padding: 4px; margin-inline: -4px; }
+  .provider-filters :global(button), .model-retry { flex-shrink: 0; padding: 7px 12px; font-size: 12px; border: 1px solid var(--color-border); border-radius: 99px; background: white; }
+  .provider-filters :global(button[aria-pressed='true']) { background: var(--color-primary-deep); color: white; border-color: var(--color-primary-deep); }
+  .model-count { font-size: 12px; color: var(--color-muted); }
+  .model-count:empty, .model-status:empty { display: none; }
+  .model-menu-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 4px; margin: -4px; }
+  .model-panel :global(.catalog-card) { padding: 10px; }
+  .model-status { font-size: 13px; color: var(--color-muted); }
+  .model-search, .dropdown-heading, .model-count, .model-status, .model-retry { flex-shrink: 0; }
   @media (min-width: 901px) and (max-width: 1199px) {
     .navigation { margin-left: 32px; }
     .nav-links { gap: 16px; }
@@ -86,6 +102,19 @@ const products = content.products;
     summary { justify-content: space-between; }
     .account-links { border-top: 1px solid var(--color-border); padding-top: 12px; }
     .dropdown-panel { position: static; width: 100%; box-shadow: none; padding: 0 0 4px 12px; border: 0; }
+  }
+  @media (max-width: 900px) {
+    .header[data-menu-open] { position: fixed; top: 0; right: 0; width: min(360px, calc(100% - 28px)); height: 72px; margin: 0; z-index: 20; }
+    .header[data-menu-open]::before { content: ''; position: fixed; inset: 0; right: min(360px, calc(100% - 28px)); background: #16102080; }
+    .header[data-menu-open] .navigation { position: absolute; top: 72px; left: 0; right: 0; height: calc(100dvh - 72px); max-height: none; padding: 0 20px 20px; border: 0; border-radius: 0; box-shadow: none; gap: 24px; }
+    .nav-links { gap: 0; }
+    .nav-links > a, summary { padding: 12px 0; border-bottom: 1px solid #f1eff4; font-size: 14px; }
+    .account-links { flex-direction: row; align-items: center; justify-content: space-between; margin-top: auto; border: 0; gap: 12px; flex-shrink: 0; }
+    .sign-in { padding-inline: 0; font-size: 14px; }
+    .model-panel { width: 100%; max-height: min(480px, calc(100dvh - 310px)); margin-block: 8px; padding: 12px; border: 1px solid #efedf3; border-radius: 12px; background: #fcfbfd; }
+    .model-panel .dropdown-heading { display: none; }
+    .model-menu-grid { grid-template-columns: 1fr; }
+    .model-search input { font-size: 16px; }
   }
   @media (scripting: none) and (max-width: 900px) {
     .menu-toggle { display: none; }

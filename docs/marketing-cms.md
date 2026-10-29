@@ -1,5 +1,7 @@
 # Marketing content in Sanity
 
+For editors: [Marketing team quick guide](marketing-team-guide.md).
+
 Project: `iwd3xpdu` · Dataset: `production` · Studio: `studio/`.
 
 Open Studio with `npm run dev` from `studio`, then open **Landing Page**. Its tabs cover SEO, navigation, announcement, hero/chatbar copy, customer logos, features, model spotlights, subscription comparison, pricing copy, testimonials, FAQs, article previews, closing CTA, footer, and images/logos.
