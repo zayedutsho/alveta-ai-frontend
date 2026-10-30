@@ -5,26 +5,24 @@ import FigmaAsset from '../common/FigmaAsset.astro';
 interface Props { content: ModelsContent; }
 const { content } = Astro.props;
 ---
-<section id="models" class="latest-models" aria-labelledby="models-heading" aria-describedby="models-preview" data-latest-models data-content-status={content.status}>
+<section id="models" class="latest-models" aria-labelledby="models-heading" data-latest-models data-content-status={content.status}>
   <div class="container">
     <SectionHeading id="models-heading" heading={content.heading} description={content.description} layout="split-wide" />
     <div class="model-cards">
-      {content.cards.map(card => <article class:list={['model-card', { featured: card.featured }]} data-model-card={card.id} data-brand={card.provider.toLowerCase()}>
-        <a class="model-link" href={card.cta.href} aria-label={card.cta.label} aria-describedby="models-preview">
+      {content.cards.map(card => <article class="model-card" data-model-card={card.id} data-brand={card.provider.toLowerCase()}>
+        <a class="model-link" href={card.cta.href} aria-label={card.cta.label}>
           <div class="provider"><span>{card.provider}</span><span class="arrow" aria-hidden="true"><FigmaAsset name="model-arrow-down-left01" /></span></div>
           <div class="model-name"><span class="model-icon" aria-hidden="true"><FigmaAsset name={card.icon} /></span><h3>{card.name}</h3></div>
           <div class="benchmark"><p>{card.benchmark}</p><p>{card.tested}</p></div>
         </a>
       </article>)}
     </div>
-    <p id="models-preview" class="preview-notice">{content.previewNotice}</p>
   </div>
 </section>
 <style>
   .latest-models { margin-top: 73px; padding-block: 100px 50px; background: var(--color-logo-surface); scroll-margin-top: 24px; }
   .model-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-6); margin-top: var(--space-11); }
   .model-card { min-width: 0; background: var(--color-white); border-radius: var(--radius-sm); }
-  .model-card.featured { border-bottom-right-radius: 44px; }
   .model-link { display: block; padding: var(--space-6); border-radius: inherit; }
   .provider { display: flex; justify-content: space-between; gap: var(--space-4); align-items: start; text-transform: uppercase; color: var(--color-paragraph); }
   .arrow { transform: rotate(180deg); }
@@ -34,7 +32,6 @@ const { content } = Astro.props;
   .benchmark { margin-top: var(--space-6); }
   .benchmark p:first-child { color: var(--color-primary); font-weight: 500; line-height: 16px; }
   .benchmark p + p { margin-top: 6px; color: var(--color-paragraph); }
-  .preview-notice { margin-top: var(--space-6); font-size: 12px; line-height: 18px; color: var(--color-paragraph); }
   .model-card {
     --brand-color: #10a37f;
     --brand-ink: #081411;
@@ -45,11 +42,11 @@ const { content } = Astro.props;
     isolation: isolate;
     transform: translateY(var(--lift));
     box-shadow: 0 12px 24px -12px var(--active-shadow, transparent);
-    transition: transform 400ms cubic-bezier(.22, 1, .36, 1), box-shadow 400ms ease;
+    transition: transform 400ms cubic-bezier(.22, 1, .36, 1), box-shadow 400ms ease, border-radius 400ms cubic-bezier(.22, 1, .36, 1);
   }
-  .model-card[data-brand*="google"] { --brand-color: #3186ff; --brand-ink: #071322; }
-  .model-card[data-brand*="anthropic"] { --brand-color: #df7658; --brand-ink: #21100b; --brand-logo-filter: brightness(0); }
-  .model-card[data-brand*="xai"] { --brand-color: #000; --brand-ink: #fff; --brand-logo-filter: brightness(0) invert(1); --brand-arrow-filter: brightness(0) invert(1); }
+  .model-card[data-brand*="google"] { --brand-color: #3186ff; --hover-logo-filter: none; }
+  .model-card[data-brand*="anthropic"] { --brand-color: #df7658; }
+  .model-card[data-brand*="xai"] { --brand-color: #000; }
   .model-card::before {
     content: "";
     position: absolute;
@@ -66,9 +63,10 @@ const { content } = Astro.props;
     --lift: -3px;
     --arrow-shift: 3px;
     --active-shadow: color-mix(in srgb, var(--brand-color) 35%, transparent);
-    --active-ink: var(--brand-ink);
-    --active-arrow-filter: var(--brand-arrow-filter, brightness(0));
-    --active-logo-filter: var(--brand-logo-filter, none);
+    --active-ink: #fff;
+    --active-arrow-filter: brightness(0) invert(1);
+    --active-logo-filter: var(--hover-logo-filter, brightness(0) invert(1));
+    border-bottom-right-radius: 44px;
   }
   @media (hover: hover) and (pointer: fine) {
     .model-card:hover {
@@ -76,9 +74,10 @@ const { content } = Astro.props;
       --lift: -3px;
       --arrow-shift: 3px;
       --active-shadow: color-mix(in srgb, var(--brand-color) 35%, transparent);
-      --active-ink: var(--brand-ink);
-      --active-arrow-filter: var(--brand-arrow-filter, brightness(0));
-      --active-logo-filter: var(--brand-logo-filter, none);
+      --active-ink: #fff;
+      --active-arrow-filter: brightness(0) invert(1);
+      --active-logo-filter: var(--hover-logo-filter, brightness(0) invert(1));
+      border-bottom-right-radius: 44px;
     }
   }
   .model-link:focus-visible { outline: 3px solid var(--brand-color); outline-offset: 4px; }

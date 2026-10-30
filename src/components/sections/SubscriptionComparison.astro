@@ -6,7 +6,7 @@ import FigmaAsset from '../common/FigmaAsset.astro';
 interface Props { content: SubscriptionComparisonContent; }
 const { content } = Astro.props;
 ---
-<section class="subscription-comparison container" aria-labelledby="subscription-heading" aria-describedby="subscription-preview" data-subscription-comparison data-content-status={content.status}>
+<section class="subscription-comparison container" aria-labelledby="subscription-heading" data-subscription-comparison data-content-status={content.status}>
   <SectionHeading id="subscription-heading" heading={content.heading} description={content.description} layout="split" />
   <div class="comparison-canvas">
     <div class="comparison-stage">
@@ -53,7 +53,6 @@ const { content } = Astro.props;
       </ul>
     </div>
   </div>
-  <p id="subscription-preview" class="preview-notice">{content.previewNotice}</p>
 </section>
 <style>
   .subscription-comparison { margin-top: 100px; margin-bottom: 100px; }
@@ -73,7 +72,6 @@ const { content } = Astro.props;
   .offer-price { display: flex; gap: 4px; align-items: baseline; white-space: nowrap; color: var(--color-heading); line-height: 1; font-size: 16px; }
   .offer-price strong { font-size: 34px; font-weight: 700; }
   .offer-savings { display: flex; align-items: center; min-height: 32px; border-radius: var(--radius-pill); padding: 4px 12px; background: var(--color-savings-wash); color: var(--color-savings-text); font-size: 15.441px; line-height: 1.4; white-space: nowrap; }
-  .preview-notice { margin-top: var(--space-6); color: var(--color-paragraph); font-size: 12px; line-height: 18px; }
   @media (max-width: 1023px) {
     .comparison-canvas { aspect-ratio: auto; }
     .comparison-stage { position: relative; width: 100%; height: auto; padding: 32px; transform: none; display: flex; flex-direction: column; align-items: center; gap: 32px; }

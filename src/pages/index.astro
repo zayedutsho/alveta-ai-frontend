@@ -10,7 +10,6 @@ import Features from '../components/sections/Features.astro';
 import LatestModels from '../components/sections/LatestModels.astro';
 import SubscriptionComparison from '../components/sections/SubscriptionComparison.astro';
 import Pricing from '../components/sections/Pricing.astro';
-import Testimonials from '../components/sections/Testimonials.astro';
 import Faq from '../components/sections/Faq.astro';
 import Articles from '../components/sections/Articles.astro';
 import ClosingCta from '../components/sections/ClosingCta.astro';
@@ -30,7 +29,6 @@ Astro.locals.cmsMedia = media;
       <LatestModels content={content.models} />
       <SubscriptionComparison content={content.subscriptionComparison} />
       <Pricing editorial={content.pricing} />
-      <Testimonials content={content.testimonials} />
       <Faq content={{...content.faq, columns: content.faq.columns.map(column => column.items)}} />
       <Articles content={content.articles} />
       <ClosingCta content={content.closingCta} />

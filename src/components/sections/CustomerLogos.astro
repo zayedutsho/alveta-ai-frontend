@@ -10,7 +10,7 @@ const names = [...new Set(content.rows.flat().map(logo => logo.name))];
   <div class="logo-rows container" aria-hidden="true">
     {content.rows.map(row => <div class="logo-row"><div class="logo-track">
       {Array.from({ length: 4 }, (_, index) => <div class="logo-group" data-clone={index > 0 ? '' : undefined}>
-        {row.map(logo => <div class="logo-tile"><span class="logo-art"><FigmaAsset name={logo.asset} /></span></div>)}
+        {row.map(logo => <div class="logo-tile"><span class="logo-art"><FigmaAsset name={logo.asset} /><span class="logo-name">{logo.name}</span></span></div>)}
       </div>)}
     </div></div>)}
   </div>
@@ -25,7 +25,8 @@ const names = [...new Set(content.rows.flat().map(logo => logo.name))];
   @keyframes logo-marquee { to { transform: translate3d(-25%, 0, 0); } }
   .customer-logos:is(:hover, :focus-within) .logo-track { animation-play-state: paused; }
   .logo-tile { display: grid; place-items: center; flex: 0 0 186px; height: 88px; padding: 20px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: #fafaf9; }
-  .logo-art { display: grid; place-items: center; width: max-content; }
+  .logo-art { display: flex; align-items: center; justify-content: center; gap: 12px; width: max-content; }
+  .logo-name { color: #494949; font-size: 20px; font-weight: 600; line-height: 1; white-space: nowrap; }
   @media (max-width: 767px) {
     .customer-logos { margin-top: 36px; --logo-gap: 10.44px; }
     .logo-rows { gap: var(--logo-gap); }

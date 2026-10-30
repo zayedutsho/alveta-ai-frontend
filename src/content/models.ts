@@ -4,8 +4,8 @@ import { appLink } from '../lib/app-links';
 /** Figma examples, not a declaration of available models or validated benchmarks. */
 export const modelsContent: ModelsContent = {
   status: 'design-example',
-  heading: ['Does Alveta detect', 'the latest AI models?'],
-  description: 'AI models from frontier labs like OpenAI, Anthropic, Google, Meta, DeepSeek, xAI, and more. We benchmark against 26 models (so far) and they are available to see on our model card.',
+  heading: ['AI Moves Fast.', "We're Keeping Up."],
+  description: 'The AI landscape is constantly evolving. Explore leading models that are available on Alveta.',
   previewNotice: 'Design examples only. Model availability, accuracy figures and test dates have not been verified.',
   cards: [
     { id: 'openai', provider: 'OpenAI', name: 'GPT 5.6', icon: 'model-thesvg-color-openai-chatgpt', benchmark: '99.6% accuracy', tested: 'Tested Jul 2026' },

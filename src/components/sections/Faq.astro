@@ -4,14 +4,21 @@ import type { FaqContent } from '../../content/landing-end';
 interface Props { content: FaqContent; }
 const { content } = Astro.props;
 ---
-<section id="faq" class="faq container" data-faq aria-labelledby="faq-heading" aria-describedby="faq-preview">
+<section id="faq" class="faq container" data-faq aria-labelledby="faq-heading">
   <SectionHeading id="faq-heading" heading={content.heading} description={content.description} />
-  <div class="columns">{content.columns.map(column => <div class="column">{column.map(item => <details open={item.open} id={`faq-${item.id}`}>
+  <div class="columns">{content.columns.map(column => <div class="column">{column.map(item => <details name="faq-accordion" open={item.open} id={`faq-${item.id}`}>
     <summary>{item.question}<img src="/images/ending/faq-arrowdown01.svg" width="24" height="24" alt="" loading="lazy" /></summary>
     <p>{item.answer}</p>
   </details>)}</div>)}</div>
-  <p class="notice" id="faq-preview">{content.notice}</p>
 </section>
+<script>
+  const faq = document.querySelector<HTMLElement>('[data-faq]');
+  const items = faq?.querySelectorAll<HTMLDetailsElement>('details') ?? [];
+  items.forEach(item => item.addEventListener('toggle', () => {
+    if (!item.open) return;
+    items.forEach(other => { if (other !== item) other.open = false; });
+  }));
+</script>
 <style>
   .faq { margin-block: 100px; scroll-margin-top: 24px; }
   .columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-top: var(--space-11); }
@@ -23,6 +30,5 @@ const { content } = Astro.props;
   summary img { flex-shrink: 0; transition: transform .18s; }
   details[open] summary img { transform: scaleY(-1); }
   details p { padding: 0 20px 16px; color: var(--color-paragraph); }
-  .notice { margin-top: 24px; font-size: 12px; color: var(--color-paragraph); }
   @media (max-width: 767px) { .faq { margin-block: 48px; } .columns { grid-template-columns: 1fr; gap: 16px; margin-top: 32px; } summary { font-size: 16px; gap: 16px; } }
 </style>

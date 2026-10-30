@@ -2,11 +2,13 @@
 export {};
 const section = document.querySelector<HTMLElement>('[data-features]');
 const cards = [...document.querySelectorAll<HTMLElement>('[data-feature-panel]')];
+const header = document.querySelector<HTMLElement>('[data-header]');
 const desktop = matchMedia('(min-width: 1024px)');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 
 if (section && cards.length && 'IntersectionObserver' in window && 'ResizeObserver' in window && CSS.supports('position', 'sticky')) {
-  const tops = cards.map((_, i) => 24 + i * 12);
+  let stackTop = 112;
+  let tops = cards.map((_, i) => stackTop + i * 12);
   let origins: number[] = [], heights: number[] = [];
   let active = false, nearby = false, frame = 0, measuring = false;
   const scales: string[] = [];
@@ -34,13 +36,17 @@ if (section && cards.length && 'IntersectionObserver' in window && 'ResizeObserv
   function measure() {
     measuring = false;
     section!.removeAttribute('data-stack-active');
+    const headerTop = header ? Number.parseFloat(getComputedStyle(header).top) || 0 : 0;
+    stackTop = Math.max(24, Math.ceil(headerTop + (header?.offsetHeight ?? 0) + 16));
+    tops = cards.map((_, i) => stackTop + i * 12);
+    section!.style.setProperty('--stack-top', `${stackTop}px`);
     origins = cards.map(card => {
       let top = 0, node: HTMLElement | null = card;
       while (node) { top += node.offsetTop; node = node.offsetParent as HTMLElement | null; }
       return top;
     });
     heights = cards.map(card => card.offsetHeight);
-    active = desktop.matches && !reduced.matches && heights.every((height, i) => height + tops[i]! + 48 <= innerHeight);
+    active = desktop.matches && !reduced.matches && heights.every((height, i) => height + tops[i]! + 32 <= innerHeight);
     section!.toggleAttribute('data-stack-active', active);
     if (active) cards.forEach(card => { delete card.dataset.motionEntering; });
     if (!active) cards.forEach((card, i) => { card.style.removeProperty('--stack-scale'); scales[i] = ''; });
@@ -57,10 +63,12 @@ if (section && cards.length && 'IntersectionObserver' in window && 'ResizeObserv
   }, { rootMargin: '200px 0px' });
   visibility.observe(section);
   const resize = new ResizeObserver(scheduleMeasure);
-  resize.observe(section);
+  cards.forEach(card => resize.observe(card));
+  if (header) resize.observe(header);
   const hero = document.querySelector('.hero');
   if (hero) resize.observe(hero);
   window.addEventListener('resize', scheduleMeasure, { passive: true });
+  window.visualViewport?.addEventListener('resize', scheduleMeasure, { passive: true });
   desktop.addEventListener('change', scheduleMeasure);
   reduced.addEventListener('change', measure);
   document.addEventListener('visibilitychange', () => { syncScrollListener(); schedule(); });

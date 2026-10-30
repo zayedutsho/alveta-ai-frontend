@@ -13,8 +13,7 @@ const { content } = Astro.props;
       <nav aria-label="Legal"><h2>{content.legalHeading}</h2><ul>{content.legal.map(item => <li>{item.href ? <a href={item.href}>{item.label}</a> : <span aria-disabled="true">{item.label}</span>}</li>)}</ul></nav>
       <nav aria-label="Features"><h2>{content.featuresHeading}</h2><ul>{content.features.map(item => <li>{item.href ? <a href={item.href}>{item.label}</a> : <span aria-disabled="true">{item.label}</span>}{item.badge && <span class="badge">{item.badge}</span>}</li>)}</ul></nav>
       <div class="newsletter"><h2>{content.newsletter.heading}</h2><p>{content.newsletter.description}</p>
-        <fieldset disabled aria-describedby="newsletter-notice"><legend class="sr-only">{content.newsletter.heading}</legend><label class="sr-only" for="newsletter-email">Email address</label><img src="/images/ending/footer-mail.svg" width="20" height="20" alt="" loading="lazy" /><input id="newsletter-email" type="email" placeholder={content.newsletter.placeholder} autocomplete="email" /><button type="button">{content.newsletter.action}</button></fieldset>
-        <p id="newsletter-notice" class="notice">{content.newsletter.notice}</p>
+        <fieldset disabled><legend class="sr-only">{content.newsletter.heading}</legend><label class="sr-only" for="newsletter-email">Email address</label><img src="/images/ending/footer-mail.svg" width="20" height="20" alt="" loading="lazy" /><input id="newsletter-email" type="email" placeholder={content.newsletter.placeholder} autocomplete="email" /><button type="button">{content.newsletter.action}</button></fieldset>
       </div>
     </div>
     <div class="watermark" aria-hidden="true"><ContentImage src="/images/ending/footer-logo5.svg" width="1204" height="248" alt="" loading="lazy" /></div>
@@ -23,7 +22,7 @@ const { content } = Astro.props;
   <img class="glow" src="/images/ending/footer-vector18.svg" width="1752" height="1760" alt="" loading="lazy" aria-hidden="true" />
 </footer>
 <style>
-  .footer { position: relative; isolation: isolate; overflow: hidden; background: var(--color-heading); color: var(--color-white); padding-top: 80px; }
+  .footer { position: relative; isolation: isolate; overflow: hidden; border-top: 4px solid var(--color-primary); background: var(--color-heading); color: var(--color-white); padding-top: 80px; }
   .top { display: grid; grid-template-columns: 264px minmax(0, 200px) minmax(0, 200px) minmax(0, 332px); justify-content: space-between; gap: 24px; }
   .brand > p { margin-top: 27px; line-height: 1.5; }
   ul { padding: 0; margin: 20px 0 0; list-style: none; }
@@ -39,7 +38,6 @@ const { content } = Astro.props;
   input { width: 0; min-width: 0; flex: 1; background: transparent; border: 0; color: white; }
   input::placeholder { color: #b3b3b3; opacity: 1; }
   button { flex-shrink: 0; min-height: 44px; border: 0; padding: 8px 18px; background: var(--color-primary); color: white; border-radius: 99px; cursor: default; }
-  .newsletter .notice { font-size: 12px; color: #b3b3b3; margin-top: 12px; }
   .watermark { position: relative; margin-top: 65px; height: 207px; }
   .watermark img { position: absolute; left: -2px; }
   .attribution { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; border-top: 1px solid #282828; padding-block: 20px; }

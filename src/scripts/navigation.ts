@@ -2,6 +2,14 @@ const header = document.querySelector<HTMLElement>('[data-header]');
 const toggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
 const nav = header?.querySelector<HTMLElement>('nav');
 const mobileNavigation = matchMedia('(max-width: 900px)');
+let scrollFrame = 0;
+function syncScrolledHeader() {
+  scrollFrame = 0;
+  header?.toggleAttribute('data-scrolled', scrollY > 8);
+}
+function scheduleScrolledHeader() {
+  if (!scrollFrame) scrollFrame = requestAnimationFrame(syncScrolledHeader);
+}
 function syncNavigationAccess() {
   if (nav) nav.inert = mobileNavigation.matches && !header?.hasAttribute('data-menu-open');
 }
@@ -24,6 +32,8 @@ toggle?.addEventListener('click', () => {
   syncNavigationAccess();
 });
 syncNavigationAccess();
+syncScrolledHeader();
+window.addEventListener('scroll', scheduleScrolledHeader, { passive: true });
 document.addEventListener('keydown', event => {
   if (event.key !== 'Escape' || !header?.contains(document.activeElement)) return;
   const details = document.activeElement?.closest<HTMLDetailsElement>('details[open]');

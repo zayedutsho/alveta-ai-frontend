@@ -76,7 +76,7 @@ const variants = modes.map(mode => ({...mode, ...content.variants?.find(variant 
           </div>
           <a href={signup} class="duration-option" data-modes="video" hidden aria-label="Sign up to change video duration">10 S</a>
           <div class="tools-right">
-            <label class="compare" data-modes="chat code voice video"><span class="compare-label">Compare</span><input type="checkbox" aria-label="Compare AI model responses" /><span class="switch" aria-hidden="true"></span></label>
+            <label class="compare" data-modes="chat video"><span class="compare-label">Compare</span><input type="checkbox" aria-label="Compare AI model responses" /><span class="switch" aria-hidden="true"></span></label>
             <a href={signup} class="microphone" data-modes="chat" aria-label="Sign up to use voice input"><ResponsiveAsset name="mic01" /></a>
             <a href={signup} class="voice-picker" data-modes="voice video" hidden aria-label="Sign up to choose a voice">
               <img class="voice-avatar" src="/images/figma/hero-voice-avatar.png" width="28" height="28" alt="" /><span>Ricky Jerry</span><img class="voice-arrow" src="/images/figma/hero-voice-arrow.svg" width="20" height="20" alt="" />
@@ -99,13 +99,13 @@ const variants = modes.map(mode => ({...mode, ...content.variants?.find(variant 
 </script>
 <style>
   @keyframes composer-border-beam { from { stroke-dashoffset: var(--beam-offset, 0px); } to { stroke-dashoffset: calc(var(--beam-offset, 0px) - 1000px); } }
-  .hero { width: min(780px, calc(100% - var(--gutter) * 2)); margin-inline: auto; padding-top: 100px; padding-bottom: 140px; }
+  .hero { width: min(780px, calc(100% - var(--gutter) * 2)); margin-inline: auto; padding-top: clamp(44px, 7vh, 72px); padding-bottom: 140px; }
   .hero-copy { width: min(670px, 100%); margin-inline: auto; text-align: center; }
   h1 { color: var(--color-heading); font-family: var(--font-hero); font-size: 46px; line-height: normal; font-weight: 400; text-box: trim-both cap alphabetic; }
   h1 span { display: block; }
-  .hero-copy p { margin-top: 24px; font-size: 18px; line-height: 1.35; color: var(--color-paragraph); }
-  .hero-workspace { margin-top: 32px; }
-  .modes { display: flex; align-items: flex-start; justify-content: center; gap: 12px; height: 68px; }
+  .hero-copy p { margin-top: 20px; font-size: 18px; line-height: 1.35; color: var(--color-paragraph); }
+  .hero-workspace { margin-top: 24px; }
+  .modes { display: flex; align-items: flex-start; justify-content: center; gap: 12px; height: 64px; }
   .mode-slot { position: relative; width: 51.2px; flex: 0 0 51.2px; }
   .mode { position: relative; left: -.4px; display: grid; place-items: center; width: 52px; height: 52px; padding: 0; border: 2px solid white; border-radius: 99px; background: var(--color-primary-wash); box-shadow: var(--shadow-nav); transition: background-color 300ms ease, translate var(--motion-fast) var(--motion-ease), box-shadow var(--motion-fast) ease-out; }
   .mode:hover { box-shadow: 0 2px 12px #7d52f44d; }
@@ -174,7 +174,7 @@ const variants = modes.map(mode => ({...mode, ...content.variants?.find(variant 
   .composer[data-mode='video'] .compare-label, .composer[data-mode='video'] .generate > span { display: none; }
   .composer[data-mode='video'] .generate { width: 60px; padding: 8px 20px; }
   @media (max-width: 900px) and (min-width: 768px) {
-    .hero { padding-top: 80px; }
+    .hero { padding-top: 48px; }
     .composer-toolbar, .tools-left { gap: 8px; }
     .voice-picker > span { display: none; }
   }

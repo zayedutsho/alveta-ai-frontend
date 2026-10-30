@@ -12,7 +12,7 @@ for (const width of [320, 390, 430, 768, 1024, 1440, 1920]) {
     const cards = section.locator('[data-package]');
     try { await expect(cards).toHaveCount(4); } catch { throw new Error(JSON.stringify({ errors, origin: await section.getAttribute('data-api-origin') })); }
     await expect(cards.locator('h3')).toHaveText(['Basic', 'Play', 'Standard', 'Pro']);
-    await expect(cards.locator('[data-price]')).toHaveText(['৳499', '৳199', '৳999', '৳1,999']);
+    await expect(cards.locator('[data-price]')).toHaveText(['৳৪৯৯', '৳১৯৯', '৳৯৯৯', '৳১,৯৯৯']);
     await expect(section.locator('[data-pricing-status]')).toBeHidden();
     await expect(section.locator('[data-package="Play"] [data-popular-label]')).toHaveText('Most Popular');
     await expect(section.locator('[data-package="Play"] .pricing-cta')).toHaveAttribute('href', 'https://app.alveta.ai/register?package=Play');
@@ -53,13 +53,12 @@ for (const width of [320, 390, 430, 768, 1024, 1440, 1920]) {
   });
 }
 
-test('currency, model disclosure and team signup retain API values', async ({ page }) => {
+test('detected BDT, model disclosure and team signup retain API values', async ({ page }) => {
   await page.goto('/');
   const pricing = page.locator('[data-pricing]');
   const play = pricing.locator('[data-package="Play"]');
   await expect(play).toBeVisible();
-  await pricing.getByLabel('Pricing currency').selectOption('USD');
-  await expect(play.locator('[data-price]')).toHaveText('$1');
+  await expect(play.locator('[data-price]')).toHaveText('৳১৯৯');
   const basic = pricing.locator('[data-package="basic"]');
   await basic.locator('[data-more-models] summary').focus();
   await page.keyboard.press('Enter');
@@ -83,11 +82,19 @@ test('currency, model disclosure and team signup retain API values', async ({ pa
   await expect(seats).toHaveValue(String(minimum));
   await seats.fill(String(minimum + 1)); await seats.press('Tab');
   await expect(play.locator('[data-team-total]')).toContainText('/mo total');
-  await pricing.getByLabel('Pricing currency').selectOption('BDT');
   await expect(play.getByRole('spinbutton')).toHaveValue(String(minimum + 1));
   await pricing.getByRole('radio', { name: 'Individual' }).check();
   await expect(play.locator('.pricing-cta')).toHaveAttribute('href', 'https://app.alveta.ai/register?package=Play');
   await expect(play.locator('[data-seat-control]')).toBeHidden();
+});
+
+test('non-Bangladesh visitors see USD prices rounded up', async ({ page, request }) => {
+  const catalog = await (await request.get(`${simulationOrigin}/api/v1/packages`)).json();
+  catalog.detected_currency = 'USD';
+  catalog.packages.find((pkg: { slug: string }) => pkg.slug === 'Play').price.usd = 1.01;
+  await request.post(`${simulationOrigin}/__control`, { data: { catalog } });
+  await page.goto('/');
+  await expect(page.locator('[data-package="Play"] [data-price]')).toHaveText('$2');
 });
 
 for (const scenario of ['failure', 'malformed', 'empty', 'modelsFailure', 'noBdt', 'noTeam', 'delay', 'timeout']) {

@@ -14,7 +14,6 @@ function initialize(root: HTMLElement) {
   const grid = find('[data-plan-grid]');
   const retry = find<HTMLButtonElement>('[data-pricing-retry]');
   const controls = find('[data-controls]');
-  const currencyControl = find<HTMLSelectElement>('[data-currency]');
   let catalog: PackageCatalog | undefined;
   let models: PublicModel[] | undefined;
   let modelFailed = false;
@@ -29,7 +28,14 @@ function initialize(root: HTMLElement) {
     ['moonshot', 'moonshot'], ['kimi', 'moonshot'],
   ]);
   const write = (parent: ParentNode, selector: string, value: string) => { find(selector, parent).textContent = value; };
-  const money = (value: number, unit: Currency) => (unit === 'BDT' ? '৳' : '$') + new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(value);
+  const displayAmount = (value: number, unit: Currency) => unit === 'USD' ? Math.ceil(value) : value;
+  const money = (value: number, unit: Currency) => {
+    const amount = displayAmount(value, unit);
+    const locale = unit === 'BDT' ? 'bn-BD' : 'en-US';
+    return (unit === 'BDT' ? '৳' : '$') + new Intl.NumberFormat(locale, {
+      maximumFractionDigits: unit === 'BDT' ? 2 : 0,
+    }).format(amount);
+  };
 
   function priceFor(pkg: PublicPackage) {
     const prices = mode === 'team' ? pkg.per_seat_price : pkg.price;
@@ -141,7 +147,6 @@ function initialize(root: HTMLElement) {
     try {
       catalog = await loadPackages(origin);
       currency = catalog.detected_currency;
-      currencyControl.value = currency;
       render();
     } catch {
       grid.replaceChildren();
@@ -151,7 +156,6 @@ function initialize(root: HTMLElement) {
       controls.hidden = true;
     } finally { busy = false; }
   }
-  currencyControl.addEventListener('change', () => { currency = currencyControl.value as Currency; render(); });
   root.querySelectorAll<HTMLInputElement>('[name="plan-type"]').forEach(input => input.addEventListener('change', () => {
     mode = input.value; render();
   }));

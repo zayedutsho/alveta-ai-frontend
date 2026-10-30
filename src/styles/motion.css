@@ -16,7 +16,7 @@
   @keyframes network-card { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes network-draw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
   @keyframes network-fragments { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes network-travel { 0% { stroke-dashoffset: 9; opacity: 0; } 8%, 65% { opacity: .8; } 78%, 100% { stroke-dashoffset: -100; opacity: 0; } }
+  @keyframes network-travel { 0% { stroke-dashoffset: -100; opacity: 0; } 8%, 78% { opacity: .8; } 92%, 100% { stroke-dashoffset: 9; opacity: 0; } }
   @keyframes network-ambient { from { opacity: .4; transform: scale(.96); } to { opacity: .8; transform: scale(1.06); } }
   [data-network-entered] .alveta-offer { animation: network-offer 700ms cubic-bezier(.22, 1, .36, 1) both; }
   [data-network-entered] .comparison-provider { animation: network-card 650ms cubic-bezier(.22, 1, .36, 1) both; animation-delay: calc(var(--network-delay) + 600ms); }

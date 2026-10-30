@@ -28,7 +28,6 @@ const content = {...pricingContent, ...editorial, order: pricingContent.order, p
         <span>{content.teamLabel}<span class="sr-only">/Organization</span></span>
       </label>
     </fieldset>
-    <label class="currency-label sr-only">Currency <select data-currency aria-label="Pricing currency"><option value="USD">USD</option><option value="BDT">BDT</option></select></label>
   </div>
   <p class="pricing-status" role="status" data-pricing-status>{content.labels.loading}</p>
   <button class="retry" type="button" data-pricing-retry hidden>{content.labels.retry}</button>
@@ -97,6 +96,13 @@ const content = {...pricingContent, ...editorial, order: pricingContent.order, p
   .toggle-pill { position: relative; display: inline-flex; align-items: center; background: var(--color-primary-wash); border: 0; border-radius: 99px; padding: 4px; gap: 6px; margin: 0; min-width: 0; }
   .toggle-option { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 132px; height: 40px; padding: 6px 15px; border: 1px solid transparent; border-radius: 99px; font-size: 16px; line-height: 24px; font-weight: 400; color: var(--color-paragraph); cursor: pointer; white-space: nowrap; }
   .toggle-option[data-checked] { background: var(--color-primary-deep); border-color: #f7bf6f; border-radius: 99px; color: white; }
+  .toggle-option[data-checked]:has(input[value="individual"]) {
+    border-color: transparent;
+    background:
+      linear-gradient(var(--color-primary-deep), var(--color-primary-deep)) padding-box,
+      linear-gradient(115deg, #ffcf87 0%, #ff8fc7 28%, #a88bff 58%, #6fe7ff 78%, #ffcf87 100%) border-box;
+    box-shadow: 0 0 0 1px rgb(137 91 255 / 8%), 0 4px 12px rgb(87 35 201 / 16%);
+  }
   .toggle-option::before {
     content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; pointer-events: none; opacity: 0;
     background: conic-gradient(from var(--pricing-beam-angle), transparent 0deg 240deg, #7d52f4 280deg, #d9caff 315deg, #9e86f8 340deg, transparent 360deg);

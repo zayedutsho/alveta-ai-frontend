@@ -21,7 +21,7 @@ test('published Sanity content renders while prices and model access remain API 
   await expect(page.locator('#pricing-heading')).toHaveText('Choose your plan');
   const cards = page.locator('[data-package]');
   await expect(cards.locator('h3')).toHaveText(['Basic', 'Play', 'Standard', 'Pro']);
-  await expect(cards.locator('[data-price]')).toHaveText(['৳499', '৳199', '৳999', '৳1,999']);
+  await expect(cards.locator('[data-price]')).toHaveText(['৳৪৯৯', '৳১৯৯', '৳৯৯৯', '৳১,৯৯৯']);
   await expect(page.locator('[data-package="Play"]')).toHaveClass(/popular/);
   const calls = await (await request.get(`${sanity}/__calls`)).json();
   expect(calls.length).toBeGreaterThan(0);
@@ -61,7 +61,7 @@ test('a CMS outage falls back without interrupting API pricing', async ({ page, 
   await page.goto(site, { timeout: 25000 });
   await expect(page.locator('#hero-title')).toHaveText('All the Best AI Models,One Place');
   await expect(page.locator('[data-package]')).toHaveCount(4);
-  await expect(page.locator('[data-package="Play"] [data-price]')).toHaveText('৳199');
+  await expect(page.locator('[data-package="Play"] [data-price]')).toHaveText('৳১৯৯');
 });
 
 test('imported CMS content preserves the same mobile flow as local defaults', async ({ page, request }) => {
