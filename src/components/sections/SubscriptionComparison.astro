@@ -3,10 +3,11 @@ import type { SubscriptionComparisonContent } from '../../types/content';
 import { subscriptionConnectors, subscriptionProviderSlots, subscriptionNetworks } from '../../content/subscription-art';
 import SectionHeading from '../common/SectionHeading.astro';
 import FigmaAsset from '../common/FigmaAsset.astro';
+import { publicApiOrigin } from '../../lib/public-catalog';
 interface Props { content: SubscriptionComparisonContent; }
 const { content } = Astro.props;
 ---
-<section class="subscription-comparison container" aria-labelledby="subscription-heading" data-subscription-comparison data-content-status={content.status}>
+<section class="subscription-comparison container" aria-labelledby="subscription-heading" data-subscription-comparison data-api-origin={publicApiOrigin} data-content-status={content.status}>
   <SectionHeading id="subscription-heading" heading={content.heading} description={content.description} layout="split" />
   <div class="comparison-canvas">
     <div class="comparison-stage">
@@ -37,8 +38,8 @@ const { content } = Astro.props;
       <div class="alveta-offer" data-comparison-offer data-figma-node="1286:1371">
         <span class="offer-icon" aria-hidden="true"><FigmaAsset name="subscription-alveta" /></span>
         <div class="offer-copy">
-          <p class="offer-price" lang="bn"><span>{content.offer.prefix}</span><strong>{content.offer.price}</strong><span>{content.offer.suffix}</span></p>
-          <p class="offer-savings">{content.offer.savings}</p>
+          <p class="offer-price" lang="bn"><span data-offer-prefix>{content.offer.prefix}</span><strong data-offer-price>{content.offer.price}</strong><span data-offer-suffix>{content.offer.suffix}</span></p>
+          <p class="offer-savings" data-offer-savings>{content.offer.savings}</p>
         </div>
       </div>
       <ul class="comparison-providers" aria-label="Illustrative individual subscriptions">
@@ -47,13 +48,14 @@ const { content } = Astro.props;
           if (!slot) throw new Error(`Unknown subscription illustration slot: ${provider.id}`);
           return <li class="comparison-provider" data-provider={provider.id} data-figma-node={slot.node} style={`--slot-x:${slot.x}px;--slot-y:${slot.y}px;--network-delay:${320 + subscriptionNetworks.findIndex(network => network.id === provider.id) * 130}ms`}>
             <span class="provider-icon" aria-hidden="true"><FigmaAsset name={provider.icon} /></span>
-            <div><h3>{provider.name}</h3><p class="provider-price" lang="bn">{provider.price}<span>{provider.period}</span></p></div>
+            <div><h3>{provider.name}</h3><p class="provider-price" lang="bn"><span data-provider-price>{provider.price}</span><span data-provider-period>{provider.period}</span></p></div>
           </li>;
         })}
       </ul>
     </div>
   </div>
 </section>
+<script>import '../../scripts/subscription-pricing';</script>
 <style>
   .subscription-comparison { margin-top: 100px; margin-bottom: 100px; }
   .comparison-canvas { position: relative; margin-top: var(--space-11); width: 100%; aspect-ratio: 1200 / 496; container-type: inline-size; overflow: clip; border-radius: var(--radius-lg); background: var(--color-primary-wash) url('/images/figma/subscription-bg.svg') center / cover no-repeat; }
@@ -64,7 +66,8 @@ const { content } = Astro.props;
   .provider-icon { display: grid; place-items: center; flex: 0 0 32px; }
   h3 { margin: 0; font-size: 16px; line-height: 24px; font-weight: 500; color: var(--color-heading); }
   .provider-price { white-space: nowrap; font-size: 16px; line-height: 16px; color: var(--color-paragraph); }
-  .provider-price span { font-size: 12px; }
+  .provider-price [data-provider-price] { font-size: inherit; }
+  .provider-price [data-provider-period] { font-size: 12px; }
   [lang='bn'] { font-family: 'Nirmala UI', 'Bangla MN', sans-serif; }
   .alveta-offer { position: absolute; left: 479px; top: 193px; display: flex; gap: 12px; align-items: center; width: 291.5px; min-height: 108.5px; padding: 16px 14px; background: rgb(255 255 255 / 90%); border: 1.25px solid white; border-radius: 16px; box-shadow: 0 43px 137px rgb(0 0 0 / 15%); }
   .offer-icon { width: 74px; height: 74px; flex-shrink: 0; }

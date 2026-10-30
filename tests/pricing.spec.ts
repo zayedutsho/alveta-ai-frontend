@@ -95,6 +95,10 @@ test('non-Bangladesh visitors see USD prices rounded up', async ({ page, request
   await request.post(`${simulationOrigin}/__control`, { data: { catalog } });
   await page.goto('/');
   await expect(page.locator('[data-package="Play"] [data-price]')).toHaveText('$2');
+  const comparison = page.locator('[data-subscription-comparison]');
+  await expect(comparison.locator('[data-provider-price]')).toHaveText(Array(6).fill('$20'));
+  await expect(comparison.locator('[data-offer-price]')).toHaveText('$2');
+  await expect(comparison.locator('[data-offer-savings]')).toHaveText('Save $120');
 });
 
 for (const scenario of ['failure', 'malformed', 'empty', 'modelsFailure', 'noBdt', 'noTeam', 'delay', 'timeout']) {
